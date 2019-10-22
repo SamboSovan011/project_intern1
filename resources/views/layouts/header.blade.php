@@ -60,7 +60,7 @@
                         <a href="#" class="nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="img/account-logo.png" alt="account logo" style="width:1rem; height:1rem;">
                         </a>
-                        @if(Auth::user()->is_admin == 1)
+                        @if(Auth::user()->is_admin == 1 || Auth::user()->is_admin == 2 )
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="{{route('userprofile')}}">My Profile</a>
                             <a class="dropdown-item" href="{{url('/admin/dashboard')}}">My Dashboard</a>

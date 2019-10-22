@@ -82,8 +82,10 @@
                                     <span class="label label-success">Admin</span>
                                     @elseif($user->is_admin == -1)
                                     <span class="label label-danger">Block</span>
+                                    @elseif($user->is_admin == 2)
+                                    <span class="label bg-orange-active">Staff</span>
                                     @else
-                                    <span class="label label-danger">customer</span>
+                                    <span class="label bg-aqua-active">Customer</span>
                                     @endif
                                 </td>
                                 <td>
@@ -95,16 +97,18 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li>
-                                                @if($user->is_admin == 0)
                                                 <a href="{{route('add_admin', ['id' => $user->id])}}"><span
                                                         class="text-green glyphicon glyphicon-ok">Add_Admin</span></a>
+                                                @if($user->is_admin == 0)
+                                                <a href="{{route('add_subadmin', ['id' => $user->id])}}"><span
+                                                        class="text-yellow glyphicon glyphicon-ok">Add_Staff</span></a>
                                                 @else
                                                 <a href="{{route('add_user', ['id' => $user->id])}}"><span
-                                                        class="text-green glyphicon glyphicon-ok">Add_User</span></a>
+                                                        class="text-aqua glyphicon glyphicon-ok">Add_User</span></a>
                                                 @endif
                                             </li>
                                             <li><a href="{{route('block_user', ['id' => $user->id])}}"><span
-                                                        class="text-yellow glyphicon glyphicon-remove">Block</span></a>
+                                                        class="text-red glyphicon glyphicon-remove">Block</span></a>
                                             </li>
                                             <li>
                                                 <a href="#" data-toggle="modal" data-target="#editForm">

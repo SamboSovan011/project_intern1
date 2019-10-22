@@ -97,13 +97,13 @@
                     if(result == "unique"){
                         $('#error_email').html('<label class="text-success"> Email Available </label>');
                         $('#defaultRegisterFormEmail').removeClass("has-error");
-                        $('#register').attr('disable', false);
+                        $('#register').attr('disabled', false);
 
                     }
                     else{
                         $('#error_email').html('<label class="text-danger"> Email is not Available </label>');
                         $('#defaultRegisterFormEmail').addClass('has-error');
-                        $('#register').attr('disable', 'disable');
+                        $('#register').attr('disabled', true);
 
                     }
                 }

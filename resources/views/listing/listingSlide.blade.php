@@ -111,12 +111,15 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
+                                            @if (Auth::user()->is_admin == 1)
                                             <li><a href="{{route('approveSlide', ['id' => $slide->id])}}"><span
                                                         class="text-green glyphicon glyphicon-ok">Approved</span></a>
                                             </li>
                                             <li><a href="{{route('blockSlide', ['id' => $slide->id])}}"><span
                                                         class="text-yellow glyphicon glyphicon-remove">Block</span></a>
                                             </li>
+                                            @endif
+
                                             <li>
                                                 <a href="#" data-toggle="modal" data-target="#editForm">
                                                     <span id="{{$slide->id}}"

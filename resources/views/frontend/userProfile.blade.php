@@ -1,11 +1,19 @@
-@extends('layouts.app')
-@section('title', 'Potted Pan - User Profile')
-@section('content')
+@extends('frontend.userMasterPage')
+@section('context')
 <style>
     .pro-user {
         background: #fff;
         padding: 0 3rem;
-        margin: 3rem 0;
+        margin: 0 0 3rem 0;
+    }
+
+    .home-a {
+        color: #fff;
+    }
+
+    .home-a:hover {
+        color: #fff;
+        text-decoration: none;
     }
 
     .pro-header {
@@ -33,6 +41,14 @@
         color: #fff;
         border: none;
     }
+
+    .cancel-btn {
+        background: #1cbbb4;
+        color: #fff;
+        border: none;
+        display: none;
+    }
+
 
     .save-btn {
         background: #cccc00;
@@ -99,9 +115,24 @@
     </div>
     @endif
 </section>
+@section('routeMap')
 <div class="container">
     <div class="row">
-        <div class="pro-user col-md-5">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="category.html">Category</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+@endsection
+<div class="container">
+    <div class="row">
+        <div class="pro-user col-md-7">
             <h3 class="pro-header">
                 <span class="username">{{Auth::user()->fname}}</span>&apos;s Profile
                 <hr>
@@ -115,6 +146,7 @@
                     <div class="col-sm-8">
                         <input name="user-Email" type="email" readonly class="form-control-plaintext" id="userEmail"
                             value="{{Auth::user()->email}}">
+                        <span class="hiddedEmailM text-danger" hidden>This email is already exist</span>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -139,20 +171,19 @@
                     </div>
                 </div>
                 <div class="pro-footer">
-                    <a href="/"><button type="button" class="btn btn-secondary home-btn">Back Home</button></a>
+                    <button type="button" class="btn btn-secondary home-btn"><a class="home-a" href="/">Back
+                            Home</a></button>
+                    <button type="button" class="btn btn-default cancel-btn" id="cancelButton">Cancel</button>
                     <button type="button" class="btn btn-default edit-btn" id="editButton">Edit Profile</button>
                     <button type="submit" class="btn btn-default save-btn" id="saveButton">Save Change</button>
                 </div>
             </form>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-5">
             <div class="button-link">
                 <button type="button" class="btn btn-default btn-change-pass" data-toggle="modal"
                     data-target="#changePassModal">Change Password</button>
 
-            </div>
-            <div class="button-link-2">
-                <button type="button" class="btn btn-default btn-wish-list">Wish List</button>
             </div>
 
         </div>
@@ -169,22 +200,28 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="" enctype="multipart/form-data">
+            <form method="POST" action="{{route('changePass', ['id' => Auth::user()->id])}}"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="password" name="current-pass" class="form-control" placeholder="Current Password">
+                        <input id="current-pass" type="password" name="current-pass" class="form-control"
+                            placeholder="Current Password">
+                        <span class="hiddedPassM text-danger" hidden>You required to input password first</span>
                     </div>
                     <div class="form-group">
-                        <input type="password" name="new-pass" class="form-control" placeholder="New Password">
+                        <input id="new-pass" type="password" name="new-pass" class="form-control"
+                            placeholder="New Password">
                     </div>
                     <div class="form-group">
-                        <input type="password" name="confirm-pass" class="form-control" placeholder="Confirm Password">
+                        <input id="conf-pass" type="password" name="confirm-pass" class="form-control"
+                            placeholder="Confirm Password" onChange="checkPasswordMatch();">
+                        <span class="hiddedConfpassM text-danger" hidden>Password does not match!</span>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary pass-btn">Save changes</button>
                 </div>
             </form>
 
@@ -204,6 +241,86 @@
         $('#userPhone').attr('class', 'form-control');
         $('.edit-btn').css('display', 'none');
         $('.save-btn').css('display', 'inline');
+        $('.cancel-btn').css('display', 'inline');
+        $('.home-btn').css('display', 'none');
     });
+    $(document).on('click', '.cancel-btn', function(e){
+        e.preventDefault();
+        $('#userEmail').attr('readonly', true);
+        $('#userFirstName').attr('readonly', true);
+        $('#userLastName').attr('readonly', true);
+        $('#userPhone').attr('readonly', true);
+        $('#userEmail').attr('class', 'form-control-plaintext');
+        $('#userFirstName').attr('class', 'form-control-plaintext');
+        $('#userLastName').attr('class', 'form-control-plaintext');
+        $('#userPhone').attr('class', 'form-control-plaintext');
+        $('.edit-btn').css('display', 'inline');
+        $('.save-btn').css('display', 'none');
+        $('.cancel-btn').css('display', 'none');
+        $('.home-btn').css('display', 'inline');
+        $('.hiddedEmailM').attr('hidden', true);
+    });
+    function checkPasswordMatch(){
+        var newPass = $('#new-pass').val();
+        var confPass =  $('#conf-pass').val();
+        if(newPass !== confPass){
+            $('.hiddedConfpassM').attr('hidden', false);
+            $('.pass-btn').attr('disabled', true);
+        }
+        else{
+            $('.hiddedConfpassM').attr('hidden', true);
+            $('.pass-btn').attr('disabled', false);
+            }
+    }
+
+
+
+
+     $(document).ready(function () {
+        $("#new-pass, #conf-pass").keyup(checkPasswordMatch);
+    });
+
+    $(document).ready(function(){
+        $('#userEmail').blur(function(e){
+            e.preventDefault();
+            var error_email = '';
+            var _token = $('input[name="_token"]').val();
+            var email = $('#defaultRegisterFormEmail').val();
+
+
+            $.ajax({
+                url:"{{route('checkEmail')}}",
+                type: "GET",
+                data:{email:email, _token:_token},
+
+                success:function(result){
+                    if(result == "unique"){
+                        $('.hiddedEmailM').attr('hidden', true);
+                        $('#saveButton').attr('disable', false);
+
+                    }
+                    else{
+                        $('.hiddedEmailM').attr('hidden', false);
+                        $('#saveButton').attr('disable', true);
+
+                    }
+                }
+            });
+        });
+
+    });
+    $(document).ready(function(){
+        $('#current-pass').blur(function(e){
+            e.preventDefault();
+            var pass = $(this).val();
+            if(pass == "" ){
+                $('.hiddedPassM').attr('hidden', false);
+            }
+            else{
+                $('.hiddedPassM').attr('hidden', true);
+
+            }
+        })
+    })
 </script>
 @endsection

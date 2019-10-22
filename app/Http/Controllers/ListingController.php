@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Slide;
 use App\Categories;
 use App\User;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class ListingController extends Controller
 {
@@ -121,8 +121,10 @@ class ListingController extends Controller
                 $img_path = "img/" . time() . "." . $extension;
                 Slide::where('id', $id)->update([
                     'title' => $request->input('title'),
+                    'user_email' => Auth::user()->email,
                     'description' => $request->input('description'),
                     'img_path' => $img_path,
+                    'is_approved' => 1
 
                 ]);
                 session()->flash('success', 'You have successfully update a post!');
@@ -131,7 +133,9 @@ class ListingController extends Controller
             } else {
                 Slide::where('id', $id)->update([
                     'title' => $request->input('title'),
+                    'user_email' => Auth::user()->email,
                     'description' => $request->input('description'),
+                    'is_approved' => 1
                 ]);
                 session()->flash('success', 'You have successfully update a post!');
 
@@ -251,7 +255,9 @@ class ListingController extends Controller
                     ->update([
                         'title' => $request->input('title'),
                         'description' => $request->input('description'),
-                        'img_path' => $img_path
+                        'user_email' => Auth::user()->email,
+                        'img_path' => $img_path,
+                        'is_approved' => 1
                     ]);
                 session()->flash('success', 'You have updated a category!');
                 return redirect()->route('categorylisting');
@@ -259,7 +265,9 @@ class ListingController extends Controller
                 Categories::where('id', $id)
                     ->update([
                         'title' => $request->input('title'),
-                        'description' => $request->input('description')
+                        'description' => $request->input('description'),
+                        'user_email' => Auth::user()->email,
+                        'is_approved' => 1
                     ]);
                 session()->flash('success', 'You have updated a category');
                 return redirect()->route('categorylisting');
@@ -283,6 +291,21 @@ class ListingController extends Controller
                     'is_admin' => 1
                 ]);
             session()->flash('success', 'Successfully! Update to admin.');
+            return redirect()->route('listingUser');
+        } else {
+            session()->flash('error', 'Fail to Update User!');
+            return redirect()->route('listingUser');
+        }
+    }
+
+    public function add_subadmin($id)
+    {
+        if (User::findOrFail($id)) {
+            User::where('id', $id)
+                ->update([
+                    'is_admin' => 2
+                ]);
+            session()->flash('success', 'Successfully! Update to Staff.');
             return redirect()->route('listingUser');
         } else {
             session()->flash('error', 'Fail to Update User!');

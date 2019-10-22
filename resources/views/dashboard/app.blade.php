@@ -302,16 +302,16 @@
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs">Alexander Pierce</span>
+                                <img src="/img/account-logo.png" class="user-image" alt="User Image">
+                                <span class="hidden-xs">{{Auth::user()->fname}}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
-                                    <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                    <img src="/img/account-logo.png" class="img-circle" alt="User Image">
 
                                     <p>
-                                        Alexander Pierce - Web Developer
+                                        {{Auth::user()->fname}}&nbsp;{{Auth::user()->lname}}
                                         <small>Member since Nov. 2012</small>
                                     </p>
                                 </li>
@@ -333,7 +333,7 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="{{route('userprofile')}}" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
                                         <a href="{{url('/logout')}}" class="btn btn-default btn-flat">Sign out</a>
@@ -356,10 +356,10 @@
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                        <img src="/img/account-logo.png" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p>Alexander Pierce</p>
+                        <p>{{Auth::user()->fname}} &nbsp; {{Auth::user()->lname}}</p>
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
@@ -396,7 +396,7 @@
                             <li><a href="index2.html"><i class="fa fa-circle-o"></i>My Favourite ads</a></li>
                         </ul>
                     </li>
-
+                    @if (Auth::user()->is_admin == 1)
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-pie-chart"></i>
@@ -410,12 +410,18 @@
                             <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Trash</a></li>
                         </ul>
                     </li>
-                    <li class="{{(request()->routeIs('listingUser')) ? 'active' : ''}}"><a href="{{route('listingUser')}}"><i class="fa fa-book"></i> <span>User Listing</span></a></li>
-                    <li class="{{(request()->routeIs('categorylisting')) ? 'active' : ''}}"><a href="{{route('categorylisting')}}"><i class="fa fa-book"></i> <span>Category</span></a></li>
-                    <li class="{{(request()->routeIs('slidelisting') || request()->routeIs('slide')) ? 'active' : ''}}">
-                    <a href="{{route('slidelisting')}}"><i class="fa fa-book"></i> <span>Slide</span></a></li>
+                    <li class="{{(request()->routeIs('listingUser')) ? 'active' : ''}}"><a
+                            href="{{route('listingUser')}}"><i class="fa fa-book"></i> <span>User Listing</span></a>
+                    </li>
+                    @endif
 
-                    <li class="{{(request()->routeIs('post.index')) ? 'active' : ''}}"><a href="{{route('post.index')}}"><i class="fa fa-book"></i> <span>Post Products</span></a></li>
+                    <li class="{{(request()->routeIs('categorylisting')) ? 'active' : ''}}"><a
+                            href="{{route('categorylisting')}}"><i class="fa fa-book"></i> <span>Category</span></a>
+                    </li>
+                    <li class="{{(request()->routeIs('slidelisting') || request()->routeIs('slide')) ? 'active' : ''}}">
+                        <a href="{{route('slidelisting')}}"><i class="fa fa-book"></i> <span>Slide</span></a></li>
+
+
                 </ul>
             </section>
             <!-- /.sidebar -->
