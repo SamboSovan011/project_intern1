@@ -20,7 +20,8 @@ Route::post('/signup', ['as' => 'SignUp', 'uses' => 'HomeController@SignUp']);
 Auth::routes(['verify' => true]);
 Route::get('/logout', 'Auth\LoginController@logout');
 // View Profile
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    // Route::post('/login', 'Auth\LoginController@login');
     Route::get('/userprofile', ['as' => 'userprofile', 'uses' => 'HomeController@showUserProfile']);
     Route::post('/updateProfile/{id}', ['as' => 'updateProfile', 'uses' => 'HomeController@updateProfile']);
     Route::get('/checkEmail', ['as' => 'checkEmail', 'uses' => 'checkEmailController@checkEmailAvailable']);
@@ -29,7 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 // Route admin and subadmin
-Route::group(['middleware' => ['admin.auth']], function () {
+Route::group(['middleware' => ['admin.auth', 'verified']], function () {
     Route::get('/admin/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
     Route::prefix('/admin/dashboard')->group(function () {
         // Route slide
@@ -51,7 +52,7 @@ Route::group(['middleware' => ['admin.auth']], function () {
         Route::get('/getCategory/{id}', 'ListingController@getCategory')->name('getCategoryData');
         Route::post('/editCategory/{id}', ['as' => 'editCategory', 'uses' => 'ListingController@editCategory']);
         //Route listingUser
-        Route::group(['middleware' => 'onlyadmin.auth'], function () {
+        Route::group(['middleware' => ['onlyadmin.auth', 'verified']], function () {
             Route::get('/listingUser', ['as' => 'listingUser', 'uses' => 'ListingController@listingUser']);
             Route::get('/add_admin/{id}', ['as' => 'add_admin', 'uses' => 'ListingController@add_admin']);
             Route::get('/add_subadmin/{id}', ['as' => 'add_subadmin', 'uses' => 'ListingController@add_subadmin']);
