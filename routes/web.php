@@ -50,6 +50,12 @@ Route::group(['middleware' => ['admin.auth']], function () {
         Route::get('/deleteCategory/{id}', ['as' => 'deleteCategory', 'uses' => 'ListingController@deleteCategory']);
         Route::get('/getCategory/{id}', 'ListingController@getCategory')->name('getCategoryData');
         Route::post('/editCategory/{id}', ['as' => 'editCategory', 'uses' => 'ListingController@editCategory']);
+
+
+         //Route Products
+         Route::resource('products', 'ProductsController');
+         Route::get('trash', 'ProductsController@trash')->name('products.trashed');
+
         //Route listingUser
         Route::group(['middleware' => 'onlyadmin.auth'], function () {
             Route::get('/listingUser', ['as' => 'listingUser', 'uses' => 'ListingController@listingUser']);

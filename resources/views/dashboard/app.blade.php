@@ -47,6 +47,8 @@
     <!-- Google Font -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix.css.css">
+
 
 </head>
 
@@ -418,8 +420,15 @@
                     <li class="{{(request()->routeIs('categorylisting')) ? 'active' : ''}}"><a
                             href="{{route('categorylisting')}}"><i class="fa fa-book"></i> <span>Category</span></a>
                     </li>
+                    <li class="{{(request()->routeIs('products.index')) ? 'active' : ''}}"><a
+                            href="{{route('products.index')}}"><i class="fa fa-book"></i> <span>Products</span></a>
+                    </li>
                     <li class="{{(request()->routeIs('slidelisting') || request()->routeIs('slide')) ? 'active' : ''}}">
                         <a href="{{route('slidelisting')}}"><i class="fa fa-book"></i> <span>Slide</span></a></li>
+
+                        <li class="{{(request()->routeIs('products.trashed')) ? 'active' : ''}}"><a
+                            href="{{route('products.trashed')}}"><i class="fa fa-book"></i> <span>Trash</span></a>
+                    </li>
 
 
                 </ul>
@@ -639,10 +648,11 @@
     </div>
 
 
+
     <!-- ./wrapper -->
+
     <!-- Bootstrap 3.3.7 -->
     <script src="{{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-
     <!-- Sparkline -->
     <script src="{{asset('bower_components/jquery-sparkline/dist/jquery.sparkline.min.js')}}"></script>
     <!-- jvectormap -->
@@ -668,6 +678,10 @@
     <script src="{{asset('dist/js/pages/dashboard.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset('dist/js/demo.js')}}"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix-core.js"></script>
 
 
 
