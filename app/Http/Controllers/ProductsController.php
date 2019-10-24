@@ -9,6 +9,7 @@ use App\Http\Requests\Products\CreateProductsRequest;
 use Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Products\UpdateRequest;
+use Illuminate\Database\Eloquent\SoftDeletes;
 class ProductsController extends Controller
 {
     /**
@@ -19,7 +20,7 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Products::all();
-        return view('dashboard.products')->with('product', $products);
+        return view('dashboard.products')->with('products', $products);
     }
 
     /**
@@ -135,6 +136,15 @@ class ProductsController extends Controller
     public function trash(){
         $trashed = Products::onlyTrashed()->get();
 
-        return view('dashboard.products')->with('product', $trashed);
+        return view('dashboard.products')->with('products', $trashed)->with('trash',$trashed);
+    }
+
+    public function restore($id){
+        $product = Products::withTrashed()->where('id',$id)->firstOrFail();
+        $product->restore();
+
+        session()->flash('success', 'You have restore a product!');
+
+        return redirect()->back();
     }
 }

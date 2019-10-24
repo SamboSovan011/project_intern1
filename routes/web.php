@@ -56,6 +56,7 @@ Route::group(['middleware' => ['admin.auth', 'verified']], function () {
          //Route Products
          Route::resource('products', 'ProductsController');
          Route::get('trash', 'ProductsController@trash')->name('products.trashed');
+         Route::put('restore-product/{product}', 'ProductsController@restore')->name('products.restore');
 
         //Route listingUser
         Route::group(['middleware' => ['onlyadmin.auth', 'verified']], function () {

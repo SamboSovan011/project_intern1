@@ -45,9 +45,11 @@
     <![endif]-->
 
     <!-- Google Font -->
+    <link rel="stylesheet" type="text/css" href="trix.css">
+    <script type="text/javascript" src="trix.js"></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix.css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix.css">
 
 
 </head>
@@ -680,8 +682,8 @@
     <script src="{{asset('dist/js/demo.js')}}"></script>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix-core.js"></script>
+
 
 
 

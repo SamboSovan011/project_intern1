@@ -172,7 +172,7 @@
                         <img class="card-img-top" src="{{asset('storage/'. $product->image)}}" alt="Card image cap">
                         <div class="card-body">
                             <h4 class="card-title"><a href="product.html" title="View Product">{{$product->name}}</a></h4>
-                            <p class="card-text">{{str_limit($product->description, 100)}}</p>
+                            <p class="card-text">{{str_limit(strip_tags($product->description, 100))}}</p>
                             <div class="row">
                                 <div class="col">
                                     <p class="btn btn-danger btn-block">{{$product->price}} $</p>
