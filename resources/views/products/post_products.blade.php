@@ -1,5 +1,5 @@
 @extends('dashboard.app')
-@section('title', 'Potted Pan - Slide Adder')
+@section('title', (isset($products) ? 'Potted Pan - Edit Product':'Potted Pan -Add Product'))
 @section('content')
 <style>
     #form {
@@ -90,7 +90,8 @@
                 <div class="form-group">
                     <label for="description">Description</label>
 
-                    <textarea class="form-control" name="description" id="desc" cols="30" rows="10">{{isset($products) ? $products->description:''}}</textarea>
+                    <input id="desc" type="hidden" name="description" value=" {{isset($products)? $products->description : ''}}" width="100%">
+                    <trix-editor input="desc"></trix-editor>
                 </div>
                 <div class="form-group">
                     <label for="image">Image</label>
@@ -117,6 +118,14 @@
         </form>
     </div>
 </section>
+<script>
+addEventListener("trix-attachment-add", event => {
+  const { attachment } = event
+  setTimeout(() => {
+    attachment.remove()
+  }, 1000)
+})
 
+</script>
 @endsection
 

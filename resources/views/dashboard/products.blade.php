@@ -1,5 +1,5 @@
 @extends('dashboard.app')
-@section('title', 'Potted Pan - Post Product')
+@section('title', (isset($trash) ? 'Potted Pan - Trash':'Potted Pan - Product') )
 @section('content')
 <style>
     #button-row {
@@ -18,31 +18,39 @@
         display: block;
         z-index: 1;
     }
+
     .example-modal .modal {
         background: transparent !important;
     }
+
 </style>
 
 <!-- Content Header (Page header) -->
+
 <section class="content-header">
     <h1>
-        Products
+
+        {{isset($trash) ? 'Trash':'Products'}}
+        @if(!isset($trash))
         <small>Add Products</small>
+        @endif
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Products</li>
+        <li class="active"> {{isset($trash) ? 'Trash' :'Products'}}</li>
     </ol>
 </section>
+@if(!isset($trash))
 <section id="button-row">
     <div class="button">
         <a href="{{route('products.create')}}">
             <button class="btn btn-info">
                 POST NEW PRODUCT
             </button></a>
-
     </div>
 </section>
+@endif
+
 <section>
     @if(session()->has('success'))
     <div class="alert alert-success alert-dismissible">
@@ -73,7 +81,7 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Images</th>
+                                <th>Product Images</th>
                                 <th>User Emails</th>
                                 <th>Name</th>
                                 <th>Description</th>
@@ -82,10 +90,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($product as $products)
+                            @foreach ($products as $products)
                             <tr>
                                 <td>
-                                    <img src="{{asset('storage/'. $products->image)}}" width="80px" height="70px" alt="img_slide">
+                                    <img src="{{asset('storage/'. $products->image)}}" width="80px" height="70px"
+                                        alt="img_slide">
                                 </td>
                                 <td>
                                     {{$products->email}}
@@ -95,8 +104,18 @@
 
                                 @if(!$products->trashed())
                                 <td>
-                                    <a href="{{route('products.edit', $products->id)}}" class="btn btn-primary .btn-sm">Edit</a>
+                                    <a href="{{route('products.edit', $products->id)}}"
+                                        class="btn btn-primary .btn-sm">Edit</a>
                                 </td>
+                                @else
+                                <td>
+                                    <form action="{{route('products.restore', $products->id)}}" method='POST'>
+                                        @csrf
+                                        @method('PUT')
+                                        <button type='submit' class="btn btn-success btn-sm">Restore</button>
+                                    </form>
+                                </td>
+
                                 @endif
                                 <td>
 
@@ -105,7 +124,8 @@
                                     <form action="{{route('products.destroy', $products->id)}}" method='POST'>
                                         @csrf
                                         @method('DELETE')
-                                        <button type='submit' class="btn btn-danger btn-sm">{{$products->trashed() ? 'Delete' :'Trash'}}</button>
+                                        <button type='submit'
+                                            class="btn btn-danger btn-sm">{{$products->trashed() ? 'Delete' :'Trash'}}</button>
                                     </form>
                                 </td>
 
@@ -145,6 +165,7 @@
     $(document).ready(function () {
         $('#editForm').modal('show');
     });
+
 </script>
 @endif
 
