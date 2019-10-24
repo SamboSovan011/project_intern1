@@ -8,6 +8,7 @@ use App\Categories;
 use App\Slide;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Products;
 
 class HomeController extends Controller
 {
@@ -27,7 +28,8 @@ class HomeController extends Controller
     {
         $slides = Slide::where('is_approved', 2)->get();
         $cates = Categories::where('is_approved', 2)->get();
-        return view('frontend.home', compact('cates', 'slides'));
+        $products = Products::all();
+        return view('frontend.home', compact('cates', 'slides', 'products'));
     }
 
     public function Signup()

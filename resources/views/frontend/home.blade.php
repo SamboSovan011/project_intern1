@@ -42,6 +42,57 @@
         height: 100% !important;
         object-fit: cover;
     }
+
+    .bloc_left_price {
+    color: #c01508;
+    text-align: center;
+    font-weight: bold;
+    font-size: 150%;
+}
+.category_block li:hover {
+    background-color: #007bff;
+}
+.category_block li:hover a {
+    color: #ffffff;
+}
+.category_block li a {
+    color: #343a40;
+}
+.add_to_cart_block .price {
+    color: #c01508;
+    text-align: center;
+    font-weight: bold;
+    font-size: 200%;
+    margin-bottom: 0;
+}
+.add_to_cart_block .price_discounted {
+    color: #343a40;
+    text-align: center;
+    text-decoration: line-through;
+    font-size: 140%;
+}
+.product_rassurance {
+    padding: 10px;
+    margin-top: 15px;
+    background: #ffffff;
+    border: 1px solid #6c757d;
+    color: #6c757d;
+}
+.product_rassurance .list-inline {
+    margin-bottom: 0;
+    text-transform: uppercase;
+    text-align: center;
+}
+.product_rassurance .list-inline li:hover {
+    color: #343a40;
+}
+.reviews_product .fa-star {
+    color: gold;
+}
+.pagination {
+    margin-top: 20px;
+}
+
 </style>
 <section id="slide">
     <div id="CarouselContent" class="carousel slide" data-ride="carousel">
@@ -87,44 +138,80 @@
     </div>
 </section>
 
-<section>
-    <div class="container text-center" style="padding-bottom:8rem;">
-        <h3 class="my-5">Product Categories</h3>
-        <div class="row d-flex justify-content-center">
-            @foreach ($cates as $cate)
-            <div class="col-md-4">
-                <div class="card m-3">
-                    <img class="card-img-top img-fluid" src="{{$cate->img_path}}" alt="kitchen-furniture">
-                    <div class="card-body">
-                        <h5 class="card-title">{{$cate->title}}</h5>
-                        <hr>
-                        <p class="card-text">{{$cate->description}}</p>
+<div class="container">
+    <div class="row">
+        <div class="col pt-4">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="category.html">Category</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Sub-category</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-sm-3">
+            <div class="card bg-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Categories</div>
+                <ul class="list-group category_block">
+                @foreach($cates as $category)
+                    <li class="list-group-item"><a href="#">{{$category->title}}</a></li>
+                @endforeach
+                </ul>
+            </div>
+
+        </div>
+        <div class="col">
+            <div class="row">
+            @foreach($products as $product)
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card">
+                        <img class="card-img-top" src="{{asset('storage/'. $product->image)}}" alt="Card image cap">
+                        <div class="card-body">
+                            <h4 class="card-title"><a href="product.html" title="View Product">{{$product->name}}</a></h4>
+                            <p class="card-text">{{str_limit($product->description, 100)}}</p>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="btn btn-danger btn-block">{{$product->price}} $</p>
+                                </div>
+                                <div class="col">
+                                    <a href="#" class="btn btn-success btn-block">Add to cart</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                @endforeach
+
+                <div class="col-12">
+                    <nav aria-label="...">
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
-            @endforeach
+        </div>
 
-            <script>
-                $(document).ready(function(){
+    </div>
+</div>
 
-                $('.col-md-4').hover(
-                    // trigger when mouse hover
-                    function(){
-                        $(this).animate({
-                            marginTop: "-=1%",
-                        },200);
-                    },
 
-                    // trigger when mouse out
-                    function(){
-                        $(this).animate({
-                            marginTop: "0%"
-                        },200);
-                    }
-                );
-            });
-            </script>
-</section>
+
 <script>
     $(document).ready(function(){
         var idI = $('.slide-list').attr('id');
@@ -142,7 +229,7 @@
 
 
 
-{{-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+ <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -169,5 +256,8 @@
 "{{asset('img/kitchen2.jpg')}}",
 "{{asset('img/kitchen3.jpg')}}"
 ]);
-</script> --}}
+</script>
+
 @endsection
+
+
