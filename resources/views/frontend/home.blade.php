@@ -44,54 +44,64 @@
     }
 
     .bloc_left_price {
-    color: #c01508;
-    text-align: center;
-    font-weight: bold;
-    font-size: 150%;
-}
-.category_block li:hover {
-    background-color: #007bff;
-}
-.category_block li:hover a {
-    color: #ffffff;
-}
-.category_block li a {
-    color: #343a40;
-}
-.add_to_cart_block .price {
-    color: #c01508;
-    text-align: center;
-    font-weight: bold;
-    font-size: 200%;
-    margin-bottom: 0;
-}
-.add_to_cart_block .price_discounted {
-    color: #343a40;
-    text-align: center;
-    text-decoration: line-through;
-    font-size: 140%;
-}
-.product_rassurance {
-    padding: 10px;
-    margin-top: 15px;
-    background: #ffffff;
-    border: 1px solid #6c757d;
-    color: #6c757d;
-}
-.product_rassurance .list-inline {
-    margin-bottom: 0;
-    text-transform: uppercase;
-    text-align: center;
-}
-.product_rassurance .list-inline li:hover {
-    color: #343a40;
-}
-.reviews_product .fa-star {
-    color: gold;
-}
-.pagination {
-    margin-top: 20px;
-}
+        color: #c01508;
+        text-align: center;
+        font-weight: bold;
+        font-size: 150%;
+    }
+
+    .category_block li:hover {
+        background-color: #007bff;
+    }
+
+    .category_block li:hover a {
+        color: #ffffff;
+    }
+
+    .category_block li a {
+        color: #343a40;
+    }
+
+    .add_to_cart_block .price {
+        color: #c01508;
+        text-align: center;
+        font-weight: bold;
+        font-size: 200%;
+        margin-bottom: 0;
+    }
+
+    .add_to_cart_block .price_discounted {
+        color: #343a40;
+        text-align: center;
+        text-decoration: line-through;
+        font-size: 140%;
+    }
+
+    .product_rassurance {
+        padding: 10px;
+        margin-top: 15px;
+        background: #ffffff;
+        border: 1px solid #6c757d;
+        color: #6c757d;
+    }
+
+    .product_rassurance .list-inline {
+        margin-bottom: 0;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .product_rassurance .list-inline li:hover {
+        color: #343a40;
+    }
+
+    .reviews_product .fa-star {
+        color: gold;
+    }
+
+    .pagination {
+        margin-top: 20px;
+    }
 
 </style>
 <section id="slide">
@@ -155,23 +165,28 @@
     <div class="row">
         <div class="col-12 col-sm-3">
             <div class="card bg-light mb-3">
-                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Categories</div>
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Categories
+                </div>
                 <ul class="list-group category_block">
-                @foreach($cates as $category)
+                    @foreach($cates as $category)
                     <li class="list-group-item"><a href="#">{{$category->title}}</a></li>
-                @endforeach
+                    @endforeach
                 </ul>
             </div>
 
         </div>
         <div class="col">
             <div class="row">
-            @foreach($products as $product)
+                @foreach($products as $product)
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card">
-                        <img class="card-img-top" src="{{asset('storage/'. $product->image)}}" alt="Card image cap">
+                        <a href="{{route('single-products.show', $product->id)}}" title="View Product">
+                            <img class="card-img-top" src="{{asset('storage/'. $product->image)}}" alt="Card image cap">
+                        </a>
+
                         <div class="card-body">
-                            <h4 class="card-title"><a href="product.html" title="View Product">{{$product->name}}</a></h4>
+                            <h4 class="card-title"><a href="{{route('single-products.show', $product->id)}}"
+                                    title="View Product">{{$product->name}}</a></h4>
                             <p class="card-text">{{str_limit(strip_tags($product->description, 100))}}</p>
                             <div class="row">
                                 <div class="col">
@@ -213,23 +228,24 @@
 
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         var idI = $('.slide-list').attr('id');
-        var i = $('#'+idI).attr('data-slide-to');
+        var i = $('#' + idI).attr('data-slide-to');
         var idM = $('.carousel-item').attr('id');
-        var j = $('#'+idM).attr('data-img');
-        if(i == '0' && j == '0'){
-            $('#'+idI).addClass('active');
-            $('#'+idM).addClass('active');
+        var j = $('#' + idM).attr('data-img');
+        if (i == '0' && j == '0') {
+            $('#' + idI).addClass('active');
+            $('#' + idM).addClass('active');
         }
 
     })
+
 </script>
 
 
 
 
- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -237,27 +253,26 @@
 </script>
 
 <script type="text/javascript">
-    (function($, interval, kitchen) {
+    (function ($, interval, kitchen) {
 
-    var i = 0;
-    var handle = setInterval(function () {
+        var i = 0;
+        var handle = setInterval(function () {
 
-    $('#contentbody').css("background-image", "url('" + kitchen[i] + "')");
+            $('#contentbody').css("background-image", "url('" + kitchen[i] + "')");
 
-    i++;
+            i++;
 
-    if (i >= kitchen.length) {
-        i = 0;
-    }
-    }, interval);
+            if (i >= kitchen.length) {
+                i = 0;
+            }
+        }, interval);
 
     })(jQuery, 10000, [
         "{{asset('img/kitchen1.jpg')}}",
-"{{asset('img/kitchen2.jpg')}}",
-"{{asset('img/kitchen3.jpg')}}"
-]);
+        "{{asset('img/kitchen2.jpg')}}",
+        "{{asset('img/kitchen3.jpg')}}"
+    ]);
+
 </script>
 
 @endsection
-
-

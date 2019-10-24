@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
 Route::post('/signup', ['as' => 'SignUp', 'uses' => 'HomeController@SignUp']);
+Route::get('/product/{product}', 'HomeController@show')->name('single-products.show');
 // Route::post('/login', ['as' => 'Login', 'uses' => 'HomeController@Login']);
 Auth::routes(['verify' => true]);
 Route::get('/logout', 'Auth\LoginController@logout');

@@ -105,4 +105,9 @@ class HomeController extends Controller
             return redirect()->route('userprofile');
         }
     }
+
+    public function show($id){
+        $products = Products::find($id);
+        return view('frontend.single_product')->with('pro', $products);
+    }
 }
