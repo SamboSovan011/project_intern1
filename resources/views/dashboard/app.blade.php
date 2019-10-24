@@ -409,7 +409,7 @@
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i>Pending</a></li>
-                            <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Trash</a></li>
+                            <li><a href="{{route('trash')}}"><i class="fa fa-circle-o"></i> Trash</a></li>
                         </ul>
                     </li>
                     <li class="{{(request()->routeIs('listingUser')) ? 'active' : ''}}"><a
@@ -426,7 +426,7 @@
                     <li class="{{(request()->routeIs('slidelisting') || request()->routeIs('slide')) ? 'active' : ''}}">
                         <a href="{{route('slidelisting')}}"><i class="fa fa-book"></i> <span>Slide</span></a></li>
 
-                        <li class="{{(request()->routeIs('products.trashed')) ? 'active' : ''}}"><a
+                    <li class="{{(request()->routeIs('products.trashed')) ? 'active' : ''}}"><a
                             href="{{route('products.trashed')}}"><i class="fa fa-book"></i> <span>Trash</span></a>
                     </li>
 

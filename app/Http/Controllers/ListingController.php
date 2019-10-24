@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Slide;
 use App\Categories;
 use App\User;
+use App\Products;
 use Illuminate\Support\Facades\Auth;
 
 class ListingController extends Controller
@@ -62,15 +63,21 @@ class ListingController extends Controller
 
     public function deleteSlide($id)
     {
-        if (Slide::findOrFail($id)) {
-            Slide::where('id', $id)
-                ->delete();
-            session()->flash('success', 'You just deleted a slide!');
-        } else {
-            session()->flash('error', 'Sorry, there is some wrong occur!');
-        }
+        $slide = Slide::withTrashed()->where('id',$id)->firstOrFail();
 
-        return redirect()->route('slidelisting');
+        if($slide->trashed()){
+            $slide->forceDelete();
+
+
+            session()->flash('success', 'You have delete a slide from trash!');
+
+            return redirect(route('products.trashed'));
+        }else{
+            $slide->delete();
+            session()->flash('success', 'You have delete a slide!');
+
+            return redirect(route('slidelisting'));
+        };
     }
 
     public function approveSlide($id)
@@ -381,5 +388,14 @@ class ListingController extends Controller
             return redirect()->route('listingUser');
         }
 
+    }
+
+    // trash
+
+    public function trash(){
+        $product = Products::onlyTrashed()->get();
+        $cates = Categories::onlyTrashed()->get();
+        $slides = Slide::onlyTrashed()->get();
+        return view('dashboard.trash1', compact('slides', 'cates', 'product'));
     }
 }
