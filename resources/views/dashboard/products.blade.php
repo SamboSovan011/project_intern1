@@ -1,5 +1,5 @@
 @extends('dashboard.app')
-@section('title', 'Potted Pan - Slides')
+@section('title', 'Potted Pan - Post Product')
 @section('content')
 <style>
     #button-row {
