@@ -55,6 +55,7 @@ Route::group(['middleware' => ['admin.auth', 'verified']], function () {
 
         //  Route Trash
         Route::get('/trash-items', 'ListingController@trash')->name('trash');
+        Route::put('restore-slide/{slide}', 'ListingController@restoreSlide')->name('slide.restore');
 
          //Route Products
          Route::resource('products', 'ProductsController');

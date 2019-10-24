@@ -5,17 +5,22 @@
     .context {
         padding: 7rem 2rem;
     }
+
+    .box {
+        border: none;
+    }
 </style>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Products
-        <small>Add Products</small>
+        Trash
+        <small>All deleted data is here!</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Products</li>
+        <li><a href=""><i class="fa fa-dashboard"></i>Unclaim Tool</a></li>
+        <li class="active">Trash</li>
     </ol>
 </section>
 
@@ -49,7 +54,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="dataTableSlide" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Slide Images</th>
@@ -73,46 +78,18 @@
                                     <td>{{$slide->title}}</td>
                                     <td>{{$slide->description}}</td>
                                     <td>
-                                        @if($slide->is_approved == 2)
-                                        <span class="label label-success">Approved</span>
-                                        @elseif($slide->is_approved == 1)
-                                        <span class="label label-warning">Pending</span>
-                                        @else
-                                        <span class="label label-danger">Block</span>
-                                        @endif
+
+                                        <form action="{{route('slide.restore', $slide->id)}}" method='POST'>
+                                            @csrf
+                                            @method('PUT')
+                                            <button type='submit' class="btn btn-success btn-sm">Restore</button>
+                                        </form>
                                     </td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default dropdown-toggle"
-                                                data-toggle="dropdown">
-                                                <span>Action</span>
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                @if (Auth::user()->is_admin == 1)
-                                                <li><a href="{{route('approveSlide', ['id' => $slide->id])}}"><span
-                                                            class="text-green glyphicon glyphicon-ok">Approved</span></a>
-                                                </li>
-                                                <li><a href="{{route('blockSlide', ['id' => $slide->id])}}"><span
-                                                            class="text-yellow glyphicon glyphicon-remove">Block</span></a>
-                                                </li>
-                                                @endif
+                                        <a href="{{route('deleteSlide', $slide->id)}}">
+                                            <button type='submit' class="btn btn-danger btn-sm">Trash</button>
+                                        </a>
 
-                                                <li>
-                                                    <a href="#" data-toggle="modal" data-target="#editForm">
-                                                        <span id="{{$slide->id}}"
-                                                            class="text-blue fa fa-fw fa-edit edit">Edit</span>
-
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a data-toggle="modal" data-target="#myModal">
-                                                        <span data-url="{{route('deleteSlide', ['id' => $slide->id])}}"
-                                                            class="text-red glyphicon glyphicon-trash delete-btn">Delete</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -141,7 +118,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <table id="example2" class="table table-bordered table-striped">
+                        <table id="dataTableCate" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Category Images</th>
@@ -227,73 +204,80 @@
             </div>
             <!-- /.tab-pane -->
 
-            <div class="tab-pane" id="settings">
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">Products</h3>
+            <div class="tab-pane" id="timeline">
+                <section class="content">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <!-- /.box -->
+
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Banner Slides</h3>
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Images</th>
+                                                <th>User Emails</th>
+                                                <th>Name</th>
+                                                <th>Description</th>
+                                                <th>Status</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($trash as $trashed)
+                                            <tr>
+                                                <td>
+                                                    <img src="{{asset('storage/'. $trashed->image)}}" width="80px"
+                                                        height="70px" alt="img_slide">
+                                                </td>
+                                                <td>
+                                                    {{$trashed->email}}
+                                                </td>
+                                                <td>{{$trashed->name}}</td>
+                                                <td>{{$trashed->description}}</td>
+
+                                                <td>
+                                                    <form action="{{route('products.destroy', $trashed->id)}}"
+                                                        method='POST'>
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type='submit'
+                                                            class="btn btn-danger btn-sm">Trash</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Product Images</th>
+                                                <th>User Emails</th>
+                                                <th>name</th>
+                                                <th>Kimhor</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                        <!-- /.col -->
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Images</th>
-                                    <th>User Emails</th>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($product as $products)
-                                <tr>
-                                    <td>
-                                        <img src="{{asset('storage/'. $products->image)}}" width="80px" height="70px"
-                                            alt="img_slide">
-                                    </td>
-                                    <td>
-                                        {{$products->email}}
-                                    </td>
-                                    <td>{{$products->name}}</td>
-                                    <td>{{str_limit($products->description)}}</td>
-
-                                    @if(!$products->trashed())
-                                    <td>
-                                        <a href="{{route('products.edit', $products->id)}}"
-                                            class="btn btn-primary .btn-sm">Edit</a>
-                                    </td>
-                                    @endif
-                                    <td>
+                    <!-- /.row -->
 
 
 
-                                        <form action="{{route('products.destroy', $products->id)}}" method='POST'>
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type='submit'
-                                                class="btn btn-danger btn-sm">{{$products->trashed() ? 'Delete' :'Trash'}}</button>
-                                        </form>
-                                    </td>
 
-                                </tr>
-                                @endforeach
 
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Product Images</th>
-                                    <th>User Emails</th>
-                                    <th>name</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
+                    <!-- /.modal -->
+                </section>
             </div>
             <!-- /.tab-pane -->
         </div>
@@ -302,4 +286,23 @@
     <!-- /.nav-tabs-custom -->
 </div>
 <!-- /.col -->
+<script>
+    $(function () {
+    $('#dataTableSlide, #dataTableCate, #example1').DataTable({
+        'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'info'        : true,
+      'autoWidth'   : false,
+      'ordering'    : true,
+
+    })
+
+  })
+
+
+
+
+
+</script>
 @endsection
