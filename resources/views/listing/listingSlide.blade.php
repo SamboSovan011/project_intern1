@@ -93,7 +93,7 @@
                                     {{$slide->user_email}}
                                 </td>
                                 <td>{{$slide->title}}</td>
-                                <td>{{$slide->description}}</td>
+                                <td>{{str_limit($slide->description, 20)}}</td>
                                 <td>
                                     @if($slide->is_approved == 2)
                                     <span class="label label-success">Approved</span>
