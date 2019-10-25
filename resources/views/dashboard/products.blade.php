@@ -85,6 +85,7 @@
                                 <th>User Emails</th>
                                 <th>Name</th>
                                 <th>Description</th>
+                                <th>Category</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>
@@ -101,6 +102,7 @@
                                 </td>
                                 <td>{{$products->name}}</td>
                                 <td>{{str_limit($products->description)}}</td>
+                                <td></td>
 
                                 @if(!$products->trashed())
                                 <td>
@@ -139,6 +141,7 @@
                                 <th>User Emails</th>
                                 <th>name</th>
                                 <th>Description</th>
+                                <th>Category</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>

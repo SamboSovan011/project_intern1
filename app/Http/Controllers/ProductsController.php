@@ -30,7 +30,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $category = Categories::all();
+        $category = Categories::where('is_approved', 2)->get();
         return view('products.post_products')->with('categories', $category);
     }
 
@@ -52,6 +52,7 @@ class ProductsController extends Controller
             'price' =>$request->price,
             'image' =>$image,
             'email'=>Auth::user()->email,
+            'categories_id'=>$request->category,
         ]);
 
         session()->flash('success', 'You have post a new product!');
@@ -78,7 +79,7 @@ class ProductsController extends Controller
      */
     public function edit(Products $product)
     {
-        $category = Categories::all();
+        $category = Categories::where('is_approved', 2)->get();
         return view('products.post_products')->with('products', $product)->with('categories', $category);
     }
 
@@ -98,7 +99,7 @@ class ProductsController extends Controller
             Storage::delete($product->image);
             $data['image'] = $image ;
         }
-
+        $data['categories_id'] = $request->category;
         $product->update($data);
 
         session()->flash('success', 'You have edited a new product!');

@@ -11,4 +11,8 @@ class Categories extends Model
     protected $table = 'category';
     protected $fillable = ['user_email', 'img_path', 'title', 'description', 'is_approved'];
     protected $dates = ['deleted_at'];
+
+    public function products(){
+        return $this->hasMany(Products::class);
+    }
 }

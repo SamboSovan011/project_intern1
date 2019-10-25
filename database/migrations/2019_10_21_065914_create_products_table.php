@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('SKU');
             $table->integer('stock');
             $table->string('email');
+            $table->integer('categories_id');
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@
     #form {
         padding: 3rem;
     }
+
 </style>
 <section class="content-header">
     <h1>{{isset($products) ? 'Edit Product':'Post Product'}}
@@ -34,7 +35,9 @@
         </section>
         <!-- /.box-header -->
         <!-- form start -->
-        <form role="form" method="POST" action="{{isset($products) ? route('products.update', $products->id): route('products.store')}}" enctype="multipart/form-data">
+        <form role="form" method="POST"
+            action="{{isset($products) ? route('products.update', $products->id): route('products.store')}}"
+            enctype="multipart/form-data">
             {{ csrf_field() }}
             @if(isset($products))
             @method('PUT')
@@ -44,8 +47,8 @@
                     <div class="row">
                         <div class="col-xs-6">
                             <label for="name">Name</label>
-                            <input name="name" type="text" class="form-control" id="name"
-                                required value=" {{isset($products)? $products->name : ''}} ">
+                            <input name="name" type="text" class="form-control" id="name" required
+                                value=" {{isset($products)? $products->name : ''}} ">
                         </div>
 
                         <div class="col-xs-6">
@@ -64,20 +67,31 @@
                     <div class="row">
                         <div class="col-xs-4">
                             <label for="product_code">Product Code</label>
-                            <input name="SKU" type="text" class="form-control" id="sku" placeholder="SKU" value=" {{isset($products)? $products->SKU : ''}}" required>
+                            <input name="SKU" type="text" class="form-control" id="sku" placeholder="SKU"
+                                value=" {{isset($products)? $products->SKU : ''}}" required>
                         </div>
 
                         <div class="col-xs-4">
                             <label for="product_stock">Stock</label>
-                            <input name="stock" type="text" class="form-control" id="sku" placeholder="Stock" required value=" {{isset($products)? $products->stock : ''}}">
+                            <input name="stock" type="text" class="form-control" id="sku" placeholder="Stock" required
+                                value=" {{isset($products)? $products->stock : ''}}">
                         </div>
 
 
                         <div class="col-xs-4">
                             <label for="category">Category</label>
-                            <select class="form-control">
+                            <select class="form-control" name="category">
                                 @foreach($categories as $category)
-                                <option>{{$category->title}}</option>
+                                <option value="{{$category->id}}"
+                                @if(isset($products))
+                                @if($category->id ===
+                                    $products->categories_id)
+                                    selected
+                                    @endif
+                                    @endif
+
+                                    >{{$category->title}}</option>
+
                                 @endforeach
                             </select>
                         </div>
@@ -90,7 +104,8 @@
                 <div class="form-group">
                     <label for="description">Description</label>
 
-                    <input id="desc" type="hidden" name="description" value=" {{isset($products)? $products->description : ''}}" width="100%">
+                    <input id="desc" type="hidden" name="description"
+                        value=" {{isset($products)? $products->description : ''}}" width="100%">
                     <trix-editor input="desc"></trix-editor>
                 </div>
                 <div class="form-group">
@@ -101,9 +116,8 @@
                 </div>
 
                 <div class="form-group">
-
                     @if(isset($products))
-                        <img src="{{asset('storage/'. $products->image)}}" style="width: 20%">
+                    <img src="{{asset('storage/'. $products->image)}}" style="width: 20%">
                     @endif
                 </div>
 
@@ -119,13 +133,14 @@
     </div>
 </section>
 <script>
-addEventListener("trix-attachment-add", event => {
-  const { attachment } = event
-  setTimeout(() => {
-    attachment.remove()
-  }, 1000)
-})
+    addEventListener("trix-attachment-add", event => {
+        const {
+            attachment
+        } = event
+        setTimeout(() => {
+            attachment.remove()
+        }, 1000)
+    })
 
 </script>
 @endsection
-
