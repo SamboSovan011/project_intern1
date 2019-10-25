@@ -16,7 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
 Route::post('/signup', ['as' => 'SignUp', 'uses' => 'HomeController@SignUp']);
+<<<<<<< HEAD
 Route::get('/product/{product}', 'HomeController@show')->name('single-products.show');
+=======
+Route::get('/checkEmail', ['as' => 'checkEmail', 'uses' => 'checkEmailController@checkEmailAvailable']);
+>>>>>>> 09c82752fad266017e1210f7873d0a20edbfcb71
 // Route::post('/login', ['as' => 'Login', 'uses' => 'HomeController@Login']);
 Auth::routes(['verify' => true]);
 Route::get('/logout', 'Auth\LoginController@logout');
@@ -25,7 +29,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     // Route::post('/login', 'Auth\LoginController@login');
     Route::get('/userprofile', ['as' => 'userprofile', 'uses' => 'HomeController@showUserProfile']);
     Route::post('/updateProfile/{id}', ['as' => 'updateProfile', 'uses' => 'HomeController@updateProfile']);
-    Route::get('/checkEmail', ['as' => 'checkEmail', 'uses' => 'checkEmailController@checkEmailAvailable']);
+
     Route::post('/changePass/{id}', ['as' => 'changePass', 'uses' => 'HomeController@changePass']);
 });
 
@@ -53,6 +57,10 @@ Route::group(['middleware' => ['admin.auth', 'verified']], function () {
         Route::get('/getCategory/{id}', 'ListingController@getCategory')->name('getCategoryData');
         Route::post('/editCategory/{id}', ['as' => 'editCategory', 'uses' => 'ListingController@editCategory']);
 
+        //  Route Trash
+        Route::get('/trash-items', 'ListingController@trash')->name('trash');
+        Route::put('restore-slide/{slide}', 'ListingController@restoreSlide')->name('slide.restore');
+        Route::put('restore-cate/{cate}', 'ListingController@restoreCate')->name('cate.restore');
 
          //Route Products
          Route::resource('products', 'ProductsController');

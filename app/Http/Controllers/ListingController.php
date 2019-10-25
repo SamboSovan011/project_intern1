@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Slide;
 use App\Categories;
 use App\User;
+use App\Products;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ListingController extends Controller
 {
@@ -62,15 +64,21 @@ class ListingController extends Controller
 
     public function deleteSlide($id)
     {
-        if (Slide::findOrFail($id)) {
-            Slide::where('id', $id)
-                ->delete();
-            session()->flash('success', 'You just deleted a slide!');
-        } else {
-            session()->flash('error', 'Sorry, there is some wrong occur!');
-        }
+        $slide = Slide::withTrashed()->where('id', $id)->firstOrFail();
 
-        return redirect()->route('slidelisting');
+        if ($slide->trashed()) {
+            $slide->forceDelete();
+
+
+            session()->flash('success', 'You have delete a slide from trash!');
+
+            return redirect(route('trash'));
+        } else {
+            $slide->delete();
+            session()->flash('success', 'You have delete a slide!');
+
+            return redirect(route('slidelisting'));
+        };
     }
 
     public function approveSlide($id)
@@ -219,12 +227,21 @@ class ListingController extends Controller
 
     public function deleteCategory($id)
     {
-        if (Categories::findOrFail($id)) {
-            Categories::where('id', $id)
-                ->delete();
-            session()->flash('success', 'You have successfully deleted a category.');
-            return redirect()->route('categorylisting');
-        }
+        $cate = Categories::withTrashed()->where('id', $id)->firstOrFail();
+
+        if ($cate->trashed()) {
+            $cate->forceDelete();
+
+
+            session()->flash('success', 'You have delete a category from trash!');
+
+            return redirect(route('trash'));
+        } else {
+            $cate->delete();
+            session()->flash('success', 'You have delete a category!');
+
+            return redirect(route('categorylisting'));
+        };
     }
 
     public function getCategory($id)
@@ -285,11 +302,25 @@ class ListingController extends Controller
 
     public function add_admin($id)
     {
+        $data = [
+            'title' => 'You have been assign as admin',
+            'content' => 'Potted Pan has assign your account to administrator!'
+        ];
+
+
+
+        $user_email = User::where('id', $id)->first()->email;
+        $user_name = User::where('id', $id)->first()->fname;
         if (User::findOrFail($id)) {
             User::where('id', $id)
                 ->update([
                     'is_admin' => 1
                 ]);
+            Mail::send('email.mailNotification', $data, function ($message) use($user_email, $user_name) {
+
+                $message->to($user_email, $user_name);
+                $message->subject('Role Assign');
+            });
             session()->flash('success', 'Successfully! Update to admin.');
             return redirect()->route('listingUser');
         } else {
@@ -341,26 +372,28 @@ class ListingController extends Controller
         return redirect()->route('listingUser');
     }
 
-    public function delete_user($id){
-        if(User::findOrFail($id)){
+    public function delete_user($id)
+    {
+        if (User::findOrFail($id)) {
             User::where('id', $id)->delete();
             session()->flash('success', 'Successfully! Delete the user.');
             return redirect()->route('listingUser');
-        }
-        else{
+        } else {
             session()->flash('error', 'There is something wrong occur. Please try again!');
             return redirect()->route('listingUser');
         }
     }
 
-    public function getUserdata($id){
-        if(request()->ajax()){
+    public function getUserdata($id)
+    {
+        if (request()->ajax()) {
             $data = User::findOrFail($id);
             return response()->json(['data' => $data]);
         }
     }
 
-    public function editUser(Request $request, $id){
+    public function editUser(Request $request, $id)
+    {
 
         $validateData = $request->validate([
             'firstname' => 'required|max:225',
@@ -369,7 +402,7 @@ class ListingController extends Controller
             'user-email' => 'required|email|max:225',
         ]);
 
-        if($validateData){
+        if ($validateData) {
             User::where('id', $id)
                 ->update([
                     'fname' => $request->input('firstname'),
@@ -380,6 +413,35 @@ class ListingController extends Controller
             session()->flash('success', 'Successfully, Update a user.');
             return redirect()->route('listingUser');
         }
+    }
 
+    // trash
+
+    public function trash()
+    {
+        $products = Products::onlyTrashed()->get();
+        $cates = Categories::onlyTrashed()->get();
+        $slides = Slide::onlyTrashed()->get();
+        return view('dashboard.trash1', compact('slides', 'cates', 'products'));
+    }
+
+    public function restoreSlide($id)
+    {
+        $slide = Slide::withTrashed()->where('id', $id)->firstOrFail();
+        $slide->restore();
+
+        session()->flash('success', 'You have restore a slide!');
+
+        return redirect()->back();
+    }
+
+    public function restoreCate($id)
+    {
+        $cate = Categories::withTrashed()->where('id', $id)->firstOrFail();
+        $cate->restore();
+
+        session()->flash('success', 'You have restore a category!');
+
+        return redirect()->back();
     }
 }
