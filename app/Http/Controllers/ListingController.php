@@ -302,21 +302,24 @@ class ListingController extends Controller
 
     public function add_admin($id)
     {
+        $user_email = User::where('id', $id)->first()->email;
+        $user_name = User::where('id', $id)->first()->fname;
+
         $data = [
-            'title' => 'You have been assign as admin',
-            'content' => 'Potted Pan has assign your account to administrator!'
+            'title' => 'You have been assign as Admin',
+            'reciever' => $user_name,
+            'content' => 'Potted Pan has assign your account to Administrator Account!',
+            'updater' => Auth::user()->email,
+            'salutation' => 'Potted Pan Team'
         ];
 
 
-
-        $user_email = User::where('id', $id)->first()->email;
-        $user_name = User::where('id', $id)->first()->fname;
         if (User::findOrFail($id)) {
             User::where('id', $id)
                 ->update([
                     'is_admin' => 1
                 ]);
-            Mail::send('email.mailNotification', $data, function ($message) use($user_email, $user_name) {
+            Mail::send('email.mailNotification', $data, function ($message) use ($user_email, $user_name) {
 
                 $message->to($user_email, $user_name);
                 $message->subject('Role Assign');
@@ -331,11 +334,27 @@ class ListingController extends Controller
 
     public function add_subadmin($id)
     {
+        $user_email = User::where('id', $id)->first()->email;
+        $user_name = User::where('id', $id)->first()->fname;
+
+        $data = [
+            'title' => 'You have been assign as Staff',
+            'reciever' => $user_name,
+            'content' => 'Potted Pan has assign your account to Staff Account!',
+            'updater' => Auth::user()->email,
+            'salutation' => 'Potted Pan Team'
+        ];
+
         if (User::findOrFail($id)) {
             User::where('id', $id)
                 ->update([
                     'is_admin' => 2
                 ]);
+            Mail::send('email.mailNotification', $data, function ($message) use ($user_email, $user_name) {
+
+                $message->to($user_email, $user_name);
+                $message->subject('Role Assign');
+            });
             session()->flash('success', 'Successfully! Update to Staff.');
             return redirect()->route('listingUser');
         } else {
@@ -346,11 +365,27 @@ class ListingController extends Controller
 
     public function add_user($id)
     {
+        $user_email = User::where('id', $id)->first()->email;
+        $user_name = User::where('id', $id)->first()->fname;
+
+        $data = [
+            'title' => 'You have been assign as User',
+            'reciever' => $user_name,
+            'content' => 'Potted Pan has assign your account to User Account!',
+            'updater' => Auth::user()->email,
+            'salutation' => 'Potted Pan Team'
+        ];
+
         if (User::findOrFail($id)) {
             User::where('id', $id)
                 ->update([
                     'is_admin' => 0
                 ]);
+            Mail::send('email.mailNotification', $data, function ($message) use ($user_email, $user_name) {
+
+                $message->to($user_email, $user_name);
+                $message->subject('Role Assign');
+            });
             session()->flash('success', 'Successfully! Update to user.');
             return redirect()->route('listingUser');
         }
@@ -360,11 +395,27 @@ class ListingController extends Controller
 
     public function block_user($id)
     {
+        $user_email = User::where('id', $id)->first()->email;
+        $user_name = User::where('id', $id)->first()->fname;
+
+        $data = [
+            'title' => 'You have been block due to some violation action occure',
+            'reciever' => $user_name,
+            'content' => 'Potted Pan has temporily block your account.',
+            'updater' => Auth::user()->email,
+            'salutation' => 'Potted Pan Team'
+        ];
+
         if (User::findOrFail($id)) {
             User::where('id', $id)
                 ->update([
                     'is_admin' => -1
                 ]);
+            Mail::send('email.mailNotification', $data, function ($message) use ($user_email, $user_name) {
+
+                $message->to($user_email, $user_name);
+                $message->subject('Block Alert!');
+            });
             session()->flash('success', 'Successfully! Block the user.');
             return redirect()->route('listingUser');
         }
@@ -374,7 +425,23 @@ class ListingController extends Controller
 
     public function delete_user($id)
     {
+        $user_email = User::where('id', $id)->first()->email;
+        $user_name = User::where('id', $id)->first()->fname;
+
+        $data = [
+            'title' => 'You have been deleted due to some violation action occure or requests ',
+            'reciever' => $user_name,
+            'content' => 'Potted Pan has temporily block your account.',
+            'updater' => Auth::user()->email,
+            'salutation' => 'Potted Pan Team'
+        ];
+
         if (User::findOrFail($id)) {
+            Mail::send('email.mailNotification', $data, function ($message) use ($user_email, $user_name) {
+
+                $message->to($user_email, $user_name);
+                $message->subject('Sorry! Your account has been deleted.');
+            });
             User::where('id', $id)->delete();
             session()->flash('success', 'Successfully! Delete the user.');
             return redirect()->route('listingUser');
@@ -395,6 +462,21 @@ class ListingController extends Controller
     public function editUser(Request $request, $id)
     {
 
+        $user_email = User::where('id', $id)->first()->email;
+        $user_name = User::where('id', $id)->first()->fname;
+
+        $data = [
+            'title' => 'Your account information has updated.',
+            'reciever' => $user_name,
+            'firstname' => $request->input('firstname'),
+            'lastname' => $request->input('lastname'),
+            'phone' => $request->input('phone'),
+            'userEmail' => $request->input('user-email'),
+            'updater' => Auth::user()->email,
+            'salutation' => 'Potted Pan Team'
+        ];
+
+
         $validateData = $request->validate([
             'firstname' => 'required|max:225',
             'lastname' => 'required|max:225',
@@ -410,6 +492,11 @@ class ListingController extends Controller
                     'phone' => $request->input('phone'),
                     'email' => $request->input('user-email')
                 ]);
+            Mail::send('email.mailNotification', $data, function ($message) use ($user_email, $user_name) {
+
+                $message->to($user_email, $user_name);
+                $message->subject('We have updated your information!');
+            });
             session()->flash('success', 'Successfully, Update a user.');
             return redirect()->route('listingUser');
         }

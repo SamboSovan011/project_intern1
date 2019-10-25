@@ -262,6 +262,7 @@
 </script>
 @endif
 
+
 <script>
     $(function () {
         $('#example1').DataTable({
@@ -272,11 +273,9 @@
             'autoWidth': false,
             'ordering': true,
 
-        })
+        });
 
-    })
-
-
+    });
 
     $(document).on('click', '.edit', function (e) {
         e.preventDefault();
@@ -292,26 +291,19 @@
                 $('#slideDesc').val(html.data.description);
                 $('#store_img').attr("src", "/" + html.data.img_path);
             }
-        })
-
-<<<<<<< HEAD
+        });
     });
-=======
+
     $(document).on('click', '.delete-btn', function(e){
         e.preventDefault();
-        var url = $(this).attr('data-url');
+        var url = $(this).data('url');
         $('#delete-item').attr('href', url);
-    })
+    });
 
->>>>>>> 09c82752fad266017e1210f7873d0a20edbfcb71
-
-</script>
-
-<script>
     @if(Session::has('success'))
     toastr.success("{{Session::get('success')}}");
     @elseif(Session::has('error'))
-    toastr.error("{{Session::get('error')}}")
+    toastr.error("{{Session::get('error')}}");
     @endif
 
 </script>

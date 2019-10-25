@@ -22,7 +22,6 @@
     .example-modal .modal {
         background: transparent !important;
     }
-
 </style>
 
 <!-- Content Header (Page header) -->
@@ -57,14 +56,14 @@
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <h4><i class="icon fa fa-check"></i> Success!</h4>
         {{ session()->get('success') }}
-    </div>
-    @elseif(session()->has('error'))
-    <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-ban"></i> Fail!</h4>
-        {{session()->get('error')}}
-    </div>
-    @endif
+</div>
+@elseif(session()->has('error'))
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <h4><i class="icon fa fa-ban"></i> Fail!</h4>
+    {{session()->get('error')}}
+</div>
+@endif
 </section> --}}
 <!-- Main content -->
 <section class="content">
@@ -83,8 +82,11 @@
                             <tr>
                                 <th>Product Images</th>
                                 <th>User Emails</th>
-                                <th>Name</th>
+                                <th>Product Name</th>
                                 <th>Description</th>
+                                <th>Price</th>
+                                <th>SKU</th>
+                                <th>Stock</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>
@@ -102,10 +104,16 @@
                                 <td>{{$products->name}}</td>
                                 <td>{{str_limit($products->description)}}</td>
 
-                                @if(!$products->trashed())
+                                <td>{{$products->price}}</td>
+                                <td>{{$products->SKU}}</td>
+                                <td>{{$products->stock}}</td>
+                                <td></td>
+
+
+                                {{-- @if(!$products->trashed())
                                 <td>
                                     <a href="{{route('products.edit', $products->id)}}"
-                                        class="btn btn-primary .btn-sm">Edit</a>
+                                class="btn btn-primary .btn-sm">Edit</a>
                                 </td>
                                 @else
                                 <td>
@@ -116,17 +124,53 @@
                                     </form>
                                 </td>
 
-                                @endif
+                                @endif --}}
+                                {{-- @if($slide->is_approved == 2)
+                                <span class="label label-success">Approved</span>
+                                @elseif($slide->is_approved == 1)
+                                <span class="label label-warning">Pending</span>
+                                @else
+                                <span class="label label-danger">Block</span>
+                                @endif --}}
                                 <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default dropdown-toggle"
+                                            data-toggle="dropdown">
+                                            <span>Action</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            {{-- @if (Auth::user()->is_admin == 1)
+                                            <li><a href="{{route('approveSlide', ['id' => $slide->id])}}"><span
+                                                class="text-green glyphicon glyphicon-ok">Approved</span></a>
+                                            </li>
+                                            <li><a href="{{route('blockSlide', ['id' => $slide->id])}}"><span
+                                                        class="text-yellow glyphicon glyphicon-remove">Block</span></a>
+                                            </li>
+                                            @endif --}}
 
+                                            <li>
+                                                <a href="{{route('products.edit', $products->id)}}">
+                                                    <span class="text-blue fa fa-fw fa-edit edit">Edit</span>
+                                                </a>
 
-
-                                    <form action="{{route('products.destroy', $products->id)}}" method='POST'>
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type='submit'
-                                            class="btn btn-danger btn-sm">{{$products->trashed() ? 'Delete' :'Trash'}}</button>
-                                    </form>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                {{-- <form action="{{route('products.destroy', $products->id)}}"
+                                                method='POST'>
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type='submit'
+                                                    class="btn btn-danger btn-sm">{{$products->trashed() ? 'Delete' :'Trash'}}</button>
+                                                </form> --}}
+                                                <a data-toggle="modal" data-target="#myModal">
+                                                    <span data-url="{{route('products.destroy', $products->id)}}"
+                                                        class="text-red glyphicon glyphicon-trash delete-btn">Delete</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </td>
 
                             </tr>
@@ -137,8 +181,11 @@
                             <tr>
                                 <th>Product Images</th>
                                 <th>User Emails</th>
-                                <th>name</th>
+                                <th>Product Name</th>
                                 <th>Description</th>
+                                <th>Price</th>
+                                <th>SKU</th>
+                                <th>Stock</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>
@@ -152,7 +199,35 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete?</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Do you want to delete this item?
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <form style="display:inline" id="delete-form" action="" method='POST'>
+                        @csrf
+                        @method('DELETE')
+                        <button type='submit' class="btn btn-danger">Trash</button>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 
 
@@ -181,16 +256,22 @@
         })
     })
 
+    $(document).on('click', '.delete-btn', function(e){
+        e.preventDefault();
+        var url = $(this).data('url');
+        $('#delete-form').attr('action', url);
+    })
+
 </script>
 
 
 
 <script>
-@if(Session::has('success'))
+    @if(Session::has('success'))
     toastr.success("{{Session::get('success')}}");
-@elseif(Session::has('error'))
+    @elseif(Session::has('error'))
     toastr.error("{{Session::get('error')}}")
-@endif
+    @endif
 </script>
 
 

@@ -24,7 +24,7 @@
     </ol>
 </section>
 
-<section>
+{{-- <section>
     @if(session()->has('success'))
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -38,7 +38,7 @@
         {{session()->get('error')}}
     </div>
     @endif
-</section>
+</section> --}}
 <div class="context">
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
@@ -264,6 +264,13 @@
     })
 
   })
+
+    @if(Session::has('success'))
+    toastr.success("{{Session::get('success')}}");
+    @elseif(Session::has('error'))
+    toastr.error("{{Session::get('error')}}")
+    @endif
+
 
 
 

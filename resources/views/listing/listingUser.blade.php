@@ -15,7 +15,6 @@
     .example-modal .modal {
         background: transparent !important;
     }
-
 </style>
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -119,8 +118,8 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="{{route('delete_user', ['id' => $user->id])}}">
-                                                    <span class="text-red glyphicon glyphicon-trash">Delete</span>
+                                                <a data-toggle="modal" data-target="#myModal">
+                                                    <span data-url="{{route('delete_user', ['id' => $user->id])}}" class="text-red glyphicon glyphicon-trash delete-btn">Delete</span>
                                                 </a>
                                             </li>
                                         </ul>
@@ -214,8 +213,38 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete?</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Do you want to delete this item?
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <form style="display:inline" id="delete-form" action="" method='POST'>
+                        @csrf
+                        @method('DELETE')
+                        <button type='submit' class="btn btn-danger">Trash</button>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 </section>
 <!-- /.content -->
+
 
 @if (count($errors) > 0)
 <script>
@@ -257,6 +286,12 @@
         })
 
     });
+
+    $(document).on('click', '.delete-btn', function(e){
+        e.preventDefault();
+        var url = $(this).data('url');
+        $('#delete-form').attr('action', url);
+    })
 
 </script>
 

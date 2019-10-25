@@ -39,7 +39,7 @@ class VerifyEmail extends VerifyEmailBase
             )
             ->line(Lang::getFromJson('If you did not create an account, no further action is required.'))
             ->line(Lang::getFromJson('Best Regard, '))
-            ->salutation('Potted Pan');
+            ->salutation('Potted Pan Team');
     }
 
 
