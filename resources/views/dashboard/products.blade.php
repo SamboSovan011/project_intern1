@@ -84,9 +84,13 @@
                                 <th>User Emails</th>
                                 <th>Product Name</th>
                                 <th>Description</th>
+<<<<<<< HEAD
                                 <th>Price</th>
                                 <th>SKU</th>
                                 <th>Stock</th>
+=======
+                                <th>Category</th>
+>>>>>>> ae8492eaa89955d6c89350cff50f9f47e172b741
                                 <th>Status</th>
                                 <th></th>
                             </tr>
@@ -103,10 +107,12 @@
                                 </td>
                                 <td>{{$products->name}}</td>
                                 <td>{{str_limit($products->description)}}</td>
+                                <td></td>
 
                                 <td>{{$products->price}}</td>
                                 <td>{{$products->SKU}}</td>
                                 <td>{{$products->stock}}</td>
+                                <td></td>
                                 <td></td>
 
 
@@ -186,6 +192,7 @@
                                 <th>Price</th>
                                 <th>SKU</th>
                                 <th>Stock</th>
+                                <th>Category</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>

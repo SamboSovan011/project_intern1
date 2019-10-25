@@ -78,6 +78,7 @@
                                 <th>User Emails</th>
                                 <th>Title</th>
                                 <th>Description</th>
+                                <th>Prodcuct</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>
@@ -93,6 +94,9 @@
                                 </td>
                                 <td>{{$cate->title}}</td>
                                 <td>{{str_limit($cate->description, 20)}}</td>
+                                <td class="text-bold">
+                                    {{$cate->products->count()}}
+                                </td>
                                 <td>
                                     @if($cate->is_approved == 2)
                                     <span class="label label-success">Approved</span>
@@ -102,6 +106,7 @@
                                     <span class="label label-danger">Block</span>
                                     @endif
                                 </td>
+
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle"
@@ -144,6 +149,7 @@
                                 <th>User Emails</th>
                                 <th>Title</th>
                                 <th>Description</th>
+                                <th>Prodcuct</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>
