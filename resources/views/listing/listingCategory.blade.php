@@ -23,6 +23,7 @@
     .example-modal .modal {
         background: transparent !important;
     }
+
 </style>
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -44,21 +45,21 @@
 
     </div>
 </section>
-<section>
+{{-- <section>
     @if(session()->has('success'))
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <h4><i class="icon fa fa-check"></i> Success!</h4>
         {{ session()->get('success') }}
-    </div>
-    @elseif(session()->has('error'))
-    <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-ban"></i> Fail!</h4>
-        {{session()->get('error')}}
-    </div>
-    @endif
-</section>
+</div>
+@elseif(session()->has('error'))
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <h4><i class="icon fa fa-ban"></i> Fail!</h4>
+    {{session()->get('error')}}
+</div>
+@endif
+</section> --}}
 <!-- Main content -->
 <section class="content">
     <div class="row">
@@ -221,35 +222,36 @@
 <!-- /.content -->
 @if (count($errors) > 0)
 <script>
-    $( document ).ready(function() {
-            $('#editForm').modal('show');
-        });
+    $(document).ready(function () {
+        $('#editForm').modal('show');
+    });
+
 </script>
 @endif
 <script>
     $(function () {
         $('#example2').DataTable({
-        'paging'      : true,
-        'lengthChange': true,
-        'searching'   : true,
-        'info'        : true,
-        'autoWidth'   : false,
-        'ordering'    : true,
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'info': true,
+            'autoWidth': false,
+            'ordering': true,
 
         })
 
     })
 
-    $(document).on('click', '.edit', function(e){
+    $(document).on('click', '.edit', function (e) {
         e.preventDefault();
         var id = $(this).attr('id');
 
         $.ajax({
-            url: "/admin/dashboard/getCategory/"+id,
+            url: "/admin/dashboard/getCategory/" + id,
             type: "GET",
             dataType: "json",
-            success:function(html){
-                $('#editCateForm').attr('action',  '/admin/dashboard/editCategory/'+id);
+            success: function (html) {
+                $('#editCateForm').attr('action', '/admin/dashboard/editCategory/' + id);
                 $('#cateTitle').val(html.data.title);
                 $('#cateDesc').val(html.data.description);
                 $('#store_img').attr('src', html.data.img_path);
@@ -257,5 +259,15 @@
 
         });
     });
+
+</script>
+
+<script>
+    @if(Session::has('success'))
+    toastr.success("{{Session::get('success')}}");
+    @elseif(Session::has('error'))
+    toastr.error("{{Session::get('error')}}")
+    @endif
+
 </script>
 @endsection

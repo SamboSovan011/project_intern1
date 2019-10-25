@@ -178,8 +178,8 @@
         <div class="col">
             <div class="row">
                 @foreach($products as $product)
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card">
+                <div class="col-12 col-md-5 col-lg-4">
+                    <div class="card mb-3">
                         <a href="{{route('single-products.show', $product->id)}}" title="View Product">
                             <img class="card-img-top" src="{{asset('storage/'. $product->image)}}" alt="Card image cap">
                         </a>
@@ -188,12 +188,13 @@
                             <h4 class="card-title"><a href="{{route('single-products.show', $product->id)}}"
                                     title="View Product">{{$product->name}}</a></h4>
                             <p class="card-text">{{str_limit(strip_tags($product->description, 100))}}</p>
+                            <h4 class="font-weight-bold blue-text d-flex justify-content-center">
+                            <strong>{{$product->price}}$</strong>
+                                  </h4>
+
                             <div class="row">
-                                <div class="col">
-                                    <p class="btn btn-danger btn-block">{{$product->price}} $</p>
-                                </div>
-                                <div class="col">
-                                    <a href="#" class="btn btn-success btn-block">Add to cart</a>
+                                <div class="col ">
+                                    <a href="#" class="btn btn-danger btn-block">Add to cart</a>
                                 </div>
                             </div>
                         </div>

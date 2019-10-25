@@ -15,6 +15,7 @@
     .example-modal .modal {
         background: transparent !important;
     }
+
 </style>
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -28,21 +29,21 @@
     </ol>
 </section>
 
-<section>
+{{-- <section>
     @if(session()->has('success'))
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <h4><i class="icon fa fa-check"></i> Success!</h4>
         {{ session()->get('success') }}
-    </div>
-    @elseif(session()->has('error'))
-    <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-ban"></i> Fail!</h4>
-        {{session()->get('error')}}
-    </div>
-    @endif
-</section>
+</div>
+@elseif(session()->has('error'))
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <h4><i class="icon fa fa-ban"></i> Fail!</h4>
+    {{session()->get('error')}}
+</div>
+@endif
+</section> --}}
 <!-- Main content -->
 <section class="content">
     <div class="row">
@@ -218,35 +219,36 @@
 
 @if (count($errors) > 0)
 <script>
-    $( document ).ready(function() {
-            $('#editForm').modal('show');
-        });
+    $(document).ready(function () {
+        $('#editForm').modal('show');
+    });
+
 </script>
 @endif
 <script>
     $(function () {
         $('#example3').DataTable({
-        'paging'      : true,
-        'lengthChange': true,
-        'searching'   : true,
-        'info'        : true,
-        'autoWidth'   : false,
-        'ordering'    : true,
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'info': true,
+            'autoWidth': false,
+            'ordering': true,
 
         })
 
     })
 
-    $(document).on('click', '.edit', function(e){
+    $(document).on('click', '.edit', function (e) {
         e.preventDefault();
         var id = $(this).attr('id');
 
         $.ajax({
-            url: "/admin/dashboard/getUserData/"+id,
+            url: "/admin/dashboard/getUserData/" + id,
             type: "GET",
             dataType: "json",
-            success:function(html){
-                $('#editUserForm').attr('action', '/admin/dashboard/editUser/'+id);
+            success: function (html) {
+                $('#editUserForm').attr('action', '/admin/dashboard/editUser/' + id);
                 $('#userEmail').val(html.data.email);
                 $('#firstName').val(html.data.fname);
                 $('#lastName').val(html.data.lname);
@@ -255,6 +257,15 @@
         })
 
     });
+
+</script>
+
+<script>
+    @if(Session::has('success'))
+    toastr.success("{{Session::get('success')}}");
+    @elseif(Session::has('error'))
+    toastr.error("{{Session::get('error')}}")
+    @endif
 
 </script>
 

@@ -37,6 +37,7 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="{{asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
 
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -50,6 +51,9 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.0/trix.css">
+
+    {{-- toastr alert --}}
+    <link rel="stylesheet" href="{{asset('css/toastr.css')}}">
 
 
 </head>
@@ -69,6 +73,9 @@
     <!-- Morris.js charts -->
     <script src="{{asset('bower_components/raphael/raphael.min.js')}}"></script>
     <script src="{{asset('bower_components/morris.js/morris.min.js')}}"></script>
+
+    {{-- toastr alert --}}
+    <script src="{{asset('js/toastr.js')}}"></script>
 
 
     <div class="wrapper">
@@ -415,21 +422,21 @@
                         </ul>
                     </li>
                     <li class="{{(request()->routeIs('listingUser')) ? 'active' : ''}}"><a
-                            href="{{route('listingUser')}}"><i class="fa fa-book"></i> <span>User Listing</span></a>
+                            href="{{route('listingUser')}}"><i class="fa fa-users"></i> <span>User Listing</span></a>
                     </li>
                     @endif
 
                     <li class="{{(request()->routeIs('categorylisting')) ? 'active' : ''}}"><a
-                            href="{{route('categorylisting')}}"><i class="fa fa-book"></i> <span>Category</span></a>
+                            href="{{route('categorylisting')}}"><i class="fa fa-list-alt"></i> <span>Category</span></a>
                     </li>
                     <li class="{{(request()->routeIs('products.index')) ? 'active' : ''}}"><a
-                            href="{{route('products.index')}}"><i class="fa fa-book"></i> <span>Products</span></a>
+                            href="{{route('products.index')}}"><i class="fa fa-list"></i> <span>Products</span></a>
                     </li>
                     <li class="{{(request()->routeIs('slidelisting') || request()->routeIs('slide')) ? 'active' : ''}}">
-                        <a href="{{route('slidelisting')}}"><i class="fa fa-book"></i> <span>Slide</span></a></li>
+                        <a href="{{route('slidelisting')}}"><i class="fa fa-sliders"></i> <span>Slide</span></a></li>
 
                         <li class="{{(request()->routeIs('products.trashed')) ? 'active' : ''}}"><a
-                            href="{{route('products.trashed')}}"><i class="fa fa-book"></i> <span>Trash</span></a>
+                            href="{{route('products.trashed')}}"><i class="fa  fa-trash"></i> <span>Trash</span></a>
                     </li>
 
 

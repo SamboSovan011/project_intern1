@@ -108,6 +108,6 @@ class HomeController extends Controller
 
     public function show($id){
         $products = Products::find($id);
-        return view('frontend.single_product')->with('pro', $products);
+        return view('frontend.single_product')->with('product', $products);
     }
 }

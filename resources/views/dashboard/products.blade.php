@@ -51,7 +51,7 @@
 </section>
 @endif
 
-<section>
+{{-- <section>
     @if(session()->has('success'))
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -65,7 +65,7 @@
         {{session()->get('error')}}
     </div>
     @endif
-</section>
+</section> --}}
 <!-- Main content -->
 <section class="content">
     <div class="row">
@@ -182,6 +182,19 @@
     })
 
 </script>
+
+
+
+<script>
+@if(Session::has('success'))
+    toastr.success("{{Session::get('success')}}");
+@elseif(Session::has('error'))
+    toastr.error("{{Session::get('error')}}")
+@endif
+</script>
+
+
+
 
 
 

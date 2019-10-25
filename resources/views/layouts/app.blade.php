@@ -22,6 +22,8 @@
     <link rel="icon" type="image/x-icon" href="/img/potted-pan_logo.png">
     <link rel="stylesheet" href="{{asset('css/custom.css')}}">
     <script src="https://kit.fontawesome.com/dc09df96e5.js"></script>
+    <!-- Material Design Bootstrap -->
+    <link href="{{asset('css/mdb.min.css')}}" rel="stylesheet">
 
 </head>
 
@@ -36,6 +38,13 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="{{asset('js/mdb.min.js')}}"></script>
+    <script type="text/javascript">
+        // Animations initialization
+        new WOW().init();
+      </script>
+
     @include('layouts.header')
     @yield('content')
     @include('layouts.footer')
