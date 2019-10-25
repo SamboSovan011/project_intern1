@@ -16,11 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index');
 Route::post('/signup', ['as' => 'SignUp', 'uses' => 'HomeController@SignUp']);
-<<<<<<< HEAD
 Route::get('/product/{product}', 'HomeController@show')->name('single-products.show');
-=======
 Route::get('/checkEmail', ['as' => 'checkEmail', 'uses' => 'checkEmailController@checkEmailAvailable']);
->>>>>>> 09c82752fad266017e1210f7873d0a20edbfcb71
 // Route::post('/login', ['as' => 'Login', 'uses' => 'HomeController@Login']);
 Auth::routes(['verify' => true]);
 Route::get('/logout', 'Auth\LoginController@logout');

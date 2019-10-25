@@ -435,14 +435,9 @@
                     <li class="{{(request()->routeIs('slidelisting') || request()->routeIs('slide')) ? 'active' : ''}}">
                         <a href="{{route('slidelisting')}}"><i class="fa fa-sliders"></i> <span>Slide</span></a></li>
 
-<<<<<<< HEAD
                         <li class="{{(request()->routeIs('products.trashed')) ? 'active' : ''}}"><a
                             href="{{route('products.trashed')}}"><i class="fa  fa-trash"></i> <span>Trash</span></a>
-=======
-                    <li class="{{(request()->routeIs('products.trashed')) ? 'active' : ''}}"><a
-                            href="{{route('products.trashed')}}"><i class="fa fa-book"></i> <span>Trash</span></a>
->>>>>>> 09c82752fad266017e1210f7873d0a20edbfcb71
-                    </li>
+
 
 
                 </ul>
