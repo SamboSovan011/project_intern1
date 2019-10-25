@@ -124,10 +124,10 @@
             @foreach ($slides as $slide)
             <div id="{{$slide->id}}" class="carousel-item" data-img="{{$j}}">
                 <img class="d-block img-fluid" src="{{$slide->img_path}}" alt="banner image">
-                <div class="carousel-caption d-none d-md-block">
+                {{-- <div class="carousel-caption d-none d-md-block">
                     <h5>{{$slide->title}}</h5>
                     <p>{{$slide->description}}</p>
-                </div>
+                </div> --}}
             </div>
             @php
             $j = $j+1
