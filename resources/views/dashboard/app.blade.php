@@ -408,17 +408,18 @@
                         </ul>
                     </li>
                     @if (Auth::user()->is_admin == 1)
-                    <li class="treeview">
+                    <li class="treeview {{(request()->routeIs('pending')) || (request()->routeIs('trash')) ? 'active' : ''}}">
                         <a href="#">
                             <i class="fa fa-pie-chart"></i>
-                            <span>Unclaim Tools</span>
+                            <span>Admin Tools</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i>Pending</a></li>
-                            <li><a href="{{route('trash')}}"><i class="fa fa-circle-o"></i> Trash</a></li>
+                            <li class="{{(request()->routeIs('pending')) ? 'active' : ''}}"><a href="{{route('pending')}}"><i class="fa fa-circle-o"></i>Send Recommending Email</a></li>
+                            <li class="{{(request()->routeIs('pending')) ? 'active' : ''}}"><a href="{{route('pending')}}"><i class="fa fa-circle-o"></i>Pending</a></li>
+                            <li class="{{(request()->routeIs('trash')) ? 'active' : ''}}"><a href="{{route('trash')}}"><i class="fa fa-circle-o"></i> Trash</a></li>
                         </ul>
                     </li>
                     <li class="{{(request()->routeIs('listingUser')) ? 'active' : ''}}"><a

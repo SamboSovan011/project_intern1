@@ -531,4 +531,12 @@ class ListingController extends Controller
 
         return redirect()->back();
     }
+
+
+    public function pendingListing(){
+        $cates = Categories::where('is_approved', 1)->get();
+        $slides = Slide::where('is_approved', 1)->get();
+
+        return view('listing.pendingItem', compact('cates', 'slides'));
+    }
 }

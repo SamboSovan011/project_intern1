@@ -9,6 +9,7 @@ use App\Slide;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Products;
+use App\Review;
 
 class HomeController extends Controller
 {
@@ -108,6 +109,7 @@ class HomeController extends Controller
 
     public function show($id){
         $products = Products::find($id);
-        return view('frontend.single_product')->with('product', $products);
+        $productItems = Products::where('id', $id)->with('reviews.users')->get();
+        return view('frontend.single_product', compact('productItems'))->with('product', $products);
     }
 }

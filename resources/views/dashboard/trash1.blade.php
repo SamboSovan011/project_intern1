@@ -19,7 +19,7 @@
     </h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href=""><i class="fa fa-dashboard"></i>Unclaim Tool</a></li>
+        <li><a href=""><i class="fa fa-dashboard"></i>Admin Tool</a></li>
         <li class="active">Trash</li>
     </ol>
 </section>

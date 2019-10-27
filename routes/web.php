@@ -28,6 +28,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/updateProfile/{id}', ['as' => 'updateProfile', 'uses' => 'HomeController@updateProfile']);
 
     Route::post('/changePass/{id}', ['as' => 'changePass', 'uses' => 'HomeController@changePass']);
+
+    //Route Reviews
+    Route::post('/reviews', ['as' => 'reviews', 'uses' => 'ReviewController@store']);
 });
 
 
@@ -54,18 +57,29 @@ Route::group(['middleware' => ['admin.auth', 'verified']], function () {
         Route::get('/getCategory/{id}', 'ListingController@getCategory')->name('getCategoryData');
         Route::post('/editCategory/{id}', ['as' => 'editCategory', 'uses' => 'ListingController@editCategory']);
 
-        //  Route Trash
-        Route::get('/trash-items', 'ListingController@trash')->name('trash');
-        Route::put('restore-slide/{slide}', 'ListingController@restoreSlide')->name('slide.restore');
-        Route::put('restore-cate/{cate}', 'ListingController@restoreCate')->name('cate.restore');
 
-         //Route Products
-         Route::resource('products', 'ProductsController');
-         Route::get('trash', 'ProductsController@trash')->name('products.trashed');
-         Route::put('restore-product/{product}', 'ProductsController@restore')->name('products.restore');
+
+
+        //Route Products
+        Route::resource('products', 'ProductsController');
+        Route::get('trash', 'ProductsController@trash')->name('products.trashed');
+        Route::put('restore-product/{product}', 'ProductsController@restore')->name('products.restore');
 
         //Route listingUser
         Route::group(['middleware' => ['onlyadmin.auth', 'verified']], function () {
+            Route::prefix('/admin-tool')->group(function () {
+                //Route Send Recommend Email
+
+
+                //Route Pending
+                Route::get('/pending', ['as' => 'pending', 'uses' => 'ListingController@pendingListing']);
+
+                //  Route Trash
+                Route::get('/trash-items', 'ListingController@trash')->name('trash');
+                Route::put('restore-slide/{slide}', 'ListingController@restoreSlide')->name('slide.restore');
+                Route::put('restore-cate/{cate}', 'ListingController@restoreCate')->name('cate.restore');
+            });
+
             Route::get('/listingUser', ['as' => 'listingUser', 'uses' => 'ListingController@listingUser']);
             Route::get('/add_admin/{id}', ['as' => 'add_admin', 'uses' => 'ListingController@add_admin']);
             Route::get('/add_subadmin/{id}', ['as' => 'add_subadmin', 'uses' => 'ListingController@add_subadmin']);
@@ -75,7 +89,5 @@ Route::group(['middleware' => ['admin.auth', 'verified']], function () {
             Route::get('/getUserData/{id}', 'ListingController@getUserdata')->name('getUserData');
             Route::post('/editUser/{id}', ['as' => 'editUser', 'uses' => 'ListingController@editUser']);
         });
-
-
     });
 });
