@@ -31,6 +31,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     //Route Reviews
     Route::post('/reviews', ['as' => 'reviews', 'uses' => 'ReviewController@store']);
+
+    //Route Cart
+    Route::post('/cart/add', 'ShoppingCartController@addToCart')->name('shopping.add');
+    Route::get('/cart', 'ShoppingCartController@index')->name('shopping.index');
+    Route::get('/cart/delete/{id}', 'ShoppingCartController@delete')->name('shopping.delete');
 });
 
 
