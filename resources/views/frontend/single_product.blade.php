@@ -103,6 +103,7 @@
         top: 2px;
         left: 2px;
     }
+
 </style>
 
 <!--Main layout-->
@@ -149,9 +150,12 @@
 
                     <p>{{$product->description}}</p>
 
-                    <form class="d-flex justify-content-left">
+                    <form class="d-flex justify-content-left" action="{{route('shopping.add')}}" method="post">
+                        @csrf
                         <!-- Default input -->
-                        <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+                        <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px"
+                            name="qty">
+                        <input type="hidden" name="pdt_id" value="{{$product->id}}">
                         <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
                             <i class="fas fa-shopping-cart ml-1"></i>
                         </button>

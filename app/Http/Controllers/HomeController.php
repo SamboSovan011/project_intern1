@@ -29,7 +29,7 @@ class HomeController extends Controller
     {
         $slides = Slide::where('is_approved', 2)->get();
         $cates = Categories::where('is_approved', 2)->get();
-        $products = Products::all();
+        $products = Products::paginate(9);
         return view('frontend.home', compact('cates', 'slides', 'products'));
     }
 
