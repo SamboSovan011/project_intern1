@@ -253,19 +253,20 @@
                                     <div class="col-md-2">
                                         <img src="https://image.ibb.co/jw55Ex/def_face.jpg"
                                             class="img img-rounded img-fluid" />
-                                        <p class="text-secondary text-center">15 Minutes Ago</p>
+                                        <p class="text-secondary text-center">{{$review->updated_at->diffForHumans()}}
+                                        </p>
                                     </div>
                                     <div class="col-md-10">
                                         <p>
                                             <a class="float-left"
                                                 href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>{{$user->fname}}&nbsp;{{$user->lname}}</strong></a>
 
-                                            @for ($i = 0; $i < 5 - $rating; $i++)
-                                                <span class="float-right"><i class="text-warning far fa-star"></i></span>
-                                            @endfor
-                                            @for ($i = 0; $i < $rating; $i++)
-                                                <span class="float-right"><i class="text-warning fa fa-star"></i></span>
-                                            @endfor
+                                            @for ($i = 0; $i < 5 - $rating; $i++) <span class="float-right"><i
+                                                    class="text-warning far fa-star"></i></span>
+                                                @endfor
+                                                @for ($i = 0; $i < $rating; $i++) <span class="float-right"><i
+                                                        class="text-warning fa fa-star"></i></span>
+                                                    @endfor
 
 
                                         </p>

@@ -7,6 +7,7 @@ use App\Slide;
 use App\Categories;
 use App\User;
 use App\Products;
+use App\Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -536,7 +537,10 @@ class ListingController extends Controller
     public function pendingListing(){
         $cates = Categories::where('is_approved', 1)->get();
         $slides = Slide::where('is_approved', 1)->get();
-
-        return view('listing.pendingItem', compact('cates', 'slides'));
+        $productItems = Products::with('reviews.users')->with(['reviews' => function ($query) {
+            $query->orderBy('updated_at', 'desc');
+        }])->get();;
+        // dd($productItems->toArray());
+        return view('listing.pendingItem', compact('cates', 'slides', 'productItems'));
     }
 }

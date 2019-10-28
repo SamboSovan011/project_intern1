@@ -18,6 +18,7 @@ class CreateReviewsTable extends Migration
             $table->integer('product_id');
             $table->integer('user_id');
             $table->unsignedInteger('rating')->default(0);
+            $table->integer('is_approved')->default('1');
             $table->text('comment')->nullable();
             $table->timestamps();
         });

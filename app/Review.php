@@ -9,7 +9,7 @@ class Review extends Model
     protected $table = 'reviews';
     protected $fillable = ['product_id', 'user_id', 'rating', 'comment'];
 
-    public function product(){
+    public function products(){
         return $this->belongsTo(Products::class, 'product_id', 'id');
     }
 

@@ -408,7 +408,8 @@
                         </ul>
                     </li>
                     @if (Auth::user()->is_admin == 1)
-                    <li class="treeview {{(request()->routeIs('pending')) || (request()->routeIs('trash')) ? 'active' : ''}}">
+                    <li
+                        class="treeview {{(request()->routeIs('pending')) || (request()->routeIs('trash')) ? 'active' : ''}}">
                         <a href="#">
                             <i class="fa fa-pie-chart"></i>
                             <span>Admin Tools</span>
@@ -417,24 +418,29 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="{{(request()->routeIs('pending')) ? 'active' : ''}}"><a href="{{route('pending')}}"><i class="fa fa-circle-o"></i>Send Recommending Email</a></li>
-                            <li class="{{(request()->routeIs('pending')) ? 'active' : ''}}"><a href="{{route('pending')}}"><i class="fa fa-circle-o"></i>Pending</a></li>
-                            <li class="{{(request()->routeIs('trash')) ? 'active' : ''}}"><a href="{{route('trash')}}"><i class="fa fa-circle-o"></i> Trash</a></li>
+                            <li class="{{(request()->routeIs('')) ? 'active' : ''}}"><a
+                                    href="{{route('pending')}}"><i class="fa fa-circle-o"></i>Send Recommending
+                                    Email</a></li>
+                            <li class="{{(request()->routeIs('pending')) ? 'active' : ''}}"><a
+                                    href="{{route('pending')}}"><i class="fa fa-circle-o"></i>Pending</a></li>
+                            <li class="{{(request()->routeIs('trash')) ? 'active' : ''}}"><a
+                                    href="{{route('trash')}}"><i class="fa fa-circle-o"></i> Trash</a></li>
                         </ul>
                     </li>
                     <li class="{{(request()->routeIs('listingUser')) ? 'active' : ''}}"><a
-                            href="{{route('listingUser')}}"><i class="fa fa-users"></i> <span>User Listing</span></a>
+                            href="{{route('listingUser')}}"><i class="fa fa-users"></i> <span>Users Listing</span></a>
                     </li>
                     @endif
 
                     <li class="{{(request()->routeIs('categorylisting')) ? 'active' : ''}}"><a
-                            href="{{route('categorylisting')}}"><i class="fa fa-list-alt"></i> <span>Category</span></a>
+                            href="{{route('categorylisting')}}"><i class="fa fa-list-alt"></i> <span>Categories</span></a>
                     </li>
                     <li class="{{(request()->routeIs('products.index')) ? 'active' : ''}}"><a
                             href="{{route('products.index')}}"><i class="fa fa-list"></i> <span>Products</span></a>
                     </li>
                     <li class="{{(request()->routeIs('slidelisting') || request()->routeIs('slide')) ? 'active' : ''}}">
-                        <a href="{{route('slidelisting')}}"><i class="fa fa-sliders"></i> <span>Slide</span></a></li>
+                        <a href="{{route('slidelisting')}}"><i class="fa fa-sliders"></i> <span>Slides</span></a></li>
+
 
 
 

@@ -96,8 +96,11 @@
                             @foreach ($products as $products)
                             <tr>
                                 <td>
-                                    <img src="{{asset('storage/'. $products->image)}}" width="80px" height="70px"
-                                        alt="img_slide">
+                                    <a href="{{route('single-products.show', $products->id)}}" title="View Product">
+                                        <img src="{{asset('storage/'. $products->image)}}" width="80px" height="70px"
+                                            alt="img_slide">
+                                    </a>
+
                                 </td>
                                 <td>
                                     {{$products->email}}

@@ -73,6 +73,12 @@ Route::group(['middleware' => ['admin.auth', 'verified']], function () {
 
                 //Route Pending
                 Route::get('/pending', ['as' => 'pending', 'uses' => 'ListingController@pendingListing']);
+                // Route Review
+                Route::get('/approveReview/{id}', ['as' => 'approveReview', 'uses' => 'ReviewController@approveReview']);
+                Route::get('/blockReview{id}', ['as' => 'blockReview', 'uses' => 'ListingController@blockReview']);
+                Route::get('/deleteReview/{id}', ['as' => 'deleteReview', 'uses' => 'ListingController@deleteReview']);
+                Route::get('/getReview/{id}', 'ListingController@getReview')->name('getReviewData');
+                Route::post('/editReview/{id}', ['as' => 'editReview', 'uses' => 'ListingController@editReview']);
 
                 //  Route Trash
                 Route::get('/trash-items', 'ListingController@trash')->name('trash');
