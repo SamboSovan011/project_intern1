@@ -254,10 +254,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-1 mr-5">
                                         <img src="https://image.ibb.co/jw55Ex/def_face.jpg"
                                             class="img img-rounded img-fluid" />
-                                        <p class="text-secondary text-center">{{$review->updated_at->diffForHumans()}}
+                                        <p style="font-size:12px" class="pt-2 text-secondary text-center">{{$review->updated_at->diffForHumans()}}
                                         </p>
                                     </div>
                                     <div class="col-md-10">
@@ -315,7 +315,7 @@
                                     </div>
                                 </div>
 
-                                <button id="reviewSave" class="btn btn-success btn-lg" type="submit">Save</button>
+                                <button id="reviewSave" class="btn btn-success btn-md" type="submit">Save</button>
                             </div>
                         </form>
 
