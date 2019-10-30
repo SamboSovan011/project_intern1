@@ -194,10 +194,9 @@ class ReviewController extends Controller
             ->join('reviews', 'reviews.product_id', 'products.id')
             ->where('reviews.id', $id)
             ->first();
-        $comment = Review::where('id', $id)->first()->comment;
-        $review_date = Review::where('id', $id)->first()->updated_at;
-        $rating = Review::where('id', $id)->first()->rating;
-
+        $comment = Review::withTrashed()->where('id', $id)->first()->comment;
+        $review_date = Review::withTrashed()->where('id', $id)->first()->updated_at;
+        $rating = Review::withTrashed()->where('id', $id)->first()->rating;
         $data = [
             'title' => 'Your review is deleted!',
             'reciever' => $user_name->fname,
@@ -210,17 +209,20 @@ class ReviewController extends Controller
             'salutation' => 'Potted Pan Team'
         ];
 
+
         $review = Review::withTrashed()->where('id', $id)->firstOrFail();
 
         if ($review->trashed()) {
-            $review->forceDelete();
-
             Mail::send('email.mailReview', $data, function ($message) use ($userEmail, $userName) {
 
 
                 $message->to($userEmail, $userName);
                 $message->subject('Your review is deleted!');
             });
+
+            $review->forceDelete();
+
+
 
 
             session()->flash('success', 'You have delete a review from trash!');
@@ -232,4 +234,15 @@ class ReviewController extends Controller
         };
 
     }
+
+    public function restoreReview($id)
+    {
+        $review = Review::withTrashed()->where('id', $id)->firstOrFail();
+        $review->restore();
+
+        session()->flash('success', 'You have restore a category!');
+
+        return redirect()->back();
+    }
+
 }

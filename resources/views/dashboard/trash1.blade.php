@@ -87,8 +87,8 @@
                                         </form>
                                     </td>
                                     <td>
-                                        <a href="{{route('deleteSlide', $slide->id)}}">
-                                            <button type='button' class="btn btn-danger btn-sm">Delete</button>
+                                        <a href="">
+                                            <button data-url="{{route('deleteSlide', $slide->id)}}" type='button' class="btn btn-danger btn-sm delete-btn">Delete</button>
                                         </a>
 
                                     </td>
@@ -150,8 +150,8 @@
                                         </form>
                                     </td>
                                     <td>
-                                        <a href="{{route('deleteCategory', $cate->id)}}">
-                                            <button type='button' class="btn btn-danger btn-sm">Delete</button>
+                                        <a href="">
+                                            <button data-url="{{route('deleteCategory', $cate->id)}}" type='button' class="btn btn-danger btn-sm delete-btn">Delete</button>
                                         </a>
                                     </td>
                                 </tr>
@@ -221,7 +221,7 @@
                                         <form action="{{route('products.destroy', $product->id)}}" method='POST'>
                                             @csrf
                                             @method('DELETE')
-                                            <button type='submit' class="btn btn-danger btn-sm">Delete</button>
+                                            <button type='submit' class="btn btn-danger btn-sm delete-btn">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -294,49 +294,16 @@
                                     <td>{{str_limit($review->comment, 20)}}</td>
                                     <td>{{$user->email}}</td>
                                     <td>
-
-                                        @if($review->is_approved == 2)
-                                        <span class="label label-success">Approved</span>
-                                        @elseif($review->is_approved == 1)
-                                        <span class="label label-warning">Pending</span>
-                                        @else
-                                        <span class="label label-danger">Block</span>
-                                        @endif
-
+                                        <form action="{{route('review.restore', $review->id)}}" method='POST'>
+                                            @csrf
+                                            @method('PUT')
+                                            <button type='submit' class="btn btn-success btn-sm">Restore</button>
+                                        </form>
                                     </td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default dropdown-toggle"
-                                                data-toggle="dropdown">
-                                                <span>Action</span>
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                @if (Auth::user()->is_admin == 1)
-                                                <li><a href="{{route('approveReview', ['id' => $review->id])}}"><span
-                                                            class="text-green glyphicon glyphicon-ok">Approved</span></a>
-                                                </li>
-                                                <li><a href="{{route('blockReview', ['id' => $review->id])}}"><span
-                                                            class="text-yellow glyphicon glyphicon-remove">Block</span></a>
-                                                </li>
-                                                @endif
-
-                                                <li>
-                                                    <a href="{{route('single-products.show', $proitem->id)}}"
-                                                        title="View Product">
-                                                        <span class="text-blue fa fa-fw fa-edit edit">View</span>
-                                                    </a>
-
-
-                                                </li>
-                                                <li>
-                                                    <a data-toggle="modal" data-target="#myModal">
-                                                        <span data-url="{{route('deleteSlide', ['id' => $review->id])}}"
-                                                            class="text-red glyphicon glyphicon-trash delete-btn">Delete</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                        <a href="">
+                                            <button data-url="{{route('deleteReview', $review->id)}}" type='button' class="btn btn-danger btn-sm delete-btn">Delete</button>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -367,6 +334,33 @@
 <!-- /.nav-tabs-custom -->
 </div>
 <!-- /.col -->
+<div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete?</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Do you want to delete this item?
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <a id="delete-item" href="">
+                        <button  type="button" class="btn btn-danger">Delete</button>
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 <script>
     $(function () {
     $('#dataTableSlide, #dataTableCate, #example1').DataTable({
@@ -388,7 +382,11 @@
     @endif
 
 
-
+    $(document).on('click', '.delete-btn', function(e){
+        e.preventDefault();
+        var url = $(this).data('url');
+        $('#delete-item').attr('href', url);
+    });
 
 
 

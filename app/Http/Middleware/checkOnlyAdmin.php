@@ -16,11 +16,16 @@ class checkOnlyAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user() && Auth::user()->is_admin == 1){
-            return $next($request);
+        if(Auth::user()){
+            if(Auth::user() && Auth::user()->is_admin == 1){
+                return $next($request);
+            }
+            else{
+                return redirect("/admin/dashboard");
+            }
+        }else{
+            return redirect("/");
         }
-        else{
-            return redirect("/admin/dashboard");
-        }
+
     }
 }
