@@ -30,14 +30,14 @@
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <h4><i class="icon fa fa-check"></i> Success!</h4>
         {{ session()->get('success') }}
-    </div>
-    @elseif(session()->has('error'))
-    <div class="alert alert-danger alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-ban"></i> Fail!</h4>
-        {{session()->get('error')}}
-    </div>
-    @endif
+</div>
+@elseif(session()->has('error'))
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <h4><i class="icon fa fa-ban"></i> Fail!</h4>
+    {{session()->get('error')}}
+</div>
+@endif
 </section> --}}
 <div class="context">
     <div class="nav-tabs-custom">
@@ -45,6 +45,7 @@
             <li class="active"><a href="#slideTab" data-toggle="tab">Slides</a></li>
             <li><a href="#cateTab" data-toggle="tab">Categories</a></li>
             <li><a href="#ProTab" data-toggle="tab">Products</a></li>
+            <li><a href="#reviewTab" data-toggle="tab">Reviews</a></li>
         </ul>
         <div class="tab-content">
             <div class="active tab-pane" id="slideTab">
@@ -245,10 +246,125 @@
 
             </div>
             <!-- /.tab-pane -->
+            <div class="tab-pane" id="reviewTab">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Reviews</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="dataTableSlide" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Product Image</th>
+                                    <th>Product Information</th>
+                                    <th>Comment</th>
+                                    <th>User Email</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{-- @if (is_array($productItems) || is_object($productItems)) --}}
+                                @foreach ($productItems as $proitem)
+                                {{-- @if (is_array($proitem->review) || is_object($proitem->review)) --}}
+                                @foreach ($proitem->reviews as $review)
+                                @php
+                                $user = $review->users;
+                                $rating = number_format($review->rating);
+                                @endphp
+                                <tr>
+                                    <td>
+                                        <img src="{{asset('storage/'. $proitem->image)}}" width="80px" height="70px"
+                                            alt="img_slide">
+                                    </td>
+                                    <td>
+                                        {{$proitem->name}} <span
+                                            class="pull-right">{{$review->updated_at->diffForHumans()}}</span><br>
+                                        @for ($i = 0; $i < $rating; $i++) <span class="float-right"><i
+                                                class="text-yellow fa fa-star"></i></span>
+                                            @endfor
+                                            @for ($i = 0; $i < 5 - $rating; $i++) <span class="float-right"><i
+                                                    class="text-yellow fa fa-star-o"></i></span>
+                                                @endfor
+                                                <br>
+                                                {{$review->rating}} / 5 stars
+                                    </td>
+
+                                    <td>{{str_limit($review->comment, 20)}}</td>
+                                    <td>{{$user->email}}</td>
+                                    <td>
+
+                                        @if($review->is_approved == 2)
+                                        <span class="label label-success">Approved</span>
+                                        @elseif($review->is_approved == 1)
+                                        <span class="label label-warning">Pending</span>
+                                        @else
+                                        <span class="label label-danger">Block</span>
+                                        @endif
+
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default dropdown-toggle"
+                                                data-toggle="dropdown">
+                                                <span>Action</span>
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @if (Auth::user()->is_admin == 1)
+                                                <li><a href="{{route('approveReview', ['id' => $review->id])}}"><span
+                                                            class="text-green glyphicon glyphicon-ok">Approved</span></a>
+                                                </li>
+                                                <li><a href="{{route('blockReview', ['id' => $review->id])}}"><span
+                                                            class="text-yellow glyphicon glyphicon-remove">Block</span></a>
+                                                </li>
+                                                @endif
+
+                                                <li>
+                                                    <a href="{{route('single-products.show', $proitem->id)}}"
+                                                        title="View Product">
+                                                        <span class="text-blue fa fa-fw fa-edit edit">View</span>
+                                                    </a>
+
+
+                                                </li>
+                                                <li>
+                                                    <a data-toggle="modal" data-target="#myModal">
+                                                        <span data-url="{{route('deleteSlide', ['id' => $review->id])}}"
+                                                            class="text-red glyphicon glyphicon-trash delete-btn">Delete</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                {{-- @endif --}}
+                                @endforeach
+                                {{-- @endif --}}
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Product Image</th>
+                                    <th>Product Information</th>
+                                    <th>Comment</th>
+                                    <th>User Email</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
         </div>
-        <!-- /.tab-content -->
     </div>
-    <!-- /.nav-tabs-custom -->
+    <!-- /.tab-content -->
+</div>
+<!-- /.nav-tabs-custom -->
 </div>
 <!-- /.col -->
 <script>

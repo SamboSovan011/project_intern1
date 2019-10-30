@@ -72,12 +72,10 @@ class ListingController extends Controller
 
 
             session()->flash('success', 'You have delete a slide from trash!');
-
             return redirect(route('trash'));
         } else {
             $slide->delete();
             session()->flash('success', 'You have delete a slide!');
-
             return redirect(route('slidelisting'));
         };
     }
@@ -510,7 +508,10 @@ class ListingController extends Controller
         $products = Products::onlyTrashed()->get();
         $cates = Categories::onlyTrashed()->get();
         $slides = Slide::onlyTrashed()->get();
-        return view('dashboard.trash1', compact('slides', 'cates', 'products'));
+        $productItems = Products::with('reviews.users')->with(['reviews' => function ($query) {
+            $query->orderBy('created_at', 'desc')->onlyTrashed();
+        }])->get();;
+        return view('dashboard.trash1', compact('slides', 'cates', 'products', 'productItems'));
     }
 
     public function restoreSlide($id)
