@@ -541,7 +541,8 @@ class ListingController extends Controller
         $productItems = Products::with('reviews.users')->with(['reviews' => function ($query) {
             $query->orderBy('updated_at', 'desc');
         }])->get();;
+        $products = Products::where('is_approved', 1)->get();
         // dd($productItems->toArray());
-        return view('listing.pendingItem', compact('cates', 'slides', 'productItems'));
+        return view('listing.pendingItem', compact('cates', 'slides', 'productItems', 'products'));
     }
 }

@@ -20,7 +20,8 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Products::all();
-        return view('dashboard.products')->with('products', $products);
+        $productSub = Products::where('email', Auth::user()->email)->get();
+        return view('dashboard.products')->with('products', $products)->with('productSub', $productSub);
     }
 
     /**
@@ -100,7 +101,9 @@ class ProductsController extends Controller
             $data['image'] = $image ;
         }
         $data['categories_id'] = $request->category;
+        $data['is_approved'] = 1;
         $product->update($data);
+
 
         session()->flash('success', 'You have edited a new product!');
 
@@ -148,4 +151,26 @@ class ProductsController extends Controller
 
         return redirect()->back();
     }
+
+    public function approve($id){
+        if (Products::findOrFail($id)) {
+            Products::where('id', $id)
+                ->update(['is_approved' => 2]);
+            session()->flash('success', 'You just approved a product post!');
+        }
+
+        return redirect()->route('products.index');
+    }
+
+    public function block($id){
+        if (Products::findOrFail($id)) {
+            Products::where('id', $id)
+                ->update(['is_approved' => 0]);
+            session()->flash('success', 'You just approved a product post!');
+        }
+
+        return redirect()->route('products.index');
+    }
+
+
 }

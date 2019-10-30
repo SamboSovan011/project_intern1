@@ -9,6 +9,7 @@
     .box {
         border: none;
     }
+
 </style>
 
 <!-- Content Header (Page header) -->
@@ -175,51 +176,133 @@
                                 <tr>
                                     <th>Product Images</th>
                                     <th>User Emails</th>
-                                    <th>name</th>
+                                    <th>Product Name</th>
                                     <th>Description</th>
+                                    <th>Price</th>
+                                    <th>SKU</th>
+                                    <th>Stock</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
                                     <th></th>
-                                    <th></th>
-
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($products as $product)
+                                @foreach ($products as $products)
                                 <tr>
                                     <td>
-                                        <img src="{{asset('storage/'. $product->image)}}" width="80px" height="70px"
-                                alt="img_slide">
-                                </td>
-                                <td>
-                                    {{$product->email}}
-                                </td>
-                                <td>{{$product->name}}</td>
-                                <td>{{str_limit($product->description, 20)}}</td>
-                                <td>
-                                    <form action="{{route('products.restore', $product->id)}}" method='POST'>
-                                        @csrf
-                                        @method('PUT')
-                                        <button type='submit' class="btn btn-success btn-sm">Restore</button>
-                                    </form>
-                                </td>
+                                        <a href="{{route('single-products.show', $products->id)}}" title="View Product">
+                                            <img src="{{asset('storage/'. $products->image)}}" width="80px"
+                                                height="70px" alt="img_slide">
+                                        </a>
 
-                                <td>
-                                    <form action="{{route('products.destroy', $product->id)}}" method='POST'>
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type='submit' class="btn btn-danger btn-sm">Delete</button>
-                                    </form>
-                                </td>
+                                    </td>
+                                    <td>
+                                        {{$products->email}}
+                                    </td>
+                                    <td>{{$products->name}}</td>
+                                    <td>{{str_limit($products->description)}}</td>
+
+                                    <td>{{$products->price}}</td>
+                                    <td>{{$products->SKU}}</td>
+                                    <td>{{$products->stock}}</td>
+                                    <td></td>
+                                    <td>
+                                        @if($products->is_approved == 2)
+                                        <span class="label label-success">Approved</span>
+                                        @elseif($products->is_approved == 1)
+                                        <span class="label label-warning">Pending</span>
+                                        @else
+                                        <span class="label label-danger">Block</span>
+                                        @endif
+                                    </td>
+
+
+                                    {{-- @if(!$products->trashed())
+                                    <td>
+                                        <a href="{{route('products.edit', $products->id)}}"
+                                    class="btn btn-primary .btn-sm">Edit</a>
+                                    </td>
+                                    @else
+                                    <td>
+                                        <form action="{{route('products.restore', $products->id)}}" method='POST'>
+                                            @csrf
+                                            @method('PUT')
+                                            <button type='submit' class="btn btn-success btn-sm">Restore</button>
+                                        </form>
+                                    </td>
+
+                                    @endif --}}
+                                    {{-- @if($slide->is_approved == 2)
+                                    <span class="label label-success">Approved</span>
+                                    @elseif($slide->is_approved == 1)
+                                    <span class="label label-warning">Pending</span>
+                                    @else
+                                    <span class="label label-danger">Block</span>
+                                    @endif --}}
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default dropdown-toggle"
+                                                data-toggle="dropdown">
+                                                <span>Action</span>
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                {{-- @if (Auth::user()->is_admin == 1)
+                                                <li><a href="{{route('approveSlide', ['id' => $slide->id])}}"><span
+                                                    class="text-green glyphicon glyphicon-ok">Approved</span></a>
+                                                </li>
+                                                <li><a href="{{route('blockSlide', ['id' => $slide->id])}}"><span
+                                                            class="text-yellow glyphicon glyphicon-remove">Block</span></a>
+                                                </li>
+                                                @endif --}}
+                                                @if (Auth::user()->is_admin == 1)
+                                                <li><a href="{{route('products.approved', ['id' => $products->id])}}"><span
+                                                            class="text-green glyphicon glyphicon-ok">Approved</span></a>
+                                                </li>
+                                                <li><a href="{{route('products.block', ['id' => $products->id])}}"><span
+                                                            class="text-yellow glyphicon glyphicon-remove">Block</span></a>
+                                                </li>
+                                                @endif
+
+                                                <li>
+                                                    <a href="{{route('products.edit', $products->id)}}">
+                                                        <span class="text-blue fa fa-fw fa-edit edit">Edit</span>
+                                                    </a>
+
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    {{-- <form action="{{route('products.destroy', $products->id)}}"
+                                                    method='POST'>
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type='submit'
+                                                        class="btn btn-danger btn-sm">{{$products->trashed() ? 'Delete' :'Trash'}}</button>
+                                                    </form> --}}
+                                                    <a data-toggle="modal" data-target="#myModal">
+                                                        <span data-url="{{route('products.destroy', $products->id)}}"
+                                                            class="text-red glyphicon glyphicon-trash delete-btn">Delete</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+
                                 </tr>
-                                @endforeach --}}
+                                @endforeach
 
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>Product Images</th>
                                     <th>User Emails</th>
-                                    <th>name</th>
+                                    <th>Product Name</th>
                                     <th>Description</th>
-                                    <th></th>
+                                    <th>Price</th>
+                                    <th>SKU</th>
+                                    <th>Stock</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
                                     <th></th>
                                 </tr>
                             </tfoot>
@@ -264,7 +347,8 @@
                                             alt="img_slide">
                                     </td>
                                     <td>
-                                        {{$proitem->name}} <span class="pull-right">{{$review->updated_at->diffForHumans()}}</span><br>
+                                        {{$proitem->name}} <span
+                                            class="pull-right">{{$review->updated_at->diffForHumans()}}</span><br>
                                         @for ($i = 0; $i < $rating; $i++) <span class="float-right"><i
                                                 class="text-yellow fa fa-star"></i></span>
                                             @endfor
@@ -308,15 +392,15 @@
                                                 <li>
                                                     <a href="{{route('single-products.show', $proitem->id)}}"
                                                         title="View Product">
-                                                        <span
-                                                            class="text-blue fa fa-fw fa-edit edit">View</span>
+                                                        <span class="text-blue fa fa-fw fa-edit edit">View</span>
                                                     </a>
 
 
                                                 </li>
                                                 <li>
                                                     <a data-toggle="modal" data-target="#myModal">
-                                                        <span data-url="{{route('deleteReview', ['id' => $review->id])}}"
+                                                        <span
+                                                            data-url="{{route('deleteReview', ['id' => $review->id])}}"
                                                             class="text-red glyphicon glyphicon-trash delete-btn">Delete</span>
                                                     </a>
                                                 </li>
@@ -371,7 +455,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                 <a id="delete-item" href="">
-                    <button  type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
                 </a>
 
             </div>
@@ -381,17 +465,17 @@
 </div>
 <script>
     $(function () {
-    $('#dataTableSlide, #dataTableCate, #example1').DataTable({
-        'paging'      : true,
-      'lengthChange': true,
-      'searching'   : true,
-      'info'        : true,
-      'autoWidth'   : false,
-      'ordering'    : true,
+        $('#dataTableSlide, #dataTableCate, #example1').DataTable({
+            'paging': true,
+            'lengthChange': true,
+            'searching': true,
+            'info': true,
+            'autoWidth': false,
+            'ordering': true,
+
+        })
 
     })
-
-  })
 
     @if(Session::has('success'))
     toastr.success("{{Session::get('success')}}");
@@ -400,13 +484,11 @@
     @endif
 
 
-    $(document).on('click', '.delete-btn', function(e){
+    $(document).on('click', '.delete-btn', function (e) {
         e.preventDefault();
         var url = $(this).data('url');
         $('#delete-item').attr('href', url);
     });
-
-
 
 </script>
 @endsection

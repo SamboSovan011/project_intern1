@@ -23,7 +23,9 @@ class CreateProductsTable extends Migration
             $table->integer('stock');
             $table->string('email');
             $table->integer('categories_id');
+            $table->integer('is_approved')->default(1);
             $table->timestamps();
+
         });
     }
 

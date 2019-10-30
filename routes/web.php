@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 });
 
 
+// Dashboard
 // Route admin and subadmin
 Route::group(['middleware' => ['admin.auth', 'verified']], function () {
     Route::get('/admin/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
@@ -69,6 +70,8 @@ Route::group(['middleware' => ['admin.auth', 'verified']], function () {
         Route::resource('products', 'ProductsController');
         Route::get('trash', 'ProductsController@trash')->name('products.trashed');
         Route::put('restore-product/{product}', 'ProductsController@restore')->name('products.restore');
+        Route::get('/approve-products/{id}', 'ProductsController@approve')->name('products.approved');
+        Route::get('/block-products/{id}', 'ProductsController@block')->name('products.block');
 
         //Route listingUser
         Route::group(['middleware' => ['onlyadmin.auth', 'verified']], function () {
