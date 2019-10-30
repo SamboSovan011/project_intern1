@@ -24,6 +24,7 @@ Route::get('/logout', 'Auth\LoginController@logout');
 // View Profile
 Route::group(['middleware' => ['auth', 'verified']], function () {
     // Route::post('/login', 'Auth\LoginController@login');
+
     Route::get('/userprofile', ['as' => 'userprofile', 'uses' => 'HomeController@showUserProfile']);
     Route::post('/updateProfile/{id}', ['as' => 'updateProfile', 'uses' => 'HomeController@updateProfile']);
 
@@ -92,6 +93,7 @@ Route::group(['middleware' => ['admin.auth', 'verified']], function () {
                 Route::get('/trash-items', 'ListingController@trash')->name('trash');
                 Route::put('restore-slide/{slide}', 'ListingController@restoreSlide')->name('slide.restore');
                 Route::put('restore-cate/{cate}', 'ListingController@restoreCate')->name('cate.restore');
+                Route::put('restore-review/{review}', 'ReviewController@restoreReview')->name('review.restore');
             });
 
             Route::get('/listingUser', ['as' => 'listingUser', 'uses' => 'ListingController@listingUser']);

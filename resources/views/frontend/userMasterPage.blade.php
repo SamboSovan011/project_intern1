@@ -96,9 +96,10 @@ footer a {
                 <div class="card-header bg-category text-white text-uppercase"><i class="fa fa-list"></i> Categories
                 </div>
                 <ul class="list-group category_block">
-                    <li class="list-group-item {{ (request()->is('userprofile')) ? 'bg-active' : '' }}"><a href="category.html">User Profile</a></li>
+                    <li class="list-group-item {{ (request()->is('userprofile')) ? 'bg-active' : '' }}"><a href="userprofile">User Profile</a></li>
                     <li class="list-group-item"><a href="category.html">Wish List</a></li>
                     <li class="list-group-item"><a href="category.html">Cart</a></li>
+                    <li class="list-group-item {{ (request()->is('')) ? 'bg-active' : '' }}"><a href="category.html">My Reviews</a></li>
                 </ul>
             </div>
         </div>

@@ -110,9 +110,13 @@ class HomeController extends Controller
 
     public function show($id){
         $products = Products::find($id);
-        $productItems = Products::where('id', $id)->with('reviews.users')->with(['reviews' => function ($query) {
-            $query->orderBy('created_at', 'desc');
+        $productItemsUser = Products::where('id', $id)->with('reviews.users')->with(['reviews' => function ($query) {
+            $query->where('is_approved', 2)->orderBy('updated_at', 'desc');
         }])->get();;
-        return view('frontend.single_product', compact('productItems'))->with('product', $products);
+        $productItemsAdmin = Products::where('id', $id)->with('reviews.users')->with(['reviews' => function ($query) {
+            $query->orderBy('updated_at', 'desc');
+        }])->get();;
+        // dd($productItemsUser);
+        return view('frontend.single_product', compact('productItemsAdmin', 'productItemsUser'))->with('product', $products);
     }
 }

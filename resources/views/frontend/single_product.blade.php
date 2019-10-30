@@ -103,7 +103,6 @@
         top: 2px;
         left: 2px;
     }
-
 </style>
 
 <!--Main layout-->
@@ -243,9 +242,11 @@
                     </div>
                 </nav>
                 <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                    @if (Auth::user())
+                    @if (Auth::user()->is_admin == 1 || Auth::user()->is_admin == 2)
                     <div class="tab-pane fade show active" id="nav-reviews" role="tabpanel"
                         aria-labelledby="nav-home-tab">
-                        @foreach ($productItems as $item)
+                        @foreach ($productItemsAdmin as $item)
                         @foreach ($item->reviews as $review)
                         @php
                         $user = $review->users;
@@ -257,7 +258,64 @@
                                     <div class="col-md-1 mr-5">
                                         <img src="https://image.ibb.co/jw55Ex/def_face.jpg"
                                             class="img img-rounded img-fluid" />
-                                        <p style="font-size:12px" class="pt-2 text-secondary text-center">{{$review->updated_at->diffForHumans()}}
+                                        <p style="font-size:12px" class="pt-2 text-secondary text-center">
+                                            {{$review->updated_at->diffForHumans()}}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <p>
+                                            <a class="float-left"
+                                                href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>{{$user->fname}}&nbsp;{{$user->lname}}</strong></a>
+                                            <span class="float-right">
+                                                @if($review->is_approved == 2)
+                                                <span class="badge badge-success">Approved</span>
+                                                @elseif($review->is_approved == 1)
+                                                <span class="badge badge-warning">Pending</span>
+                                                @else
+                                                <span class="badge badge-danger">Block</span>
+                                                @endif
+                                            </span>
+                                            <br>
+                                            @for ($i = 0; $i < 5 - $rating; $i++) <span class="float-right"><i
+                                                    class="text-warning far fa-star"></i></span>
+                                                @endfor
+                                                @for ($i = 0; $i < $rating; $i++) <span class="float-right"><i
+                                                        class="text-warning fa fa-star"></i></span>
+                                                    @endfor
+
+
+                                        </p>
+                                        <div class="clearfix"></div>
+                                        <p>{{$review->comment}}
+                                        </p>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        @endforeach
+                        @endforeach
+
+
+                    </div>
+                    @else
+                    <div class="tab-pane fade show active" id="nav-reviews" role="tabpanel"
+                        aria-labelledby="nav-home-tab">
+                        @foreach ($productItemsUser as $item)
+                        @foreach ($item->reviews as $review)
+                        @php
+                        $user = $review->users;
+                        $rating = number_format($review->rating);
+                        @endphp
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-1 mr-5">
+                                        <img src="https://image.ibb.co/jw55Ex/def_face.jpg"
+                                            class="img img-rounded img-fluid" />
+                                        <p style="font-size:12px" class="pt-2 text-secondary text-center">
+                                            {{$review->updated_at->diffForHumans()}}
                                         </p>
                                     </div>
                                     <div class="col-md-10">
@@ -288,6 +346,60 @@
 
 
                     </div>
+                    @endif
+                    @else
+                    <div class="tab-pane fade show active" id="nav-reviews" role="tabpanel"
+                        aria-labelledby="nav-home-tab">
+                        @foreach ($productItemsUser as $item)
+                        @foreach ($item->reviews as $review)
+                        @php
+                        $user = $review->users;
+                        $rating = number_format($review->rating);
+                        @endphp
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-1 mr-5">
+                                        <img src="https://image.ibb.co/jw55Ex/def_face.jpg"
+                                            class="img img-rounded img-fluid" />
+                                        <p style="font-size:12px" class="pt-2 text-secondary text-center">
+                                            {{$review->updated_at->diffForHumans()}}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <p>
+                                            <a class="float-left"
+                                                href="https://maniruzzaman-akash.blogspot.com/p/contact.html"><strong>{{$user->fname}}&nbsp;{{$user->lname}}</strong></a>
+
+                                            @for ($i = 0; $i < 5 - $rating; $i++) <span class="float-right"><i
+                                                    class="text-warning far fa-star"></i></span>
+                                                @endfor
+                                                @for ($i = 0; $i < $rating; $i++) <span class="float-right"><i
+                                                        class="text-warning fa fa-star"></i></span>
+                                                    @endfor
+
+
+                                        </p>
+                                        <div class="clearfix"></div>
+                                        <p>{{$review->comment}}
+                                        </p>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        @endforeach
+                        @endforeach
+
+
+                    </div>
+                    @endif
+
+
+
+
+
                     <div class="tab-pane fade" id="nav-write" role="tabpanel" aria-labelledby="nav-profile-tab">
 
 
