@@ -51,22 +51,6 @@
 </section>
 @endif
 
-{{-- <section>
-    @if(session()->has('success'))
-    <div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-check"></i> Success!</h4>
-        {{ session()->get('success') }}
-</div>
-@elseif(session()->has('error'))
-<div class="alert alert-danger alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <h4><i class="icon fa fa-ban"></i> Fail!</h4>
-    {{session()->get('error')}}
-</div>
-@endif
-</section> --}}
-<!-- Main content -->
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
@@ -113,7 +97,10 @@
                                 <td>{{$products->price}}</td>
                                 <td>{{$products->SKU}}</td>
                                 <td>{{$products->stock}}</td>
-                                <td></td>
+
+
+
+                                <td><a href="{{route('categorylisting')}}">{{$products->categories->title}}</a></td>
                                 <td>
                                     @if($products->is_approved == 2)
                                     <span class="label label-success">Approved</span>
@@ -125,28 +112,7 @@
                                 </td>
 
 
-                                {{-- @if(!$products->trashed())
-                                    <td>
-                                        <a href="{{route('products.edit', $products->id)}}"
-                                class="btn btn-primary .btn-sm">Edit</a>
-                                </td>
-                                @else
-                                <td>
-                                    <form action="{{route('products.restore', $products->id)}}" method='POST'>
-                                        @csrf
-                                        @method('PUT')
-                                        <button type='submit' class="btn btn-success btn-sm">Restore</button>
-                                    </form>
-                                </td>
 
-                                @endif --}}
-                                {{-- @if($slide->is_approved == 2)
-                                    <span class="label label-success">Approved</span>
-                                    @elseif($slide->is_approved == 1)
-                                    <span class="label label-warning">Pending</span>
-                                    @else
-                                    <span class="label label-danger">Block</span>
-                                    @endif --}}
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle"
@@ -155,14 +121,7 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            {{-- @if (Auth::user()->is_admin == 1)
-                                                <li><a href="{{route('approveSlide', ['id' => $slide->id])}}"><span
-                                                class="text-green glyphicon glyphicon-ok">Approved</span></a>
-                                            </li>
-                                            <li><a href="{{route('blockSlide', ['id' => $slide->id])}}"><span
-                                                        class="text-yellow glyphicon glyphicon-remove">Block</span></a>
-                                            </li>
-                                            @endif --}}
+
                                             @if (Auth::user()->is_admin == 1)
                                             <li><a href="{{route('products.approved', ['id' => $products->id])}}"><span
                                                         class="text-green glyphicon glyphicon-ok">Approved</span></a>
@@ -180,13 +139,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                {{-- <form action="{{route('products.destroy', $products->id)}}"
-                                                method='POST'>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type='submit'
-                                                    class="btn btn-danger btn-sm">{{$products->trashed() ? 'Delete' :'Trash'}}</button>
-                                                </form> --}}
+
                                                 <a data-toggle="modal" data-target="#myModal">
                                                     <span data-url="{{route('products.destroy', $products->id)}}"
                                                         class="text-red glyphicon glyphicon-trash delete-btn">Delete</span>
@@ -219,7 +172,9 @@
                                 <td>{{$products->price}}</td>
                                 <td>{{$products->SKU}}</td>
                                 <td>{{$products->stock}}</td>
-                                <td></td>
+                                @foreach($category as $cat)
+                                <td>{{$cat->title}}</td>
+                                @endforeach
                                 <td>
                                     @if($products->is_approved == 2)
                                     <span class="label label-success">Approved</span>
@@ -231,28 +186,7 @@
                                 </td>
 
 
-                                {{-- @if(!$products->trashed())
-                                <td>
-                                    <a href="{{route('products.edit', $products->id)}}"
-                                class="btn btn-primary .btn-sm">Edit</a>
-                                </td>
-                                @else
-                                <td>
-                                    <form action="{{route('products.restore', $products->id)}}" method='POST'>
-                                        @csrf
-                                        @method('PUT')
-                                        <button type='submit' class="btn btn-success btn-sm">Restore</button>
-                                    </form>
-                                </td>
 
-                                @endif --}}
-                                {{-- @if($slide->is_approved == 2)
-                                <span class="label label-success">Approved</span>
-                                @elseif($slide->is_approved == 1)
-                                <span class="label label-warning">Pending</span>
-                                @else
-                                <span class="label label-danger">Block</span>
-                                @endif --}}
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-default dropdown-toggle"
@@ -261,14 +195,7 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            {{-- @if (Auth::user()->is_admin == 1)
-                                            <li><a href="{{route('approveSlide', ['id' => $slide->id])}}"><span
-                                                class="text-green glyphicon glyphicon-ok">Approved</span></a>
-                                            </li>
-                                            <li><a href="{{route('blockSlide', ['id' => $slide->id])}}"><span
-                                                        class="text-yellow glyphicon glyphicon-remove">Block</span></a>
-                                            </li>
-                                            @endif --}}
+
                                             @if (Auth::user()->is_admin == 1)
                                             <li><a href="{{route('products.approved', ['id' => $products->id])}}"><span
                                                         class="text-green glyphicon glyphicon-ok">Approved</span></a>
@@ -286,13 +213,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                {{-- <form action="{{route('products.destroy', $products->id)}}"
-                                                method='POST'>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type='submit'
-                                                    class="btn btn-danger btn-sm">{{$products->trashed() ? 'Delete' :'Trash'}}</button>
-                                                </form> --}}
+
                                                 <a data-toggle="modal" data-target="#myModal">
                                                     <span data-url="{{route('products.destroy', $products->id)}}"
                                                         class="text-red glyphicon glyphicon-trash delete-btn">Delete</span>
