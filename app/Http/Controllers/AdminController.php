@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
-
+use App\Products;
 
 class AdminController extends Controller
 {
@@ -36,7 +36,7 @@ class AdminController extends Controller
     public function dashboard()
     {
 
-        return view('dashboard.admin');
+        return view('dashboard.admin')->with('products', Products::all());
     }
 
 
