@@ -24,6 +24,8 @@
     <script src="https://kit.fontawesome.com/dc09df96e5.js"></script>
     <!-- Material Design Bootstrap -->
     <link href="{{asset('css/mdb.min.css')}}" rel="stylesheet">
+    <!-- Date Picker -->
+
 
 </head>
 
@@ -44,7 +46,6 @@
         // Animations initialization
         new WOW().init();
       </script>
-
     @include('layouts.header')
     @yield('content')
     @include('layouts.footer')

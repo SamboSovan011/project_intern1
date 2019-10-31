@@ -22,6 +22,9 @@ class CreateProductsTable extends Migration
             $table->string('SKU');
             $table->integer('stock');
             $table->string('email');
+            $table->float('discount')->nullable();
+            $table->string('startDatePro');
+            $table->string('stopDatePro');
             $table->integer('categories_id');
             $table->integer('is_approved')->default(1);
             $table->timestamps();

@@ -5,7 +5,6 @@
     #form {
         padding: 3rem;
     }
-
 </style>
 <section class="content-header">
     <h1>{{isset($products) ? 'Edit Product':'Post Product'}}
@@ -82,9 +81,7 @@
                             <label for="category">Category</label>
                             <select class="form-control" name="category">
                                 @foreach($categories as $category)
-                                <option value="{{$category->id}}"
-                                @if(isset($products))
-                                @if($category->id ===
+                                <option value="{{$category->id}}" @if(isset($products)) @if($category->id ===
                                     $products->categories_id)
                                     selected
                                     @endif
@@ -96,6 +93,44 @@
                             </select>
                         </div>
 
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Discount(%):</label>
+                    <input id="discount" name="discount" class="form-control" type="text"
+                        placeholder="Percentage Discount">
+                    <span class="text-red" id="discountErrorM" hidden>Please input correct Percentage! (0 -> 100)</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Start Promotion Date:</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input name="start-date" type="text" class="form-control pull-right" id="startdate">
+
+                            </div>
+                            <span class="text-red" id="startErrorM" hidden>Start Date can't be later than end
+                                    date</span>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>End Promotion Date:</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input name="end-date" type="text" class="form-control pull-right" id="enddate">
+
+                            </div>
+                            <span class="text-red" id="endErrorM" hidden>End Date can't be earlier than start
+                                    date</span>
+                        </div>
 
                     </div>
                 </div>
@@ -127,7 +162,7 @@
             <!-- /.box-body -->
 
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary">{{isset($products) ? 'Update':'Post'}}</button>
+                <button type="submit" class="btn btn-primary btn-save">{{isset($products) ? 'Update':'Post'}}</button>
             </div>
         </form>
     </div>
@@ -142,5 +177,84 @@
         }, 1000)
     })
 
+
+    $(document).ready(function(){
+
+
+        $('#discount').blur(function(e){
+            e.preventDefault();
+            var endDate = new Date($('#enddate').val());
+            var startDate = new Date($('#startdate').val());
+            var disc = $(this).val();
+            var num_disc = parseFloat(disc);
+            if(num_disc < 0 || num_disc > 100){
+                $('#discountErrorM').attr('hidden', false);
+                $('.btn-save').attr('disabled', true);
+            }else{
+                $('#discountErrorM').attr('hidden', true);
+                if(startDate > endDate){
+                    $('#startErrorM').attr('hidden', false);
+                    $('#endErrorM').attr('hidden', false);
+                    $('.btn-save').attr('disabled', true);
+                }else{
+                    $('#startErrorM').attr('hidden', true);
+                    $('#endErrorM').attr('hidden', true);
+                    $('.btn-save').attr('disabled', false);
+                }
+            }
+        })
+
+        $('#enddate, #startdate').change(function(){
+
+            var endDate = new Date($('#enddate').val());
+            var startDate = new Date($('#startdate').val());
+            var disc = $('#discount').val();
+            var num_disc = parseFloat(disc);
+
+            if(startDate > endDate){
+                $('#startErrorM').attr('hidden', false);
+                $('#endErrorM').attr('hidden', false);
+                $('.btn-save').attr('disabled', true);
+
+
+
+            }else{
+                $('#startErrorM').attr('hidden', true);
+                $('#endErrorM').attr('hidden', true);
+                // $('.btn-save').attr('disabled', false);
+                if(num_disc < 0 || num_disc > 100){
+                    $('#discountErrorM').attr('hidden', false);
+                    $('.btn-save').attr('disabled', true);
+                }else{
+                    $('#discountErrorM').attr('hidden', true);
+                    $('.btn-save').attr('disabled', false);
+                }
+            }
+        })
+
+
+
+
+
+
+
+    })
+
+
+</script>
+<script>
+    $(function () {
+
+
+      //Date picker
+      $('#startdate').datepicker({
+        autoclose: true
+      })
+      $('#enddate').datepicker({
+        autoclose: true
+      })
+
+
+    })
 </script>
 @endsection

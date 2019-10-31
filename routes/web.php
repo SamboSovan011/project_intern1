@@ -83,6 +83,9 @@ Route::group(['middleware' => ['admin.auth', 'verified']], function () {
         Route::get('/approve-products/{id}', 'ProductsController@approve')->name('products.approved');
         Route::get('/block-products/{id}', 'ProductsController@block')->name('products.block');
 
+        //Route Promotion Products
+
+
         //Route listingUser
         Route::group(['middleware' => ['onlyadmin.auth', 'verified']], function () {
             Route::prefix('/admin-tool')->group(function () {
