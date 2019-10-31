@@ -31,6 +31,9 @@ class CreateProductsRequest extends FormRequest
             'SKU' => 'required',
             'image' =>'required|image',
             'category' =>'required',
+            'discount' => 'required|between:0,100',
+            'startDatePro' => 'required|date_format:m/d/Y',
+            'stopDatePro' => 'required|date_format:m/d/Y',
         ];
     }
 }
