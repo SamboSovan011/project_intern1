@@ -172,9 +172,9 @@
                                 <td>{{$products->price}}</td>
                                 <td>{{$products->SKU}}</td>
                                 <td>{{$products->stock}}</td>
-                                @foreach($category as $cat)
-                                <td>{{$cat->title}}</td>
-                                @endforeach
+
+                                <td>{{$producs->categories->title}}</td>
+
                                 <td>
                                     @if($products->is_approved == 2)
                                     <span class="label label-success">Approved</span>

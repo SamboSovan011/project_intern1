@@ -43,61 +43,9 @@
         object-fit: cover;
     }
 
-    .bloc_left_price {
-        color: #c01508;
-        text-align: center;
-        font-weight: bold;
-        font-size: 150%;
-    }
 
-    .category_block li:hover {
-        background-color: #007bff;
-    }
 
-    .category_block li:hover a {
-        color: #ffffff;
-    }
 
-    .category_block li a {
-        color: #343a40;
-    }
-
-    .add_to_cart_block .price {
-        color: #c01508;
-        text-align: center;
-        font-weight: bold;
-        font-size: 200%;
-        margin-bottom: 0;
-    }
-
-    .add_to_cart_block .price_discounted {
-        color: #343a40;
-        text-align: center;
-        text-decoration: line-through;
-        font-size: 140%;
-    }
-
-    .product_rassurance {
-        padding: 10px;
-        margin-top: 15px;
-        background: #ffffff;
-        border: 1px solid #6c757d;
-        color: #6c757d;
-    }
-
-    .product_rassurance .list-inline {
-        margin-bottom: 0;
-        text-transform: uppercase;
-        text-align: center;
-    }
-
-    .product_rassurance .list-inline li:hover {
-        color: #343a40;
-    }
-
-    .reviews_product .fa-star {
-        color: gold;
-    }
 
     .pagination {
         margin-top: 20px;
@@ -189,15 +137,15 @@
                                     title="View Product">{{$product->name}}</a></h4>
                             <p class="card-text">{{str_limit(strip_tags($product->description, 100))}}</p>
                             <h4 class="font-weight-bold blue-text d-flex justify-content-center">
-                            <strong>{{$product->price}}$</strong>
-                                  </h4>
 
-                            <div class="row">
-                                <div class="col ">
-                                    <a href="#" class="btn btn-danger btn-block">Add to cart</a>
-                                </div>
-                            </div>
+                                  </h4>
+                                  <div class="d-inline d-flex justify-content-center">
+                                    <a href="#" class="btn btn-success btn-sm d-inline ">Add to cart</a>
+                                    <div class="btn btn-danger btn-sm d-inline" style="font-size: 14px">{{$product->price}}$</div>
+                                    </div>
+
                         </div>
+
                     </div>
                 </div>
 

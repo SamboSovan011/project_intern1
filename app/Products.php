@@ -14,7 +14,7 @@ class Products extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function category() {
+    public function categories() {
         return $this->belongsTo(Categories::class);
     }
 
