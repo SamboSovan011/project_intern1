@@ -25,8 +25,17 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::group(['middleware' => ['auth', 'verified']], function () {
     // Route::post('/login', 'Auth\LoginController@login');
 
-    Route::get('/userprofile', ['as' => 'userprofile', 'uses' => 'HomeController@showUserProfile']);
-    Route::post('/updateProfile/{id}', ['as' => 'updateProfile', 'uses' => 'HomeController@updateProfile']);
+    Route::prefix('/user')->group(function(){
+        //Route User Profile
+        Route::get('/userprofile', ['as' => 'userprofile', 'uses' => 'HomeController@showUserProfile']);
+        Route::post('/updateProfile/{id}', ['as' => 'updateProfile', 'uses' => 'HomeController@updateProfile']);
+        //Route Review
+        Route::get('/my-reviews', ['as' => 'myreviews', 'uses' => 'HomeController@getReview']);
+        Route::post('/editReview/{id}', ['as' => 'editreview', 'uses' => 'HomeController@editReview']);
+        Route::get('/getComment/{id}', 'HomeController@getComment')->name('getComment');
+
+    });
+
 
     Route::post('/changePass/{id}', ['as' => 'changePass', 'uses' => 'HomeController@changePass']);
 

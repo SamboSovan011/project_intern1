@@ -108,7 +108,8 @@ class HomeController extends Controller
         }
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $products = Products::find($id);
         $productItemsUser = Products::where('id', $id)->with('reviews.users')->with(['reviews' => function ($query) {
             $query->where('is_approved', 2)->orderBy('updated_at', 'desc');
@@ -118,5 +119,43 @@ class HomeController extends Controller
         }])->get();;
         // dd($productItemsUser);
         return view('frontend.single_product', compact('productItemsAdmin', 'productItemsUser'))->with('product', $products);
+    }
+
+    //Review
+
+    public function getReview()
+    {
+        $productItems = Products::where('id', Auth::user()->id)->with('reviews.users')->with(['reviews' => function ($query) {
+            $query->orderBy('updated_at', 'desc');
+        }])->get();;
+        return view('listing.review', compact('productItems'));
+    }
+
+    public function getComment($id)
+    {
+        if (request()->ajax()) {
+            $data = Review::findOrFail($id);
+            return response()->json(['data' => $data]);
+        }
+    }
+
+    public function editReview(Request $request, $id)
+    {
+
+        $validateData = $request->validate([
+            'comment' => 'required|max:65535'
+        ]);
+        if ($validateData) {
+            if (Review::find($id)) {
+                Review::where('id', $id)
+                    ->update([
+                        'comment' => $request->input('comment'),
+                        'rating' => $request->input('rating'),
+                        'is_approved' => 1
+                    ]);
+                session()->flash('success', 'Successfully! Update Review.');
+                return redirect()->back();
+            }
+        }
     }
 }

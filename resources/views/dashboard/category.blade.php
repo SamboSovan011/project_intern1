@@ -44,15 +44,8 @@
                     <input name="title" type="text" class="form-control" id="exampleInputEmail1"
                         placeholder="Slide Title" required>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Description</label>
-                    <textarea class="form-control" name="desc" id="desc" cols="30" rows="10"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <input type="file" name="image" id="exampleInputFile" required>
-                    <p class="help-block">Upload an image for category</p>
-                </div>
+
+
             </div>
             <!-- /.box-body -->
 

@@ -61,7 +61,6 @@
                                     <th>Slide Images</th>
                                     <th>User Emails</th>
                                     <th>Title</th>
-                                    <th>Description</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -77,7 +76,6 @@
                                         {{$slide->user_email}}
                                     </td>
                                     <td>{{$slide->title}}</td>
-                                    <td>{{str_limit($slide->description, 20)}}</td>
                                     <td>
 
                                         <form action="{{route('slide.restore', $slide->id)}}" method='POST'>
@@ -101,7 +99,6 @@
                                     <th>Slide Images</th>
                                     <th>User Emails</th>
                                     <th>Title</th>
-                                    <th>Description</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -122,10 +119,8 @@
                         <table id="dataTableCate" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Category Images</th>
+                                    <th>Category</th>
                                     <th>User Emails</th>
-                                    <th>Title</th>
-                                    <th>Description</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -134,14 +129,11 @@
                                 @foreach ($cates as $cate)
                                 <tr>
                                     <td>
-                                        <img src="{{asset($cate->img_path)}}" width="80px" height="70px"
-                                            alt="img_slide">
+                                        {{$cate->title}}
                                     </td>
                                     <td>
                                         {{$cate->user_email}}
                                     </td>
-                                    <td>{{$cate->title}}</td>
-                                    <td>{{str_limit($cate->description, 20)}}</td>
                                     <td>
                                         <form action="{{route('cate.restore', $cate->id)}}" method='POST'>
                                             @csrf
@@ -162,8 +154,6 @@
                                 <tr>
                                     <th>Category Images</th>
                                     <th>User Emails</th>
-                                    <th>Title</th>
-                                    <th>Description</th>
                                     <th></th>
                                     <th></th>
                                 </tr>

@@ -79,7 +79,6 @@
                                 <th>Slide Images</th>
                                 <th>User Emails</th>
                                 <th>Title</th>
-                                <th>Description</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>
@@ -94,7 +93,6 @@
                                     {{$slide->user_email}}
                                 </td>
                                 <td>{{$slide->title}}</td>
-                                <td>{{str_limit($slide->description, 20)}}</td>
                                 <td>
                                     @if($slide->is_approved == 2)
                                     <span class="label label-success">Approved</span>
@@ -145,7 +143,6 @@
                                 <th>Slide Images</th>
                                 <th>User Emails</th>
                                 <th>Title</th>
-                                <th>Description</th>
                                 <th>Status</th>
                                 <th></th>
                             </tr>
@@ -193,11 +190,6 @@
                                 <label>Title</label>
                                 <input name="title" type="text" class="form-control" id="slideTitle"
                                     placeholder="Slide title">
-                            </div>
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea name="description" class="form-control" rows="3" id="slideDesc"
-                                    placeholder="Slide Description"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputFile">File input</label>
@@ -288,7 +280,6 @@
             success: function (html) {
                 $('#editSlideForm').attr("action", "/admin/dashboard/editSlide/" + id)
                 $('#slideTitle').val(html.data.title);
-                $('#slideDesc').val(html.data.description);
                 $('#store_img').attr("src", "/" + html.data.img_path);
             }
         });

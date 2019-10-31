@@ -31,7 +31,6 @@ class ListingController extends Controller
         if ($request->all()) {
             $validateData = $request->validate([
                 'title' => 'required|max:255',
-                'desc' => 'required|max:655535',
                 'image' => 'required|mimes:jpeg,png,jpg,svg,gif',
             ]);
 
@@ -39,7 +38,6 @@ class ListingController extends Controller
                 $slide = new Slide();
                 $slide->user_email = Auth::user()->email;
                 $slide->title = $request->input('title');
-                $slide->description = $request->input('desc');
 
                 if ($request->hasFile('image')) {
                     $file = $request->file('image');
@@ -88,7 +86,7 @@ class ListingController extends Controller
             session()->flash('success', 'You just approved a slide post!');
         }
 
-        return redirect()->route('slidelisting');
+        return redirect()->back();
     }
 
     public function blockSlide($id)
@@ -98,7 +96,7 @@ class ListingController extends Controller
                 ->update(['is_approved' => 0]);
             session()->flash('success', 'You just blocked a slide post!');
         }
-        return redirect()->route('slidelisting');
+        return redirect()->back();
     }
 
     public function getSlideData($id)
@@ -115,7 +113,6 @@ class ListingController extends Controller
 
         $validateData = $request->validate([
             'title' => 'required|max:225',
-            'description' => 'required|max:65535',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
@@ -129,7 +126,6 @@ class ListingController extends Controller
                 Slide::where('id', $id)->update([
                     'title' => $request->input('title'),
                     'user_email' => Auth::user()->email,
-                    'description' => $request->input('description'),
                     'img_path' => $img_path,
                     'is_approved' => 1
 
@@ -141,7 +137,6 @@ class ListingController extends Controller
                 Slide::where('id', $id)->update([
                     'title' => $request->input('title'),
                     'user_email' => Auth::user()->email,
-                    'description' => $request->input('description'),
                     'is_approved' => 1
                 ]);
                 session()->flash('success', 'You have successfully update a post!');
@@ -170,28 +165,15 @@ class ListingController extends Controller
         if ($request->all()) {
             $validateData = $request->validate([
                 'title' => 'required|max:255',
-                'desc' => 'required|max:65535',
-                'image' => 'required|mimes:jpeg,png,jpg,svg,gif',
             ]);
 
             if ($validateData) {
                 $category = new Categories();
                 $category->user_email = Auth::user()->email;
                 $category->title = $request->input('title');
-                $category->description = $request->input('desc');
-
-                if ($request->hasFile('image')) {
-                    $file = $request->file('image');
-                    $extension = $file->getClientOriginalExtension();
-                    $filename = time() . '.' . $extension;
-                    $file->move('img/', $filename);
-                    $filepath = '/img/' . $filename;
-                    $category->img_path = $filepath;
-
-                    session()->flash('success', 'You have post a new category!');
-                }
 
                 $category->save();
+                session()->flash('success', 'You have post a new category!');
                 return redirect()->route('categorylisting');
             }
         } else {
@@ -209,7 +191,7 @@ class ListingController extends Controller
                 ]);
 
             session()->flash('success', 'You have approved a category!');
-            return redirect()->route('categorylisting');
+            return redirect()->back();
         }
     }
     public function blockCategory($id)
@@ -220,7 +202,7 @@ class ListingController extends Controller
                     'is_approved' => 0
                 ]);
             session()->flash('success', 'You have block a category!');
-            return redirect()->route('categorylisting');
+            return redirect()->back();
         }
     }
 
@@ -256,38 +238,19 @@ class ListingController extends Controller
 
         $validateData = $request->validate([
             'title' => 'required|max:255',
-            'description' =>  'required|max:65535',
-            'image' => 'mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         if ($validateData) {
-            if ($request->hasFile('image')) {
-                $file = $request->file('image');
-                $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
-                $img_path = '/img/' . $filename;
-                $file->move('/img', $filename);
-                Categories::where('id', $id)
-                    ->update([
-                        'title' => $request->input('title'),
-                        'description' => $request->input('description'),
-                        'user_email' => Auth::user()->email,
-                        'img_path' => $img_path,
-                        'is_approved' => 1
-                    ]);
-                session()->flash('success', 'You have updated a category!');
-                return redirect()->route('categorylisting');
-            } else {
-                Categories::where('id', $id)
-                    ->update([
-                        'title' => $request->input('title'),
-                        'description' => $request->input('description'),
-                        'user_email' => Auth::user()->email,
-                        'is_approved' => 1
-                    ]);
-                session()->flash('success', 'You have updated a category');
-                return redirect()->route('categorylisting');
-            }
+
+
+            Categories::where('id', $id)
+                ->update([
+                    'title' => $request->input('title'),
+                    'user_email' => Auth::user()->email,
+                    'is_approved' => 1
+                ]);
+            session()->flash('success', 'You have updated a category');
+            return redirect()->route('categorylisting');
         }
     }
 
@@ -535,7 +498,8 @@ class ListingController extends Controller
     }
 
 
-    public function pendingListing(){
+    public function pendingListing()
+    {
         $cates = Categories::where('is_approved', 1)->get();
         $slides = Slide::where('is_approved', 1)->get();
         $productItems = Products::with('reviews.users')->with(['reviews' => function ($query) {

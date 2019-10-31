@@ -17,7 +17,6 @@ class CreateSlidesTable extends Migration
             $table->bigIncrements('id');
             $table->string('user_email', 100);
             $table->string('title', 100);
-            $table->string('description', 800);
             $table->string('img_path', 20);
             $table->integer('is_approved')->default('1');
             $table->timestamps();
