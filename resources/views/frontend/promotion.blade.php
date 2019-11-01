@@ -13,8 +13,8 @@
 
     .card-img-top {
         /* height: 212.26px !important;
-        margin-right:-20px;
-        margin-left:-20px !important; */
+            margin-right:-20px;
+            margin-left:-20px !important; */
         width: 100% !important;
         height: 190px;
         object-fit: cover;
@@ -42,23 +42,35 @@
         object-fit: cover;
     }
 
+    .price-not {
+        color: #BDC3C7;
+    }
 
+    .price-after {
+        color: #1cbbb4;
+        font-weight: bold;
+        font-size: 1.5rem;
+        font-style: italic;
+    }
 
+    .time {
+        font-size: .8rem;
+        color: #D7DBDD;
+    }
 
 
     .pagination {
         margin-top: 20px;
     }
-
 </style>
+
 <div class="container">
     <div class="row">
         <div class="col pt-4">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item"><a href="category.html">Category</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Sub-category</li>
+                    <li class="breadcrumb-item active "><a href="{{route('home.index')}}">Home</a></li>
+
                 </ol>
             </nav>
         </div>
@@ -72,7 +84,8 @@
                 </div>
                 <ul class="list-group category_block">
                     @foreach($cates as $category)
-                    <li class="list-group-item"><a href="#">{{$category->title}}</a></li>
+                    <li class="list-group-item"><a
+                            href="{{route('show.product-cats', $category->id)}}">{{$category->title}}</a></li>
                     @endforeach
                 </ul>
             </div>
@@ -81,6 +94,7 @@
         <div class="col">
             <div class="row">
                 @foreach($productPro as $product)
+
                 <div class="col-12 col-md-5 col-lg-4">
                     <div class="card mb-3">
                         <a href="{{route('single-products.show', $product->id)}}" title="View Product">
@@ -90,19 +104,60 @@
                         <div class="card-body">
                             <h4 class="card-title"><a href="{{route('single-products.show', $product->id)}}"
                                     title="View Product">{{$product->name}}</a></h4>
-                            <p class="card-text">{{str_limit(strip_tags($product->description, 100))}}</p>
-                            <h4 class="font-weight-bold blue-text d-flex justify-content-center">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span>{{$product->avg}}</span>
+                                    @php
+                                    $rating = number_format($product->avg_rating);
+                                    @endphp
+                                    @if (!empty($product->avg_rating))
+                                    <span>
+                                        @for ($i = 0; $i < $rating; $i++) <span class="float-left"><i
+                                                class="text-warning fa fa-star"></i></span>
+                                    @endfor
+                                    @for ($i = 0; $i < 5- $rating; $i++) <span class="float-left"><i
+                                            class="text-warning far fa-star"></i></span>
+                                        @endfor
+                                        </span>
+                                        <br>
+                                        <span>
+                                            {{$product->avg_rating}} / 5 stars
+                                        </span>
+                                        @else
+                                        <span>No review yet</span>
+                                        @endif
 
-                                  </h4>
-                                  <div class="d-inline d-flex justify-content-center">
-                                    <a href="#" class="btn btn-success btn-sm d-inline ">Add to cart</a>
-                                    <div class="btn btn-danger btn-sm d-inline" style="font-size: 14px">{{$product->price}}$</div>
+                                        <br>
+                                        <span class="time">{{$product->updated_at->diffForHumans()}}</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="font-weight-bold blue-text float-right">
+                                        @if (!empty($product->discount))
+                                        <strike class="price-not">{{$product->price}}$</strike>
+                                        <br>
+                                        <span class="price-after">{{$product->priceAfterPro}}$</span>
+                                        @else
+                                        <br>
+                                        <span class="price-after">{{$product->price}}$</span>
+
+                                        @endif
+
                                     </div>
 
-                        </div>
+                                </div>
+                            </div>
 
+
+
+                        </div>
+                        <div class=" mx-2 my-1 d-inline d-flex justify-content-center">
+                            <a href="#" class="btn btn-success btn-block ">Add to cart</a>
+
+                        </div>
                     </div>
                 </div>
+
+
 
                 @endforeach
 
@@ -122,16 +177,51 @@
 
 <script>
     $(document).ready(function () {
-        var idI = $('.slide-list').attr('id');
-        var i = $('#' + idI).attr('data-slide-to');
-        var idM = $('.carousel-item').attr('id');
-        var j = $('#' + idM).attr('data-img');
-        if (i == '0' && j == '0') {
-            $('#' + idI).addClass('active');
-            $('#' + idM).addClass('active');
-        }
+            var idI = $('.slide-list').attr('id');
+            var i = $('#' + idI).attr('data-slide-to');
+            var idM = $('.carousel-item').attr('id');
+            var j = $('#' + idM).attr('data-img');
+            if (i == '0' && j == '0') {
+                $('#' + idI).addClass('active');
+                $('#' + idM).addClass('active');
+            }
 
-    })
+        })
 
 </script>
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+</script>
+
+<script type="text/javascript">
+    (function ($, interval, kitchen) {
+
+            var i = 0;
+            var handle = setInterval(function () {
+
+                $('#contentbody').css("background-image", "url('" + kitchen[i] + "')");
+
+                i++;
+
+                if (i >= kitchen.length) {
+                    i = 0;
+                }
+            }, interval);
+
+        })(jQuery, 10000, [
+            "{{asset('img/kitchen1.jpg')}}",
+            "{{asset('img/kitchen2.jpg')}}",
+            "{{asset('img/kitchen3.jpg')}}"
+        ]);
+
+</script>
+
+
 @endsection

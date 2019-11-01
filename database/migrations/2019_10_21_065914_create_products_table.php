@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('SKU');
             $table->integer('stock');
             $table->string('email');
+            $table->float('avg_rating')->nullable();
             $table->float('discount')->nullable();
             $table->string('startDatePro')->nullable();
             $table->string('stopDatePro')->nullable();
