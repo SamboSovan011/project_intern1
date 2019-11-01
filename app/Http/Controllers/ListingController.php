@@ -30,7 +30,7 @@ class ListingController extends Controller
     {
         if ($request->all()) {
             $validateData = $request->validate([
-                'title' => 'required|max:255',
+                'title' => 'required|unique:slide|max:255',
                 'image' => 'required|mimes:jpeg,png,jpg,svg,gif',
             ]);
 
@@ -164,7 +164,7 @@ class ListingController extends Controller
 
         if ($request->all()) {
             $validateData = $request->validate([
-                'title' => 'required|max:255',
+                'title' => 'required|unique:category|max:255',
             ]);
 
             if ($validateData) {
