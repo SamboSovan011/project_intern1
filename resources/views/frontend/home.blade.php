@@ -144,7 +144,7 @@
         </div>
         <div class="col">
             <div class="row">
-                @foreach($products as $product)
+                @forelse($products as $product)
 
                 <div class="col-12 col-md-5 col-lg-4">
                         <div class="card mb-3">
