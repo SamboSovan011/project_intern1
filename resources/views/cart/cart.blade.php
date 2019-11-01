@@ -3,6 +3,12 @@
 @section('title', 'Potted Pan - Selling Kitchen Utensils')
 @section('content')
 
+<style>
+footer {
+    position: relative !important;
+}
+
+</style>
 
 <div class="px-4 px-lg-0 pt-4">
 
@@ -74,13 +80,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Instructions for seller
+                    {{-- <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Instructions for seller
                     </div>
                     <div class="p-4">
                         <p class="font-italic mb-4">If you have some information for the seller you can leave them in
                             the box below</p>
                         <textarea name="" cols="30" rows="2" class="form-control"></textarea>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="col-lg-6">
                     <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>

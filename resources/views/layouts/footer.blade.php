@@ -9,11 +9,11 @@
     }
 </style>
 <!-- Footer -->
-<footer class="page-footer font-small blue bg-secondary">
+<footer class="page-footer font-small blue default-color-dark">
 
         <!-- Copyright -->
-    <div class="footer-copyright text-center py-3">© 2018 Copyright:
-        <a href="https://mdbootstrap.com/education/bootstrap/"> Pottedpant.com</a>
+    <div class="footer-copyright text-center py-3">© 2019 Copyright:
+    <a href="{{route('home.index')}}"> Pottedpant.com</a>
     </div>
         <!-- Copyright -->
 

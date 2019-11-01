@@ -71,14 +71,7 @@
         margin-top: 20px;
     }
 
-    footer {
-        background: #343a40;
-        padding: 40px;
-    }
 
-    footer a {
-        color: #f8f9fa !important
-    }
 
     .breadcrumb-item a {
         color: #1cbbb4;

@@ -33,7 +33,7 @@
     }
 
     .carousel-item {
-        height: 500px;
+        height: 45vh;
         padding: 0;
     }
 
@@ -156,7 +156,7 @@
                 </div>
 
                 @empty
-                <div class="col text-center pt-3">
+                <div class="col text-center pt-3" style="height:60vh">
                     <h3>Products: <strong>{{request()->query('search')}}</strong> not found!</h3>
                 </div>
                 @endforelse

@@ -103,6 +103,7 @@
         top: 2px;
         left: 2px;
     }
+
 </style>
 
 <!--Main layout-->
@@ -128,14 +129,14 @@
 
                     <div class="mb-3">
                         <a href="">
-                            <span class="badge purple mr-1">Category 2</span>
+                            <span class="badge purple mr-1">{{$product->categories->title}}</span>
                         </a>
-                        <a href="">
+                        {{-- <a href="">
                             <span class="badge blue mr-1">New</span>
-                        </a>
-                        <a href="">
+                        </a> --}}
+                        {{-- <a href="">
                             <span class="badge red mr-1">Bestseller</span>
-                        </a>
+                        </a> --}}
                     </div>
                     <p class="lead font-weight-bold">{{$product->name}}</p>
                     <p class="lead">
@@ -147,7 +148,10 @@
 
                     <p class="lead font-weight-bold">Description</p>
 
-                    <p>{{$product->description}}</p>
+                    <div class="pb-2">
+                        {!!$product->description!!}
+                    </div>
+
 
                     <form class="d-flex justify-content-left" action="{{route('shopping.add')}}" method="post">
                         @csrf
@@ -191,7 +195,7 @@
         </div>
         <!--Grid row-->
 
-        <!--Grid row-->
+        {{-- <!--Grid row-->
         <div class="row wow fadeIn">
 
             <!--Grid column-->
@@ -219,7 +223,7 @@
                     alt="">
 
             </div>
-            <!--Grid column-->
+            <!--Grid column--> --}}
 
         </div>
         <!--Grid row-->
