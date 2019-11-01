@@ -101,12 +101,18 @@
         <div class="col pt-4">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active "><a href="{{route('home.index')}}">Home</a></li>
+                    <li class="breadcrumb-item active d-flex align-items-center"><a href="{{route('home.index')}}">Home</a></li>
+                <form class=" col-md-3 md-form active-pink active-pink-2 mb-0 mt-0 ml-auto d-flex align-items-center" action="{{route('home.index')}}" method="get">
+                <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="search" value="{{request()->query('search')}}">
 
+                <button type="submit" style="all: unset;cursor: pointer;"><i class="fas fa-search" aria-hidden="true" ></i></button>
+                    </form>
                 </ol>
+
             </nav>
         </div>
     </div>
+
 </div>
 <div class="container">
     <div class="row">
@@ -119,12 +125,13 @@
                 <li class="list-group-item"><a href="{{route('show.product-cats', $category->id)}}">{{$category->title}}</a></li>
                     @endforeach
                 </ul>
+
             </div>
 
         </div>
         <div class="col">
             <div class="row">
-                @foreach($products as $product)
+                @forelse($products as $product)
                 <div class="col-12 col-md-5 col-lg-4">
                     <div class="card mb-3">
                         <a href="{{route('single-products.show', $product->id)}}" title="View Product">
@@ -148,7 +155,11 @@
                     </div>
                 </div>
 
-                @endforeach
+                @empty
+                <div class="col text-center pt-3">
+                    <h3>Products: <strong>{{request()->query('search')}}</strong> not found!</h3>
+                </div>
+                @endforelse
 
                 <div class="col-12 d-flex justify-content-end">
 

@@ -29,9 +29,19 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+        $search = request()->query('search');
+
         $slides = Slide::where('is_approved', 2)->get();
         $cates = Categories::where('is_approved', 2)->get();
-        $products = Products::where('is_approved', 2)->paginate(9);
+        if($search){
+            $products = Products::where('name','LIKE',"%{$search}%")
+                                ->orWhere('SKU','LIKE',"%{$search}%")
+                                ->where('is_approved', 2)->paginate(9);
+        }else{
+            $products = Products::where('is_approved', 2)->paginate(9);
+        }
+
         return view('frontend.home', compact('cates', 'slides', 'products'));
     }
 
