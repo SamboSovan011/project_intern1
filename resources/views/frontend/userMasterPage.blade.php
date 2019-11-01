@@ -106,7 +106,7 @@
                     <li class="list-group-item {{ (request()->routeIs('userprofile')) ? 'bg-active' : '' }}"><a
                             href="userprofile">User Profile</a></li>
                     <li class="list-group-item"><a href="category.html">Wish List</a></li>
-                    <li class="list-group-item"><a href="category.html">Cart</a></li>
+                    <li class="list-group-item"><a href="{{route('shopping.index')}}">Cart</a></li>
                     <li class="list-group-item {{ (request()->routeIs('myreviews')) ? 'bg-active' : '' }}"><a
                             href="{{route('myreviews')}}">My Reviews</a></li>
                 </ul>

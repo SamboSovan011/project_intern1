@@ -42,6 +42,8 @@ class HomeController extends Controller
             $products = Products::where('is_approved', 2)->paginate(9);
         }
 
+        $products = Products::where('is_approved', 2)->orderByDesc('updated_at')->where('startDatePro', '<=', date('m/d/Y'))->orWhere('startDatePro', null)->paginate(9);
+        // dd($products);
         return view('frontend.home', compact('cates', 'slides', 'products'));
     }
 

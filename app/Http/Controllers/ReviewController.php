@@ -14,6 +14,7 @@ class ReviewController extends Controller
 {
     public function store(Request $request)
     {
+        $product = $request->input('product_id');
         $review = new Review();
         $review->product_id = $request->input('product_id');
         $review->user_id = Auth::user()->id;
@@ -21,6 +22,25 @@ class ReviewController extends Controller
         $review->rating = $request->input('rating');
 
         $review->save();
+        // $stars = Review::where('product_id', $product)->where('is_approved', 2)->pluck('rating')->toArray();
+        // $totalStarRate = array_sum($stars);
+        // $ratingsCount = count($stars);
+        // // dd($totalStarRate);
+        // // dd($ratings);
+        // if ($ratingsCount > 0) {
+        //     $avgRating = $totalStarRate / $ratingsCount;
+        //     Products::where('id', $product)
+        //         ->update([
+        //             'avg_rating' => $avgRating,
+        //         ]);
+        // } else {
+        //     Products::where('id', $product)
+        //         ->update([
+        //             'avg_rating' => 0,
+        //         ]);
+        // }
+
+
 
         return redirect()->back();
     }
@@ -84,6 +104,26 @@ class ReviewController extends Controller
             Review::where('id', $id)->update([
                 'is_approved' => 2
             ]);
+
+            $product = Review::where('id', $id)->first();
+            $pro_id = $product->product_id;
+            $stars = Review::where('product_id', $pro_id)->where('is_approved', 2)->pluck('rating')->toArray();
+
+            // dd($stars);
+            $totalStarRate = array_sum($stars);
+            $ratingsCount = count($stars);
+            // dd($totalStarRate);
+            // dd($ratings);
+            if ($ratingsCount > 0) {
+                $avgRating = $totalStarRate / $ratingsCount;
+                DB::table('products')
+                    ->join('reviews', 'reviews.product_id', 'products.id')
+                    ->update(['products.avg_rating' => $avgRating]);
+            } else {
+                DB::table('products')
+                    ->join('reviews', 'reviews.product_id', 'products.id')
+                    ->update(['products.avg_rating' => 0]);
+            }
 
 
 
@@ -155,6 +195,25 @@ class ReviewController extends Controller
                 'is_approved' => 0
             ]);
 
+            $product = Review::where('id', $id)->first();
+            $pro_id = $product->product_id;
+            $stars = Review::where('product_id', $pro_id)->where('is_approved', 2)->pluck('rating')->toArray();
+
+            // dd($stars);
+            $totalStarRate = array_sum($stars);
+            $ratingsCount = count($stars);
+            // dd($totalStarRate);
+            // dd($ratings);
+            if ($ratingsCount > 0) {
+                $avgRating = $totalStarRate / $ratingsCount;
+                DB::table('products')
+                    ->join('reviews', 'reviews.product_id', 'products.id')
+                    ->update(['products.avg_rating' => $avgRating]);
+            } else {
+                DB::table('products')
+                    ->join('reviews', 'reviews.product_id', 'products.id')
+                    ->update(['products.avg_rating' => 0]);
+            }
 
 
             session()->flash('success', 'You have blocked a review!');
@@ -221,6 +280,25 @@ class ReviewController extends Controller
             });
 
             $review->forceDelete();
+            $product = Review::where('id', $id)->first();
+            $pro_id = $product->product_id;
+            $stars = Review::where('product_id', $pro_id)->where('is_approved', 2)->pluck('rating')->toArray();
+
+            // dd($stars);
+            $totalStarRate = array_sum($stars);
+            $ratingsCount = count($stars);
+            // dd($totalStarRate);
+            // dd($ratings);
+            if ($ratingsCount > 0) {
+                $avgRating = $totalStarRate / $ratingsCount;
+                DB::table('products')
+                    ->join('reviews', 'reviews.product_id', 'products.id')
+                    ->update(['products.avg_rating' => $avgRating]);
+            } else {
+                DB::table('products')
+                    ->join('reviews', 'reviews.product_id', 'products.id')
+                    ->update(['products.avg_rating' => 0]);
+            }
 
 
 
@@ -232,7 +310,6 @@ class ReviewController extends Controller
             session()->flash('success', 'You have delete a review!');
             return redirect()->back();
         };
-
     }
 
     public function restoreReview($id)
@@ -240,9 +317,29 @@ class ReviewController extends Controller
         $review = Review::withTrashed()->where('id', $id)->firstOrFail();
         $review->restore();
 
+        $product = Review::where('id', $id)->first();
+        $pro_id = $product->product_id;
+        $stars = Review::where('product_id', $pro_id)->where('is_approved', 2)->pluck('rating')->toArray();
+
+        // dd($stars);
+        $totalStarRate = array_sum($stars);
+        $ratingsCount = count($stars);
+        // dd($totalStarRate);
+        // dd($ratings);
+        if ($ratingsCount > 0) {
+            $avgRating = $totalStarRate / $ratingsCount;
+            DB::table('products')
+                ->join('reviews', 'reviews.product_id', 'products.id')
+                ->update(['products.avg_rating' => $avgRating]);
+        } else {
+            DB::table('products')
+                ->join('reviews', 'reviews.product_id', 'products.id')
+                ->update(['products.avg_rating' => 0]);
+        }
+
+
         session()->flash('success', 'You have restore a category!');
 
         return redirect()->back();
     }
-
 }

@@ -42,6 +42,9 @@
         border: none;
         text-decoration: none;
     }
+    .btn{
+        padding: 0.6rem 2.14rem;
+    }
 
     .rating {
         float: left;
@@ -54,6 +57,9 @@
         position: absolute;
         clip: rect(0, 0, 0, 0);
     }
+    .modal-footer{
+        border: none;
+    }
 
     .rating:not(:checked)>label {
         float: right;
@@ -62,7 +68,7 @@
         overflow: hidden;
         white-space: nowrap;
         cursor: pointer;
-        font-size: 300%;
+        font-size: 200%;
         /* line-height:1.2; */
         color: #ddd;
     }
@@ -126,11 +132,11 @@
 
                 <div class="float-right">
                     @if ($review->is_approved == 2)
-                    <span class="badge badge-success">Approved</span>
+                    <span class="badge badge-success float-right">Approved</span>
                     @elseif($review->is_approved == 1)
-                    <span class="badge badge-warning">Pending</span>
+                    <span class="badge badge-warning float-right">Pending</span>
                     @else
-                    <span class="badge badge-danger">Block</span>
+                    <span class="badge badge-danger float-right">Block</span>
                     @endif
                     <br><br>
                     @php
@@ -145,7 +151,7 @@
                         @endfor
                         </span>
                         <br>
-                        <span>
+                        <span class="float-right">
                             {{$review->rating}} / 5 stars
                         </span>
                         <br>
