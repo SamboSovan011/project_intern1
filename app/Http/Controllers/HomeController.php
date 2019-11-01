@@ -195,11 +195,15 @@ class HomeController extends Controller
     public function promotionProduct()
     {
         $products = Products::whereNotNull('discount')->where('is_approved', 2)->get();
+        $currentDate = Carbon::now()->timestamp;
+
+        // dd($products->startDatePro <= date('m/d/Y'));
         foreach ($products as $product) {
             // dd($product->id);
             $this->checkPromotion($product->id);
         }
-        $productPro = Products::whereNotNull('discount')->where('is_approved', 2)->paginate(9);
+        $productPro = Products::whereNotNull('discount')->where('is_approved', 2)->where('startDatePro', '<=', date('m/d/Y'))->paginate(9);
+
         $cates = Categories::where('is_approved', 2)->get();
 
 
