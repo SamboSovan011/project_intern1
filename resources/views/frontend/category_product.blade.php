@@ -52,56 +52,16 @@
     }
 
 </style>
-<section id="slide">
-    <div id="CarouselContent" class="carousel slide" data-ride="carousel">
-        @php
-        $i = 0;
-        $j = 0;
-        @endphp
 
-        <ol class="carousel-indicators">
-            @foreach ($slides as $slide)
-            <li id="{{$slide->id}}0" data-target="#CarouselContent" data-slide-to="{{$i}}" class="slide-list"></li>
-            @php
-            $i = $i+1
-            @endphp
-            @endforeach
-        </ol>
-
-        <div class="carousel-inner" role="listbox">
-            @foreach ($slides as $slide)
-            <div id="{{$slide->id}}" class="carousel-item" data-img="{{$j}}">
-                <img class="d-block img-fluid" src="{{$slide->img_path}}" alt="banner image">
-                {{-- <div class="carousel-caption d-none d-md-block">
-                    <h5>{{$slide->title}}</h5>
-                    <p>{{$slide->description}}</p>
-                </div> --}}
-            </div>
-            @php
-            $j = $j+1
-            @endphp
-
-            @endforeach
-        </div>
-        <div class="carousel-control-prev" href="#CarouselContent" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-            <span class="sr-only">Previous</span>
-        </div>
-        <div class="carousel-control-next" href="#CarouselContent" role="button" data-slide="next">
-            <span class="carousel-control-next-icon"></span>
-            <span class="sr-only">Next</span>
-        </div>
-
-
-    </div>
-</section>
 
 <div class="container">
     <div class="row">
         <div class="col pt-4">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active "><a href="{{route('home.index')}}">Home</a></li>
+
+                    <li class="breadcrumb-item "><a href="{{route('home.index')}}">Home</a></li>
+                    <li class="breadcrumb-item  "><a>{{$category->title}}</a></li>
 
                 </ol>
             </nav>
@@ -116,7 +76,8 @@
                 </div>
                 <ul class="list-group category_block">
                     @foreach($cates as $category)
-                <li class="list-group-item"><a href="{{route('show.product-cats', $category->id)}}">{{$category->title}}</a></li>
+                    <li class="list-group-item"><a
+                            href="{{route('show.product-cats', $category->id)}}">{{$category->title}}</a></li>
                     @endforeach
                 </ul>
             </div>
@@ -137,11 +98,11 @@
                             <p class="card-text">{{str_limit(strip_tags($product->description, 100))}}</p>
                             <h4 class="font-weight-bold blue-text d-flex justify-content-end">
                                 {{$product->price}}$
-                                  </h4>
-                                  <div class="d-inline d-flex justify-content-center">
-                                    <a href="#" class="btn btn-success btn-block ">Add to cart</a>
+                            </h4>
+                            <div class="d-inline d-flex justify-content-center">
+                                <a href="#" class="btn btn-success btn-block ">Add to cart</a>
 
-                                    </div>
+                            </div>
 
                         </div>
 

@@ -205,4 +205,11 @@ class HomeController extends Controller
 
         return view('frontend.promotion', compact('productPro', 'cates'));
     }
+
+    public function show_product_cats($id){
+        $product = Categories::find($id)->products()->where('is_approved', 2)->paginate(9);
+        $category = Categories::findOrFail($id);
+        $cates = Categories::where('is_approved', 2)->get();
+        return view ('frontend.category_product')->with('products', $product)->with('cates', $cates)->with('category', $category);
+    }
 }
