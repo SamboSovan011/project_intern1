@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Products;
 use App\Review;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -157,5 +158,51 @@ class HomeController extends Controller
                 return redirect()->back();
             }
         }
+    }
+
+    //Promotion
+
+    public function checkPromotion($id)
+    {
+        $product = Products::where('id', $id)->first();
+        $startDate = $product->startDatePro;
+
+        $createdAt = Carbon::parse($startDate);
+        $startProDate = $createdAt->format('Y-m-d');
+        $startPromoDate = Carbon::parse($startProDate);
+        // dd($endPromoDate);
+        $endDate = $product->stopDatePro;
+        $endAt = Carbon::parse($endDate);
+        $endProDate = $endAt->format('Y-m-d');
+        $endPromoDate = Carbon::parse($endProDate);
+        // dd($endPromoDate);
+        $currentDate = Carbon::now();
+
+
+        if ($currentDate->greaterThanOrEqualTo($startPromoDate)) {
+            if ($currentDate->greaterThan($endPromoDate)) {
+                return Products::where('id', $id)
+                    ->update([
+                        'discount' => null,
+                        'startDatePro' => null,
+                        'stopDatePro' => null,
+                        'priceAfterPro' => null
+                    ]);
+            }
+        }
+    }
+
+    public function promotionProduct()
+    {
+        $products = Products::whereNotNull('discount')->where('is_approved', 2)->get();
+        foreach ($products as $product) {
+            // dd($product->id);
+            $this->checkPromotion($product->id);
+        }
+        $productPro = Products::whereNotNull('discount')->where('is_approved', 2)->paginate(9);
+        $cates = Categories::where('is_approved', 2)->get();
+
+
+        return view('frontend.promotion', compact('productPro', 'cates'));
     }
 }
