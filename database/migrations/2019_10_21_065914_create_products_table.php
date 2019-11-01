@@ -23,8 +23,9 @@ class CreateProductsTable extends Migration
             $table->integer('stock');
             $table->string('email');
             $table->float('discount')->nullable();
-            $table->string('startDatePro');
-            $table->string('stopDatePro');
+            $table->string('startDatePro')->nullable();
+            $table->string('stopDatePro')->nullable();
+            $table->float('priceAfterPro')->nullable();
             $table->integer('categories_id');
             $table->integer('is_approved')->default(1);
             $table->timestamps();

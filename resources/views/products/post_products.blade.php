@@ -110,7 +110,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input name="start-date" type="text" class="form-control pull-right" id="startdate">
+                                <input name="startDate" type="text" class="form-control pull-right" id="startdate">
 
                             </div>
                             <span class="text-red" id="startErrorM" hidden>Start Date can't be later than end
@@ -125,7 +125,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input name="end-date" type="text" class="form-control pull-right" id="enddate">
+                                <input name="endDate" type="text" class="form-control pull-right" id="enddate">
 
                             </div>
                             <span class="text-red" id="endErrorM" hidden>End Date can't be earlier than start

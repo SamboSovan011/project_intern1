@@ -9,7 +9,7 @@ class Products extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'name', 'description', 'image', 'stock', 'email', 'SKU', 'price', 'categories_id', 'is_approved', 'discount', 'startDatePro', 'stopDatePro'
+        'name', 'description', 'image', 'stock', 'email', 'SKU', 'price', 'categories_id', 'is_approved', 'discount', 'startDatePro', 'stopDatePro', 'priceAfterPro'
     ];
 
     protected $dates = ['deleted_at'];

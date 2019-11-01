@@ -10,6 +10,7 @@ use Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Products\UpdateRequest;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 class ProductsController extends Controller
 {
     /**
@@ -41,24 +42,53 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
+
     public function store(CreateProductsRequest $request)
     {
         $image = $request->image->store('Products');
 
-        Products::create([
-            'name' => $request->name,
-            'description' =>$request->description,
-            'stock' =>$request->stock,
-            'SKU' =>$request->SKU,
-            'price' =>$request->price,
-            'image' =>$image,
-            'email'=>Auth::user()->email,
-            'categories_id'=>$request->category,
-        ]);
 
-        session()->flash('success', 'You have post a new product!');
+        if(! empty($request->discount)){
+            $currPrice = $request->price;
+            $disc = $request->discount;
+            $priceDisc = ($currPrice * $disc) / 100;
+            $priceAfter = $currPrice - $priceDisc;
+            Products::create([
+                'name' => $request->name,
+                'description' =>$request->description,
+                'stock' =>$request->stock,
+                'SKU' =>$request->SKU,
+                'price' =>$request->price,
+                'image' =>$image,
+                'email'=>Auth::user()->email,
+                'categories_id'=>$request->category,
+                'discount' => $request->discount,
+                'startDatePro' => $request->startDate,
+                'stopDatePro' => $request->endDate,
+                'priceAfterPro' => $priceAfter,
+            ]);
+            session()->flash('success', 'You have post a new product!');
 
-        return redirect()->route('products.index');
+            return redirect()->route('products.index');
+        }else{
+            Products::create([
+                'name' => $request->name,
+                'description' =>$request->description,
+                'stock' =>$request->stock,
+                'SKU' =>$request->SKU,
+                'price' =>$request->price,
+                'image' =>$image,
+                'email'=>Auth::user()->email,
+                'categories_id'=>$request->category,
+            ]);
+            session()->flash('success', 'You have post a new product!');
+
+            return redirect()->route('products.index');
+        }
+
+
     }
 
     /**
