@@ -35,7 +35,6 @@
     /* .nav-item a{
         color: red !important;
     } */
-
 </style>
 <header>
     <nav class="navbar navbar-expand-md navbar-light">
@@ -56,7 +55,7 @@
                         <a href="" class="nav-link">New Arrivals</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">Promotion</a>
+                        <a href="{{route('promotionProducts')}}" class="nav-link">Promotion</a>
                     </li>
                     <li class="nav-item">
                         <a href="" class="nav-link">Service</a>
@@ -68,8 +67,8 @@
                         <a href="" class="nav-link"><i class="fas fa-search"></i></a>
                     </li>
                     <li class="nav-item">
-                    <a href="{{route('shopping.index')}}" class="nav-link"><i class="fa fa-shopping-cart"></i> Cart <span
-                                class="badge">{{Cart::instance('shopping')->content()->count()}}</span></a>
+                        <a href="{{route('shopping.index')}}" class="nav-link"><i class="fa fa-shopping-cart"></i> Cart
+                            <span class="badge">{{Cart::instance('shopping')->content()->count()}}</span></a>
                     </li>
                     @if(Auth::user())
                     <li class="dropdown nav-item {{request()->routeIs('login') ? 'active' : ''}}">
