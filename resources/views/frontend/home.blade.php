@@ -54,7 +54,7 @@
         font-style: italic;
     }
 
-    .time{
+    .time {
         font-size: .8rem;
         color: #D7DBDD;
     }
@@ -113,11 +113,16 @@
         <div class="col pt-4">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active d-flex align-items-center"><a href="{{route('home.index')}}">Home</a></li>
-                <form class=" col-md-3 md-form active-pink active-pink-2 mb-0 mt-0 ml-auto d-flex align-items-center" action="{{route('home.index')}}" method="get">
-                <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="search" value="{{request()->query('search')}}">
+                    <li class="breadcrumb-item active d-flex align-items-center"><a
+                            href="{{route('home.index')}}">Home</a></li>
+                    <form
+                        class=" col-md-3 md-form active-pink active-pink-2 mb-0 mt-0 ml-auto d-flex align-items-center"
+                        action="{{route('home.index')}}" method="get">
+                        <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="search"
+                            value="{{request()->query('search')}}">
 
-                <button type="submit" style="all: unset;cursor: pointer;"><i class="fas fa-search" aria-hidden="true" ></i></button>
+                        <button type="submit" style="all: unset;cursor: pointer;"><i class="fas fa-search"
+                                aria-hidden="true"></i></button>
                     </form>
                 </ol>
 
@@ -147,66 +152,79 @@
                 @forelse($products as $product)
 
                 <div class="col-12 col-md-5 col-lg-4">
-                        <div class="card mb-3">
-                            <a href="{{route('single-products.show', $product->id)}}" title="View Product">
-                                <img class="card-img-top" src="{{asset('storage/'. $product->image)}}" alt="Card image cap">
-                            </a>
+                    <div class="card mb-3">
+                        <a href="{{route('single-products.show', $product->id)}}" title="View Product">
+                            <img class="card-img-top" src="{{asset('storage/'. $product->image)}}" alt="Card image cap">
+                        </a>
 
-                            <div class="card-body">
-                                <h4 class="card-title"><a href="{{route('single-products.show', $product->id)}}"
-                                        title="View Product">{{$product->name}}</a></h4>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                    <span>{{$product->avg}}</span>
-                                    @php
-                                        $rating = number_format($product->avg_rating);
-                                    @endphp
-                                    @if (!empty($product->avg_rating))
-                                    <span>
-                                            @for ($i = 0; $i < $rating; $i++) <span class="float-left"><i
-                                                    class="text-warning fa fa-star"></i></span>
-                                            @endfor
-                                            @for ($i = 0; $i < 5- $rating; $i++) <span class="float-left"><i
-                                                class="text-warning far fa-star"></i></span>
-                                            @endfor
-                                        </span>
-                                        <br>
-                                        <span>
-                                                {{$product->avg_rating}} / 5 stars
-                                            </span>
-                                    @else
-                                        <span>No review yet</span>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="card-title"><a href="{{route('single-products.show', $product->id)}}"
+                                            title="View Product">{{$product->name}}</a></h4>
+                                </div>
+                                <div class="col-md-6">
+                                    @if (!empty($product->discount))
+                                    <span class="float-right badge purple mr-1">Promotion</span>
                                     @endif
-
-                                            <br>
-                                        <span class="time">{{$product->updated_at->diffForHumans()}}</span>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="font-weight-bold blue-text float-right">
-                                            @if (!empty($product->discount))
-                                            <strike class="price-not">{{$product->price}}$</strike>
-                                            <br>
-                                            <span class="price-after">{{$product->priceAfterPro}}$</span>
-                                            @else
-                                            <br>
-                                            <span class="price-after">{{$product->price}}$</span>
-
-                                            @endif
-
-                                        </div>
-
-                                    </div>
                                 </div>
 
 
-
                             </div>
-                            <div class=" mx-2 my-1 d-inline d-flex justify-content-center">
-                                <a href="#" class="btn btn-success btn-block ">Add to cart</a>
 
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span>{{$product->avg}}</span>
+                                    @php
+                                    $rating = number_format($product->avg_rating);
+                                    @endphp
+                                    @if (!empty($product->avg_rating))
+                                    <span>
+                                        @for ($i = 0; $i < $rating; $i++) <span class="float-left"><i
+                                                class="text-warning fa fa-star"></i></span>
+                                    @endfor
+                                    @for ($i = 0; $i < 5- $rating; $i++) <span class="float-left"><i
+                                            class="text-warning far fa-star"></i></span>
+                                        @endfor
+                                        </span>
+                                        <br>
+                                        <span>
+                                            {{$product->avg_rating}} / 5 stars
+                                        </span>
+                                        @else
+                                        <span>No review yet</span>
+                                        @endif
+
+                                        <br>
+                                        <span class="time">{{$product->updated_at->diffForHumans()}}</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="font-weight-bold blue-text float-right">
+                                        @if (!empty($product->discount))
+                                        <strike class="price-not">{{$product->price}}$</strike>
+                                        <br>
+                                        <span class="price-after">{{$product->priceAfterPro}}$</span>
+                                        @else
+                                        <br>
+                                        <span class="price-after">{{$product->price}}$</span>
+
+                                        @endif
+
+                                    </div>
+
+                                </div>
                             </div>
+
+
+
+                        </div>
+                        <div class=" mx-2 my-1 d-inline d-flex justify-content-center">
+                            <a href="#" class="btn btn-success btn-block ">Add to cart</a>
+
                         </div>
                     </div>
+                </div>
 
 
 

@@ -13,11 +13,12 @@ class ShoppingCartController extends Controller
         $cart = Cart::add([
             'id' => $products->id,
             'name' =>$products->name,
-            'price' =>$products->price,
+            'price' =>$products->priceAfterPro,
             'qty' =>request()->qty,
             'weight' => 0,
 
         ]);
+
 
         Cart::associate($cart->rowId, 'App\Products');
         return redirect()->route('shopping.index');

@@ -10,10 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Route User
+
 
 use Illuminate\Support\Facades\Route;
-
+//Guest
 Route::get('/', 'HomeController@index')->name('home.index');
 Route::post('/signup', ['as' => 'SignUp', 'uses' => 'HomeController@SignUp']);
 Route::get('/product/{product}', 'HomeController@show')->name('single-products.show');
@@ -21,9 +21,11 @@ Route::get('/promotion', ['as' => 'promotionProducts', 'uses' => 'HomeController
 Route::get('/checkEmail', ['as' => 'checkEmail', 'uses' => 'checkEmailController@checkEmailAvailable']);
 //Show product by category
 Route::get('/category/products/{id}', 'HomeController@show_product_cats')->name('show.product-cats');
+Route::get('/category/products/pro/{id}', 'HomeController@show_product_cats_pro')->name('show.product-cats-pro');
 // Route::post('/login', ['as' => 'Login', 'uses' => 'HomeController@Login']);
 Auth::routes(['verify' => true]);
 Route::get('/logout', 'Auth\LoginController@logout');
+// Route User
 // View Profile
 Route::group(['middleware' => ['auth', 'verified']], function () {
     // Route::post('/login', 'Auth\LoginController@login');
@@ -49,6 +51,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/cart/add', 'ShoppingCartController@addToCart')->name('shopping.add');
     Route::get('/cart', 'ShoppingCartController@index')->name('shopping.index');
     Route::get('/cart/delete/{id}', 'ShoppingCartController@delete')->name('shopping.delete');
+
+    //Route Checkout
+    Route::get('/checkout', ['as' => 'checkout', 'uses' => 'CheckoutController@checkout']);
 });
 
 

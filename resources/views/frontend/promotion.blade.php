@@ -69,8 +69,16 @@
         <div class="col pt-4">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active "><a href="{{route('home.index')}}">Home</a></li>
+                    <li class="breadcrumb-item active "><a href="{{route('promotionProducts')}}">Promotion</a></li>
+                    <form
+                        class=" col-md-3 md-form active-pink active-pink-2 mb-0 mt-0 ml-auto d-flex align-items-center"
+                        action="{{route('home.index')}}" method="get">
+                        <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="search"
+                            value="{{request()->query('search')}}">
 
+                        <button type="submit" style="all: unset;cursor: pointer;"><i class="fas fa-search"
+                                aria-hidden="true"></i></button>
+                    </form>
                 </ol>
             </nav>
         </div>
@@ -85,7 +93,7 @@
                 <ul class="list-group category_block">
                     @foreach($cates as $category)
                     <li class="list-group-item"><a
-                            href="{{route('show.product-cats', $category->id)}}">{{$category->title}}</a></li>
+                            href="{{route('show.product-cats-pro', $category->id)}}">{{$category->title}}</a></li>
                     @endforeach
                 </ul>
             </div>
@@ -102,8 +110,19 @@
                         </a>
 
                         <div class="card-body">
-                            <h4 class="card-title"><a href="{{route('single-products.show', $product->id)}}"
-                                    title="View Product">{{$product->name}}</a></h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="card-title"><a href="{{route('single-products.show', $product->id)}}"
+                                            title="View Product">{{$product->name}}</a></h4>
+                                </div>
+                                <div class="col-md-6">
+                                    @if (!empty($product->discount))
+                                    <span class="float-right badge purple mr-1">Promotion</span>
+                                    @endif
+                                </div>
+
+
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <span>{{$product->avg}}</span>

@@ -228,4 +228,11 @@ class HomeController extends Controller
         $cates = Categories::where('is_approved', 2)->get();
         return view ('frontend.category_product')->with('products', $product)->with('cates', $cates)->with('category', $category);
     }
+
+    public function show_product_cats_pro($id){
+        $product = Categories::find($id)->products()->where('is_approved', 2)->where('startDatePro', '<=', date('m/d/Y'))->paginate(9);
+        $category = Categories::findOrFail($id);
+        $cates = Categories::where('is_approved', 2)->get();
+        return view ('frontend.category_product_pro')->with('products', $product)->with('cates', $cates)->with('category', $category);
+    }
 }

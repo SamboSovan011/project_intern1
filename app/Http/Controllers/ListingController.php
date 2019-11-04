@@ -8,6 +8,7 @@ use App\Categories;
 use App\User;
 use App\Products;
 use App\Review;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -209,7 +210,12 @@ class ListingController extends Controller
     public function deleteCategory($id)
     {
         $cate = Categories::withTrashed()->where('id', $id)->firstOrFail();
+        $products = Products::withTrashed()
+                    ->join('category', 'category.id', 'products.categories_id')
+                    ->where('products.categories_id', $id)
+                    ->get();
 
+        // dd($products);
         if ($cate->trashed()) {
             $cate->forceDelete();
 
@@ -219,6 +225,10 @@ class ListingController extends Controller
             return redirect(route('trash'));
         } else {
             $cate->delete();
+            foreach($products as $product){
+                $product->delete();
+            }
+
             session()->flash('success', 'You have delete a category!');
 
             return redirect(route('categorylisting'));

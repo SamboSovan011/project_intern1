@@ -4,10 +4,9 @@
 @section('content')
 
 <style>
-footer {
-    position: relative !important;
-}
-
+    footer {
+        position: relative !important;
+    }
 </style>
 
 <div class="px-4 px-lg-0 pt-4">
@@ -52,7 +51,16 @@ footer {
                                             </div>
                                         </div>
                                     </th>
+                                    @if (!empty($product->priceAfterPro))
+                                    <td class="border-0 align-middle">
+                                        ${{$product->price}}&nbsp;
+                                        <strong>${{$product->priceAfterPro}}</strong>
+                                    </td>
+
+                                    @else
                                     <td class="border-0 align-middle"><strong>${{$product->price}}</strong></td>
+                                    @endif
+                                    {{-- <td class="border-0 align-middle"><strong>${{$product->price}}</strong></td> --}}
                                     <td class="border-0 align-middle"><strong>{{$product->qty}}</strong></td>
                                     <td class="border-0 align-middle"><a
                                             href="{{route('shopping.delete' ,['id' =>$product->rowId] )}}"
@@ -105,7 +113,8 @@ footer {
                                     class="text-muted">Total</strong>
                                 <h5 class="font-weight-bold">${{Cart::total()}}</h5>
                             </li>
-                        </ul><a href="#" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to checkout</a>
+                        </ul><a href="{{route('checkout')}}" class="btn btn-dark rounded-pill py-2 btn-block">Procceed
+                            to checkout</a>
                     </div>
                 </div>
             </div>

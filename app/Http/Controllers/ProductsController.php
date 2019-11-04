@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Products;
 use App\Categories;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Products\CreateProductsRequest;
 use Auth;
 use Illuminate\Support\Facades\Storage;
@@ -82,6 +83,7 @@ class ProductsController extends Controller
                 'image' =>$image,
                 'email'=>Auth::user()->email,
                 'categories_id'=>$request->category,
+                'priceAfterPro' => $request->price,
             ]);
             session()->flash('success', 'You have post a new product!');
 
@@ -175,6 +177,11 @@ class ProductsController extends Controller
 
     public function restore($id){
         $product = Products::withTrashed()->where('id',$id)->firstOrFail();
+        $cate = Categories::withTrashed()
+                ->join('products', 'products.categories_id', 'category.id')
+                ->where('products.id', $id)
+                ->first();
+        $cate->restore();
         $product->restore();
 
         session()->flash('success', 'You have restore a product!');
