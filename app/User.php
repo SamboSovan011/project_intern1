@@ -51,7 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new VerifyEmail); // my notification
     }
 
-    public function reviews(){
-        return $this->hasMany(Review::class, 'user_id', 'id');
+    public function products(){
+        return $this->belongsToMany(Products::class)->withTimestamps();
     }
 }

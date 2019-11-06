@@ -78,62 +78,72 @@
                 <div class="card">
 
                     <!--Card content-->
-                <form class="card-body" action="{{route('checkout.store')}}" method="post" id="payment-form">
+                    <form class="card-body" action="{{route('checkout.store')}}" method="post" id="payment-form">
                         @csrf
-                        <!--Grid row-->
-                        <div class="row">
-
-                            <!--Grid column-->
-                            <div class="col-md-6 mb-2">
-
-                                <!--firstName-->
-                                <div class="md-form ">
-                                    <input type="text" id="firstName" class="form-control">
-                                    <label for="firstName" class="">First name</label>
-                                </div>
-
+                        <section>
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
-                            <!--Grid column-->
+                            @endif
+                        </section>
 
-                            <!--Grid column-->
-                            <div class="col-md-6 mb-2">
-
-                                <!--lastName-->
-                                <div class="md-form">
-                                    <input type="text" id="lastName" class="form-control">
-                                    <label for="lastName" class="">Last name</label>
-                                </div>
-
-                            </div>
-                            <!--Grid column-->
-
+                        <!--Username-->
+                        <div class="md-form input-group pl-0 mb-5">
+                            {{-- <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">@</span>
+                            </div> --}}
+                            <input name="fullname" type="text" class="form-control py-0" placeholder="Full Name"
+                                aria-describedby="basic-addon1"
+                                value="{{Auth::user()->lname}}&nbsp;{{Auth::user()->fname}}">
                         </div>
-                        <!--Grid row-->
+
+                        <!--email1-->
+                        <div class="md-form mb-5">
+                            <input name="email1" type="text" id="email" class="form-control"
+                                value="{{Auth::user()->email}}">
+                            <label for="email" class="">Email 1</label>
+                        </div>
+
+                        <!--email2-->
+                        <div class="md-form mb-5">
+                            <input name="email2" type="text" id="email" class="form-control"
+                                placeholder="youremail@example.com" value="">
+                            <label for="email" class="">Email 2 (optional)</label>
+                        </div>
 
                         <!--Username-->
                         <div class="md-form input-group pl-0 mb-5">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">@</span>
+                                <span class="input-group-text" id="basic-addon1">(+855)</span>
                             </div>
-                            <input type="text" class="form-control py-0" placeholder="Username"
-                                aria-describedby="basic-addon1">
+                            <input name="phone1" type="text" class="form-control py-0" aria-describedby="basic-addon1"
+                                value="{{Auth::user()->phone}}">
                         </div>
-
-                        <!--email-->
-                        <div class="md-form mb-5">
-                            <input name="email" type="text" id="email" class="form-control" placeholder="youremail@example.com">
-                            <label for="email" class="">Email (optional)</label>
+                        <!--phone1-->
+                        <div class="md-form input-group pl-0 mb-5">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">(+855)</span>
+                            </div>
+                            <input name="phone2" type="text" class="form-control py-0" placeholder="98765432"
+                                aria-describedby="basic-addon1" value="">
                         </div>
 
                         <!--address-->
                         <div class="md-form mb-5">
-                            <input id="address_line1" type="text" id="address" class="form-control" placeholder="1234 Main St">
+                            <input name="address1" id="address_line1" type="text" id="address" class="form-control"
+                                placeholder="1234 Main St">
                             <label for="address" class="">Address</label>
                         </div>
 
                         <!--address-2-->
                         <div class="md-form mb-5">
-                            <input type="text" id="address-2" class="form-control" placeholder="Apartment or suite">
+                            <input name="address2" type="text" id="address-2" class="form-control"
+                                placeholder="Apartment or suite">
                             <label for="address-2" class="">Address 2 (optional)</label>
                         </div>
 
@@ -144,9 +154,9 @@
                             <div class="col-lg-4 col-md-12 mb-4">
 
                                 <label for="country">Country</label>
-                                <select class="custom-select d-block w-100" id="country">
-                                    <option value="">Choose...</option>
-                                    <option>United States</option>
+                                <select class="custom-select d-block w-100" id="country" name="country">
+                                    <option value="Cambodia">Choose...</option>
+                                    <option>Cambodia</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please select a valid country.
@@ -158,10 +168,10 @@
                             <!--Grid column-->
                             <div class="col-lg-4 col-md-6 mb-4">
 
-                                <label for="state">State</label>
-                                <select id="state" class="custom-select d-block w-100" id="state">
-                                    <option value="">Choose...</option>
-                                    <option>California</option>
+                                <label for="city">City</label>
+                                <select name="city" id="state" class="custom-select d-block w-100" id="city">
+                                    <option value="Phnom Penh">Choose...</option>
+                                    <option>Phnom Penh</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please provide a valid state.
@@ -174,7 +184,7 @@
                             <div class="col-lg-4 col-md-6 mb-4">
 
                                 <label for="zip">Zip</label>
-                                <input type="text" class="form-control" id="zip" placeholder="">
+                                <input name="zip" type="text" class="form-control" id="zip" placeholder="">
                                 <div class="invalid-feedback">
                                     Zip code.
                                 </div>
@@ -185,9 +195,9 @@
                         </div>
                         <!--Grid row-->
 
-                        <hr>
 
-                        <div class="custom-control custom-checkbox">
+
+                        {{-- <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="same-address">
                             <label class="custom-control-label" for="same-address">Shipping address is the same as my
                                 billing address</label>
@@ -196,13 +206,14 @@
                             <input type="checkbox" class="custom-control-input" id="save-info">
                             <label class="custom-control-label" for="save-info">Save this information for next
                                 time</label>
-                        </div>
+                        </div> --}}
 
                         <hr>
 
                         <div class="form-row">
                             <label for="cc-name">Name on card</label>
-                            <input id="name_on_card" type="text" class="form-control" id="cc-name" placeholder="">
+                            <input name="card_name" id="name_on_card" type="text" class="form-control" id="cc-name"
+                                placeholder="">
                             <small class="text-muted">Full name as displayed on card</small>
                             <div class="invalid-feedback">
                                 Name on card is required
@@ -379,6 +390,14 @@
     // Submit the form
     form.submit();
     }
+
+</script>
+<script>
+    @if(Session::has('success'))
+        toastr.success("{{Session::get('success')}}");
+        @elseif(Session::has('error'))
+        toastr.error("{{Session::get('error')}}")
+        @endif
 
 </script>
 @endsection

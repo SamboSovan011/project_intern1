@@ -58,7 +58,7 @@
                                     </td>
 
                                     @else
-                                    <td class="border-0 align-middle"><strong>${{$product->price}}</strong></td>
+                                    <td class="border-0 align-middle"><strong>${{$product->price}}${{$product->id}}</strong></td>
                                     @endif
                                     {{-- <td class="border-0 align-middle"><strong>${{$product->price}}</strong></td> --}}
                                     <td class="border-0 align-middle"><strong>{{$product->qty}}</strong></td>
