@@ -47,6 +47,21 @@
         transform-origin: 0 100%;
     }
 </style>
+<section>
+    @if(session()->has('success'))
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Success!</h4>
+        {{ session()->get('success') }}
+    </div>
+    @elseif(session()->has('error'))
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-ban"></i> Fail!</h4>
+        {{session()->get('error')}}
+    </div>
+    @endif
+</section>
 <main class="mt-5 pt-4">
     <div class="container wow fadeIn">
 
@@ -63,8 +78,8 @@
                 <div class="card">
 
                     <!--Card content-->
-                    <form class="card-body" action="/charge" method="post" id="payment-form">
-
+                <form class="card-body" action="{{route('checkout.store')}}" method="post" id="payment-form">
+                        @csrf
                         <!--Grid row-->
                         <div class="row">
 
@@ -106,7 +121,7 @@
 
                         <!--email-->
                         <div class="md-form mb-5">
-                            <input type="text" id="email" class="form-control" placeholder="youremail@example.com">
+                            <input name="email" type="text" id="email" class="form-control" placeholder="youremail@example.com">
                             <label for="email" class="">Email (optional)</label>
                         </div>
 
@@ -144,7 +159,7 @@
                             <div class="col-lg-4 col-md-6 mb-4">
 
                                 <label for="state">State</label>
-                                <select class="custom-select d-block w-100" id="state">
+                                <select id="state" class="custom-select d-block w-100" id="state">
                                     <option value="">Choose...</option>
                                     <option>California</option>
                                 </select>
@@ -187,7 +202,7 @@
 
                         <div class="form-row">
                             <label for="cc-name">Name on card</label>
-                            <input id="name_on_card" type="text" class="form-control" id="cc-name" placeholder="" required>
+                            <input id="name_on_card" type="text" class="form-control" id="cc-name" placeholder="">
                             <small class="text-muted">Full name as displayed on card</small>
                             <div class="invalid-feedback">
                                 Name on card is required
@@ -330,16 +345,16 @@
     form.addEventListener('submit', function(event) {
     event.preventDefault();
 
-    var option = {
+    var options = {
         name: document.getElementById('name_on_card').value,
         address_line1: document.getElementById('address_line1').value,
-        address_city: document.getElementById('payment-form').value,
-        address_state: document.getElementById('payment-form').value,
-        address_zip: document.getElementById('payment-form').value,
+        address_country: document.getElementById('country').value,
+        address_state: document.getElementById('state').value,
+        address_zip: document.getElementById('zip').value,
 
     }
 
-    stripe.createToken(card).then(function(result) {
+    stripe.createToken(card, options).then(function(result) {
         if (result.error) {
         // Inform the user if there was an error.
         var errorElement = document.getElementById('card-errors');
@@ -362,7 +377,7 @@
     form.appendChild(hiddenInput);
 
     // Submit the form
-    // form.submit();
+    form.submit();
     }
 
 </script>

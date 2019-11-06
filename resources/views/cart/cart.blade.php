@@ -106,7 +106,7 @@
                                     class="text-muted">Order Subtotal </strong><strong>${{Cart::subtotal()}}</strong>
                             </li>
                             <li class="d-flex justify-content-between py-3 border-bottom"><strong
-                                    class="text-muted">Shipping and handling</strong><strong>$10.00</strong></li>
+                                    class="text-muted">Shipping and handling</strong><strong>$00.00</strong></li>
                             <li class="d-flex justify-content-between py-3 border-bottom"><strong
                                     class="text-muted">Tax</strong><strong>$0.00</strong></li>
                             <li class="d-flex justify-content-between py-3 border-bottom"><strong

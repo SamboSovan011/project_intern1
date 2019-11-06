@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     //Route Checkout
     Route::get('/checkout', ['as' => 'checkout', 'uses' => 'CheckoutController@checkout']);
+    Route::post('/checkout', ['as' => 'checkout.store', 'uses' => 'CheckoutController@store']);
 });
 
 
