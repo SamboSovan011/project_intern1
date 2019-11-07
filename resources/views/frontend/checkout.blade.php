@@ -99,13 +99,13 @@
                             </div> --}}
                             <input name="fullname" type="text" class="form-control py-0" placeholder="Full Name"
                                 aria-describedby="basic-addon1"
-                                value="{{Auth::user()->lname}}&nbsp;{{Auth::user()->fname}}">
+                                value="{{Auth::user()->lname}}&nbsp;{{Auth::user()->fname}}" required>
                         </div>
 
                         <!--email1-->
                         <div class="md-form mb-5">
                             <input name="email1" type="text" id="email" class="form-control"
-                                value="{{Auth::user()->email}}">
+                                value="{{Auth::user()->email}}" required>
                             <label for="email" class="">Email 1</label>
                         </div>
 
@@ -122,7 +122,7 @@
                                 <span class="input-group-text" id="basic-addon1">(+855)</span>
                             </div>
                             <input name="phone1" type="text" class="form-control py-0" aria-describedby="basic-addon1"
-                                value="{{Auth::user()->phone}}">
+                                value="{{Auth::user()->phone}}" required>
                         </div>
                         <!--phone1-->
                         <div class="md-form input-group pl-0 mb-5">
@@ -136,8 +136,8 @@
                         <!--address-->
                         <div class="md-form mb-5">
                             <input name="address1" id="address_line1" type="text" id="address" class="form-control"
-                                placeholder="1234 Main St">
-                            <label for="address" class="">Address</label>
+                                placeholder="1234 Main St" required>
+                            <label for="address" class="">Address1</label>
                         </div>
 
                         <!--address-2-->
@@ -154,7 +154,7 @@
                             <div class="col-lg-4 col-md-12 mb-4">
 
                                 <label for="country">Country</label>
-                                <select class="custom-select d-block w-100" id="country" name="country">
+                                <select class="custom-select d-block w-100" id="country" name="country" required>
                                     <option value="Cambodia">Choose...</option>
                                     <option>Cambodia</option>
                                 </select>
@@ -169,7 +169,7 @@
                             <div class="col-lg-4 col-md-6 mb-4">
 
                                 <label for="city">City</label>
-                                <select name="city" id="state" class="custom-select d-block w-100" id="city">
+                                <select name="city" id="state" class="custom-select d-block w-100" id="city" required>
                                     <option value="Phnom Penh">Choose...</option>
                                     <option>Phnom Penh</option>
                                 </select>
@@ -184,7 +184,7 @@
                             <div class="col-lg-4 col-md-6 mb-4">
 
                                 <label for="zip">Zip</label>
-                                <input name="zip" type="text" class="form-control" id="zip" placeholder="">
+                                <input name="zip" type="text" class="form-control" id="zip" placeholder="" required>
                                 <div class="invalid-feedback">
                                     Zip code.
                                 </div>
@@ -213,7 +213,7 @@
                         <div class="form-row">
                             <label for="cc-name">Name on card</label>
                             <input name="card_name" id="name_on_card" type="text" class="form-control" id="cc-name"
-                                placeholder="">
+                                placeholder="" required>
                             <small class="text-muted">Full name as displayed on card</small>
                             <div class="invalid-feedback">
                                 Name on card is required

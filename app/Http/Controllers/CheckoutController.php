@@ -94,22 +94,31 @@ class CheckoutController extends Controller
                         'total' => $product->total,
                     ]
                 ]);
-                // dd($request->all());
-                Stripe::setApiKey('sk_test_uSwHYtVuuUEX7NC0T5DfQ6bZ00mwyc4QKV');
-                $charge = Charge::create([
-                    'amount' => Cart::total() * 100,
-                    'currency' => 'usd',
-                    'description' => 'Potted Pan Product Payment',
-                    'source' => $request->stripeToken,
+
+
+                $item = Products::where('id', $product->id)->first();
+                $stock = number_format($item->stock);
+                $qty = number_format($product->qty);
+
+                $stock_after = $stock - $qty;
+                Products::where('id', $product->id)->update([
+                    'stock' => $stock_after,
                 ]);
 
-                $product = Products::where('id', $product->id)->first();
-                $stock = number_format($product->stock);
 
 
-
-                Cart::destroy();
             }
+
+
+            Stripe::setApiKey('sk_test_uSwHYtVuuUEX7NC0T5DfQ6bZ00mwyc4QKV');
+            $charge = Charge::create([
+                'amount' => Cart::total() * 100,
+                'currency' => 'usd',
+                'description' => 'Potted Pan Product Payment',
+                'source' => $request->stripeToken,
+            ]);
+
+            Cart::destroy();
         }
 
         session()->flash('success', 'You have successfully checkout your purchase');
