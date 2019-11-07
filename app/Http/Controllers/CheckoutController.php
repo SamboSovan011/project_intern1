@@ -103,6 +103,11 @@ class CheckoutController extends Controller
                     'source' => $request->stripeToken,
                 ]);
 
+                $product = Products::where('id', $product->id)->first();
+                $stock = number_format($product->stock);
+
+
+
                 Cart::destroy();
             }
         }
