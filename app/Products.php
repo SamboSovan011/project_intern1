@@ -23,7 +23,11 @@ class Products extends Model
     }
 
     public function users(){
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->belongsToMany(User::class)->withPivot(['products_id'])->withTimestamps();
+    }
+
+    public function checkout(){
+        return $this->belongsTo(Checkout::class, 'products_id', 'id');
     }
 
 }

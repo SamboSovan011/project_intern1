@@ -30,7 +30,7 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::group(['middleware' => ['auth', 'verified']], function () {
     // Route::post('/login', 'Auth\LoginController@login');
 
-    Route::prefix('/user')->group(function(){
+    Route::prefix('/user')->group(function () {
         //Route User Profile
         Route::get('/userprofile', ['as' => 'userprofile', 'uses' => 'HomeController@showUserProfile']);
         Route::post('/updateProfile/{id}', ['as' => 'updateProfile', 'uses' => 'HomeController@updateProfile']);
@@ -38,7 +38,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         Route::get('/my-reviews', ['as' => 'myreviews', 'uses' => 'HomeController@getReview']);
         Route::post('/editReview/{id}', ['as' => 'editreview', 'uses' => 'HomeController@editReview']);
         Route::get('/getComment/{id}', 'HomeController@getComment')->name('getComment');
-
     });
 
 
@@ -53,8 +52,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/cart/delete/{id}', 'ShoppingCartController@delete')->name('shopping.delete');
 
     //Route Checkout
-    Route::get('/checkout', ['as' => 'checkout', 'uses' => 'CheckoutController@checkout']);
-    Route::post('/checkout', ['as' => 'checkout.store', 'uses' => 'CheckoutController@store']);
+    Route::group(['middleware' => 'checkout'], function () {
+        Route::get('/checkout', ['as' => 'checkout', 'uses' => 'CheckoutController@checkout']);
+        Route::post('/checkout', ['as' => 'checkout.store', 'uses' => 'CheckoutController@store']);
+    });
 });
 
 
@@ -103,6 +104,11 @@ Route::group(['middleware' => ['admin.auth', 'verified']], function () {
 
                 //Route Pending
                 Route::get('/pending', ['as' => 'pending', 'uses' => 'ListingController@pendingListing']);
+                // Pending + Checkout
+                Route::post('/acceptCheckout/{token}', ['as' => 'acceptCheckout', 'uses' => 'ListingController@acceptCheckout']);
+                Route::get('/cancelCheckout/{token}', ['as' => 'cancelCheckout', 'uses' => 'ListingController@cancelCheckout']);
+                Route::get('/deleteCheckout/{token}', ['as' => 'deleteCheckout', 'uses' => 'ListingController@deleteCheckout']);
+                Route::get('/getcheckout/{token}', 'ListingController@getCheckout')->name('getCheckout');
                 // Route Review
                 Route::get('/approveReview/{id}', ['as' => 'approveReview', 'uses' => 'ReviewController@approveReview']);
                 Route::get('/blockReview{id}', ['as' => 'blockReview', 'uses' => 'ReviewController@blockReview']);
@@ -115,6 +121,7 @@ Route::group(['middleware' => ['admin.auth', 'verified']], function () {
                 Route::put('restore-slide/{slide}', 'ListingController@restoreSlide')->name('slide.restore');
                 Route::put('restore-cate/{cate}', 'ListingController@restoreCate')->name('cate.restore');
                 Route::put('restore-review/{review}', 'ReviewController@restoreReview')->name('review.restore');
+                Route::put('restore-invoice/{token}', 'ListingController@restoreCheckout')->name('invoice.restore');
             });
 
             Route::get('/listingUser', ['as' => 'listingUser', 'uses' => 'ListingController@listingUser']);

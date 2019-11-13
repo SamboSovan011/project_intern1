@@ -10,6 +10,7 @@ use Auth;
 use Exception;
 use Stripe\Stripe;
 use Stripe\Charge;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -96,6 +97,14 @@ class CheckoutController extends Controller
                 ]);
 
 
+                $user_obj = User::where('id', Auth::user()->id)->first();
+                $order_num = number_format($user_obj->order_num);
+                $new_order_num = $order_num + 1;
+                User::where('id', Auth::user()->id)->update([
+                    'order_num' => $new_order_num
+                ]);
+
+
                 $item = Products::where('id', $product->id)->first();
                 $stock = number_format($item->stock);
                 $qty = number_format($product->qty);
@@ -119,10 +128,14 @@ class CheckoutController extends Controller
             ]);
 
             Cart::destroy();
+
+
+
+            session()->flash('success', 'You have successfully checkout your purchase');
+            return redirect('/');
         }
 
-        session()->flash('success', 'You have successfully checkout your purchase');
-        return redirect('/');
+
     }
 
     public function __construct()

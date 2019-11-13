@@ -52,6 +52,10 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function products(){
-        return $this->belongsToMany(Products::class)->withTimestamps();
+        return $this->belongsToMany(Products::class)->withPivot(['products_id'])->withTimestamps();
+    }
+
+    public function checkout(){
+        return $this->hasMany(Checkout::class,'id', 'user_id' );
     }
 }

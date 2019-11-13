@@ -8,7 +8,21 @@
         position: relative !important;
     }
 </style>
-
+<section>
+    @if(session()->has('success'))
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Success!</h4>
+        {{ session()->get('success') }}
+    </div>
+    @elseif(session()->has('error'))
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-ban"></i> Fail!</h4>
+        {{session()->get('error')}}
+    </div>
+    @endif
+</section>
 <div class="px-4 px-lg-0 pt-4">
 
     <div class="pb-5">

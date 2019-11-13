@@ -15,6 +15,7 @@ class CreateProductsUserTable extends Migration
     {
         Schema::create('products_user', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('acceptBy')->nullable();
             $table->string('products_id');
             $table->string('user_id');
             $table->string('fullname');
@@ -31,6 +32,8 @@ class CreateProductsUserTable extends Migration
             $table->string('_token');
             $table->float('subtotal');
             $table->float('total');
+            $table->string('delivery_date')->nullable();
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

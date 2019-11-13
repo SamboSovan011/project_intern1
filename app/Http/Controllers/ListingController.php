@@ -8,6 +8,7 @@ use App\Categories;
 use App\User;
 use App\Products;
 use App\Review;
+use App\Checkout;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -211,9 +212,9 @@ class ListingController extends Controller
     {
         $cate = Categories::withTrashed()->where('id', $id)->firstOrFail();
         $products = Products::withTrashed()
-                    ->join('category', 'category.id', 'products.categories_id')
-                    ->where('products.categories_id', $id)
-                    ->get();
+            ->join('category', 'category.id', 'products.categories_id')
+            ->where('products.categories_id', $id)
+            ->get();
 
         // dd($products);
         if ($cate->trashed()) {
@@ -225,7 +226,7 @@ class ListingController extends Controller
             return redirect(route('trash'));
         } else {
             $cate->delete();
-            foreach($products as $product){
+            foreach ($products as $product) {
                 $product->delete();
             }
 
@@ -480,11 +481,13 @@ class ListingController extends Controller
     {
         $products = Products::onlyTrashed()->get();
         $cates = Categories::onlyTrashed()->get();
+        $orders = Checkout::onlyTrashed()->groupBy('_token')->get();
+        $proLists = Checkout::onlyTrashed();
         $slides = Slide::onlyTrashed()->get();
         $productItems = Products::with('reviews.users')->with(['reviews' => function ($query) {
             $query->orderBy('created_at', 'desc')->onlyTrashed();
         }])->get();;
-        return view('dashboard.trash1', compact('slides', 'cates', 'products', 'productItems'));
+        return view('dashboard.trash1', compact('slides', 'cates', 'products', 'productItems', 'orders', 'proLists'));
     }
 
     public function restoreSlide($id)
@@ -516,7 +519,78 @@ class ListingController extends Controller
             $query->orderBy('updated_at', 'desc');
         }])->get();;
         $products = Products::where('is_approved', 1)->get();
+        $orders = Checkout::groupBy('_token')->get();
+        $proLists = Checkout::all();
+
         // dd($productItems->toArray());
-        return view('listing.pendingItem', compact('cates', 'slides', 'productItems', 'products'));
+        return view('listing.pendingItem', compact('cates', 'slides', 'productItems', 'products', 'orders', 'proLists'));
+    }
+
+    // Checkout
+
+    public function acceptCheckout(Request $request, $token)
+    {
+        Checkout::where('_token', $token)->update([
+            'status' => '2',
+            'acceptBy' => Auth::user()->email,
+            'delivery_date' => $request->input('deliverDate'),
+
+        ]);
+
+        session()->flash('success', 'You have successfully accepted a reciept');
+        return redirect()->back();
+    }
+
+    public function cancelCheckout($token)
+    {
+        Checkout::where('_token', $token)->update([
+            'status' => '0',
+            'acceptBy' => Auth::user()->email
+        ]);
+
+        session()->flash('success', 'You have successfully canceled a reciept');
+        return redirect()->back();
+    }
+
+    public function deleteCheckout($token)
+    {
+        $checkouts = Checkout::withTrashed()->where('_token', $token)->get();
+        // dd($checkouts);
+
+        foreach ($checkouts as $checkout) {
+            if ($checkout->trashed()) {
+                $checkout->forceDelete();
+            } else {
+                $checkout->delete();
+                Checkout::withTrashed()->where('_token', $token)->update([
+                    'acceptBy' => Auth::user()->email
+                ]);
+            };
+        }
+
+        session()->flash('success', 'You have delete a invoice!');
+        return redirect()->back();
+    }
+
+    public function restoreCheckout($token)
+    {
+        $checkouts = checkout::withTrashed()->where('_token', $token)->get();
+        foreach ($checkouts as $checkout) {
+            $checkout->restore();
+        }
+
+
+        session()->flash('success', 'You have restore an invoice!');
+
+        return redirect()->back();
+    }
+
+    public function getCheckout($token){
+        $checkout = Checkout::where('_token', $token)->first();
+        $proItem = Checkout::where('_token', $token)->with('products')->get();
+        // dd(response()->json(['checkout' => $checkout, 'proItem' => $proItem]));
+
+
+        return response()->json(['checkout' => $checkout, 'proItem' => $proItem]);
     }
 }

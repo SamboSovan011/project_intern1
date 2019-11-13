@@ -46,6 +46,7 @@
             <li><a href="#cateTab" data-toggle="tab">Categories</a></li>
             <li><a href="#ProTab" data-toggle="tab">Products</a></li>
             <li><a href="#reviewTab" data-toggle="tab">Reviews</a></li>
+            <li><a href="#orderTab" data-toggle="tab">Product Orders</a></li>
         </ul>
         <div class="tab-content">
             <div class="active tab-pane" id="slideTab">
@@ -317,6 +318,88 @@
                     <!-- /.box-body -->
                 </div>
             </div>
+            <div class="tab-pane" id="orderTab">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Product Orders</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="dataTableOrder" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Deleted By</th>
+                                    <th>Customer Email</th>
+                                    <th>Subtotal</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $subtotal = 0;
+                                    $total = 0;
+                                @endphp
+                                {{-- @if (is_array($productItems) || is_object($productItems)) --}}
+                                @foreach ($orders as $order)
+                                {{-- @if (is_array($proitem->review) || is_object($proitem->review)) --}}
+
+                                <tr>
+                                    <td>
+                                       {{$order->_token}}
+                                    </td>
+                                    <td>
+                                        {{$order->acceptBy}}
+                                    </td>
+                                    <td>
+                                       {{$order->users->email}}
+                                    </td>
+                                    @php
+                                        $subtotal = array_sum($proLists->where('_token', $order->_token)->pluck('subtotal')->toArray());
+                                        $total = array_sum($proLists->where('_token', $order->_token)->pluck('total')->toArray());
+
+                                    @endphp
+
+                                    <td>{{$subtotal}}</td>
+                                    <td>{{$total}}</td>
+                                    <td>
+                                        <form action="{{route('invoice.restore', $order->_token)}}" method='POST'>
+                                            @csrf
+                                            @method('PUT')
+                                            <button type='submit' class="btn btn-success btn-sm">Restore</button>
+                                        </form>
+
+
+                                    </td>
+                                    <td>
+                                        <a href="">
+                                            <button data-url="{{route('deleteCheckout', $order->_token)}}" type='button' class="btn btn-danger btn-sm delete-btn">Delete</button>
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                @endforeach
+                                {{-- @endif --}}
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Accept / Cancel By</th>
+                                    <th>Customer Email</th>
+                                    <th>Subtotal</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
         </div>
     </div>
     <!-- /.tab-content -->
@@ -353,7 +436,7 @@
     </div>
 <script>
     $(function () {
-    $('#dataTableSlide, #dataTableCate, #example1').DataTable({
+    $('#dataTableSlide, #dataTableCate, #example1, #dataTableOrder').DataTable({
         'paging'      : true,
       'lengthChange': true,
       'searching'   : true,
