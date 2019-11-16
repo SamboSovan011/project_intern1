@@ -15,7 +15,7 @@
 use Illuminate\Support\Facades\Route;
 //Guest
 Route::get('/', 'HomeController@index')->name('home.index');
-Route::post('/signup', ['as' => 'SignUp', 'uses' => 'HomeController@SignUp']);
+// Route::post('/signup', ['as' => 'SignUp', 'uses' => 'HomeController@SignUp']);
 Route::get('/product/{product}', 'HomeController@show')->name('single-products.show');
 Route::get('/promotion', ['as' => 'promotionProducts', 'uses' => 'HomeController@promotionProduct']);
 Route::get('/checkEmail', ['as' => 'checkEmail', 'uses' => 'checkEmailController@checkEmailAvailable']);
@@ -123,7 +123,7 @@ Route::group(['middleware' => ['admin.auth', 'verified']], function () {
                 Route::put('restore-review/{review}', 'ReviewController@restoreReview')->name('review.restore');
                 Route::put('restore-invoice/{token}', 'ListingController@restoreCheckout')->name('invoice.restore');
             });
-
+            // Route User
             Route::get('/listingUser', ['as' => 'listingUser', 'uses' => 'ListingController@listingUser']);
             Route::get('/add_admin/{id}', ['as' => 'add_admin', 'uses' => 'ListingController@add_admin']);
             Route::get('/add_subadmin/{id}', ['as' => 'add_subadmin', 'uses' => 'ListingController@add_subadmin']);

@@ -52,6 +52,11 @@ class ProductsController extends Controller
 
 
         if(! empty($request->discount)){
+            $validate = $request->validate([
+                'discount' => 'required|between:0,100',
+                'startDatePro' => 'required|date_format:m/d/Y',
+                'stopDatePro' => 'required|date_format:m/d/Y'
+            ]);
             $currPrice = $request->price;
             $disc = $request->discount;
             $priceDisc = ($currPrice * $disc) / 100;

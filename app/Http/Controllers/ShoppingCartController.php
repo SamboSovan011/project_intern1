@@ -26,7 +26,9 @@ class ShoppingCartController extends Controller
 
     public function index(){
 
-        return view('cart.cart');
+        // dd(Cart::content()->count());
+        $countCart = Cart::content()->count();
+        return view('cart.cart', compact('countCart'));
     }
 
     public function delete($id) {

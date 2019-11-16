@@ -772,7 +772,7 @@ User Id = {{$user->users->first()->pivot->user_id}}
 
 </script>
 <script>
-    $(document).on('click', '.view', function(e){
+            $(document).on('click', '.view', function(e){
                 e.preventDefault();
                 var token = $(this).data('token');
                 var subtotal = $(this).data('subtotal');
@@ -819,9 +819,6 @@ User Id = {{$user->users->first()->pivot->user_id}}
                                 +"</tr>"
                                 )
                             })
-
-
-
 
                         })
                     },error:function(err){

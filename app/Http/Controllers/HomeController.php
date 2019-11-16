@@ -27,10 +27,43 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    public function checkPromotion($id)
+    {
+        $product = Products::where('id', $id)->first();
+        $price = $product->price;
+        $startDate = $product->startDatePro;
+
+        $createdAt = Carbon::parse($startDate);
+        $startProDate = $createdAt->format('Y-m-d');
+        $startPromoDate = Carbon::parse($startProDate);
+        // dd($endPromoDate);
+        $endDate = $product->stopDatePro;
+        $endAt = Carbon::parse($endDate);
+        $endProDate = $endAt->format('Y-m-d');
+        $endPromoDate = Carbon::parse($endProDate);
+        // dd($endPromoDate);
+        $currentDate = Carbon::now();
+
+
+        if ($currentDate->greaterThanOrEqualTo($startPromoDate)) {
+            if ($currentDate->greaterThan($endPromoDate)) {
+                return Products::where('id', $id)
+                    ->update([
+                        'discount' => null,
+                        'startDatePro' => null,
+                        'stopDatePro' => null,
+                        'priceAfterPro' => $price
+                    ]);
+            }
+        }
+    }
+
     public function index()
     {
 
         $search = request()->query('search');
+        $product = Products::all();
+        // dd($product->discount);
 
         $slides = Slide::where('is_approved', 2)->get();
         $cates = Categories::where('is_approved', 2)->get();
@@ -39,7 +72,15 @@ class HomeController extends Controller
                                 ->orWhere('SKU','LIKE',"%{$search}%")
                                 ->where('is_approved', 2)->paginate(9);
         }else{
-            $products = Products::where('is_approved', 2)->orderByDesc('updated_at')->where('startDatePro', '<=', date('m/d/Y'))->orWhere('startDatePro', null)->paginate(9);
+            foreach($product as $proItem){
+                if(!empty($proItem->discount)){
+                    $this->checkPromotion($proItem->id);
+                }
+            }
+            $products = Products::where('is_approved', 2)
+            ->orderByDesc('updated_at')->where('startDatePro', '<=', date('m/d/Y'))
+            ->orWhere('is_approved', 2)->where('startDatePro', null)
+            ->paginate(9);
         }
 
 
@@ -174,35 +215,7 @@ class HomeController extends Controller
 
     //Promotion
 
-    public function checkPromotion($id)
-    {
-        $product = Products::where('id', $id)->first();
-        $startDate = $product->startDatePro;
 
-        $createdAt = Carbon::parse($startDate);
-        $startProDate = $createdAt->format('Y-m-d');
-        $startPromoDate = Carbon::parse($startProDate);
-        // dd($endPromoDate);
-        $endDate = $product->stopDatePro;
-        $endAt = Carbon::parse($endDate);
-        $endProDate = $endAt->format('Y-m-d');
-        $endPromoDate = Carbon::parse($endProDate);
-        // dd($endPromoDate);
-        $currentDate = Carbon::now();
-
-
-        if ($currentDate->greaterThanOrEqualTo($startPromoDate)) {
-            if ($currentDate->greaterThan($endPromoDate)) {
-                return Products::where('id', $id)
-                    ->update([
-                        'discount' => null,
-                        'startDatePro' => null,
-                        'stopDatePro' => null,
-                        'priceAfterPro' => null
-                    ]);
-            }
-        }
-    }
 
     public function promotionProduct()
     {

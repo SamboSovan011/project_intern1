@@ -3,7 +3,11 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Cart;
+use Illuminate\Http\Request;
+use App\Products;
+use App\Shoppingcart;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Session;
 use Illuminate\Support\Facades\Auth;
 
 class checkout
@@ -17,13 +21,14 @@ class checkout
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()){
-            if(Cart::content()->count() <= 0){
-                session()->flash('error', 'You can not checkout without buying anything, Sorry!');
-                return redirect()->back();
-            }else{
-                return $next($request);
-            }
+
+        // dd(Cart::instance('shopping')->content()->count());
+        if (Cart::instance('shopping')->content()->count() <= 0) {
+            // dd(Cart::content()->count());
+            session()->flash('error', 'You can not checkout without buying anything, Sorry!');
+            return redirect()->back();
+        } else {
+            return $next($request);
         }
     }
 }
