@@ -86,7 +86,7 @@
                                         </form>
                                     </td>
                                     <td>
-                                        <a href="">
+                                        <a href="" data-toggle="modal" data-target="#myModal">
                                             <button data-url="{{route('deleteSlide', $slide->id)}}" type='button' class="btn btn-danger btn-sm delete-btn">Delete</button>
                                         </a>
 
@@ -143,7 +143,7 @@
                                         </form>
                                     </td>
                                     <td>
-                                        <a href="">
+                                        <a href="" data-toggle="modal" data-target="#myModal">
                                             <button data-url="{{route('deleteCategory', $cate->id)}}" type='button' class="btn btn-danger btn-sm delete-btn">Delete</button>
                                         </a>
                                     </td>
@@ -212,7 +212,7 @@
                                         <form action="{{route('products.destroy', $product->id)}}" method='POST'>
                                             @csrf
                                             @method('DELETE')
-                                            <button type='submit' class="btn btn-danger btn-sm delete-btn">Delete</button>
+                                            <button type='submit' class="btn btn-danger btn-sm">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -292,7 +292,7 @@
                                         </form>
                                     </td>
                                     <td>
-                                        <a href="">
+                                        <a href="" data-toggle="modal" data-target="#myModal">
                                             <button data-url="{{route('deleteReview', $review->id)}}" type='button' class="btn btn-danger btn-sm delete-btn">Delete</button>
                                         </a>
                                     </td>
@@ -374,7 +374,7 @@
 
                                     </td>
                                     <td>
-                                        <a href="">
+                                        <a href="" data-toggle="modal" data-target="#myModal">
                                             <button data-url="{{route('deleteCheckout', $order->_token)}}" type='button' class="btn btn-danger btn-sm delete-btn">Delete</button>
                                         </a>
                                     </td>
