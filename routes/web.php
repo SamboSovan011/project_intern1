@@ -84,7 +84,10 @@ Route::group(['middleware' => ['admin.auth', 'verified']], function () {
         Route::post('/editCategory/{id}', ['as' => 'editCategory', 'uses' => 'ListingController@editCategory']);
 
 
-
+        //Products Order
+        Route::get('/product-order', ['as' => 'productOrder', 'uses' => 'ListingController@productOrder']);
+        Route::post('/deliever/{token}', ['as' => 'Deliever', 'uses' => 'ListingController@deliever']);
+        Route::get('/not-deliever/{token}', ['as' => 'Not-Deliever', 'uses' => 'ListingController@notDeliever']);
 
         //Route Products
         Route::resource('products', 'ProductsController');

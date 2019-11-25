@@ -530,12 +530,19 @@ class ListingController extends Controller
 
     public function acceptCheckout(Request $request, $token)
     {
-        Checkout::where('_token', $token)->update([
-            'status' => '2',
-            'acceptBy' => Auth::user()->email,
-            'delivery_date' => $request->input('deliverDate'),
-
+        $validateData = $request->validate([
+            'delivery_date' => 'required|date_format:m/d/Y'
         ]);
+
+        if ($validateData) {
+            Checkout::where('_token', $token)->update([
+                'status' => '2',
+                'acceptBy' => Auth::user()->email,
+                'delivery_date' => $request->input('deliverDate'),
+
+            ]);
+        }
+
 
         session()->flash('success', 'You have successfully accepted a reciept');
         return redirect()->back();
@@ -543,10 +550,18 @@ class ListingController extends Controller
 
     public function cancelCheckout($token)
     {
-        Checkout::where('_token', $token)->update([
-            'status' => '0',
-            'acceptBy' => Auth::user()->email
+
+        $validateData = $request->validate([
+            'delivery_date' => 'required|date_format:m/d/Y'
         ]);
+
+        if ($validateData) {
+            Checkout::where('_token', $token)->update([
+                'status' => '0',
+                'acceptBy' => Auth::user()->email
+            ]);
+        }
+
 
         session()->flash('success', 'You have successfully canceled a reciept');
         return redirect()->back();
@@ -585,12 +600,53 @@ class ListingController extends Controller
         return redirect()->back();
     }
 
-    public function getCheckout($token){
+    public function getCheckout($token)
+    {
         $checkout = Checkout::where('_token', $token)->first();
         $proItem = Checkout::where('_token', $token)->with('products')->get();
         // dd(response()->json(['checkout' => $checkout, 'proItem' => $proItem]));
 
 
         return response()->json(['checkout' => $checkout, 'proItem' => $proItem]);
+    }
+
+    //Product Order
+    public function productOrder()
+    {
+        $proOrders = Checkout::groupBy('_token')->where('acceptBy', Auth::user()->email)->get();
+        $proLists = Checkout::all();
+
+        return view('dashboard.product-order', compact('proOrders', 'proLists'));
+    }
+
+    public function deliever(Request $request, $token)
+    {
+
+
+
+        Checkout::where('_token', $token)->update([
+            'status' => '3',
+            'acceptBy' => Auth::user()->email,
+            'delivery_date' => $request->input('deliverDate'),
+
+        ]);
+
+
+        session()->flash('success', 'You have successfully accepted a reciept');
+        return redirect()->back();
+    }
+
+    public function notDeliever($token)
+    {
+
+        Checkout::where('_token', $token)->update([
+            'status' => '4',
+            'acceptBy' => Auth::user()->email,
+
+        ]);
+
+
+        session()->flash('success', 'You have successfully accepted a reciept');
+        return redirect()->back();
     }
 }
